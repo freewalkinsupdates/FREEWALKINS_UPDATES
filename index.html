@@ -8,13 +8,17 @@
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
-body{font-family:Arial,sans-serif;background:#f3f6fb;padding:12px;padding-bottom:100px;}
+body{
+  font-family:Arial,sans-serif;
+  background:#f4f4f4;
+  padding:10px;
+}
 .wrapper{
   max-width:700px;
   margin:auto;
 }
 .header{
-  background:linear-gradient(135deg,#0f9b0f,#38ef7d);
+  background:#16a34a;
   color:#fff;
   padding:14px;
   border-radius:12px;
@@ -31,13 +35,14 @@ body{font-family:Arial,sans-serif;background:#f3f6fb;padding:12px;padding-bottom
 
 .job-card{
   background:#fff;
+  text-align:left;
   border-radius:12px;
   padding:12px;
   margin-bottom:10px;
   box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
-.job-card h3{font-size:18px;margin-bottom:6px}
-.job-card p{font-size:14px;margin:4px 0}
+.job-card h3{font-size:18px;margin-bottom:6px;text-align:left}
+.job-card p{font-size:14px;margin:4px 0;text-align:left}
 
 button{
   width:100%;
@@ -97,20 +102,17 @@ input,select,textarea{
   width:300px;
 }
 
-.footer-support{
-position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:94%;max-width:700px;display:flex;gap:12px;z-index:9999;}
-.footer-support a{text-decoration:none;flex:1;}
-.footer-btn{padding:14px 12px;border-radius:18px;text-align:center;color:#fff;font-weight:700;box-shadow:0 8px 20px rgba(0,0,0,.18);backdrop-filter:blur(10px);transition:.2s;}
-.footer-btn:hover{transform:translateY(-2px);}
-.wa-btn{background:linear-gradient(135deg,#25D366,#128C7E);}
-.insta-btn{background:linear-gradient(135deg,#f58529,#e1306c,#833ab4);}
-
-
-@media(max-width:600px){
-.header h1{font-size:22px}
-.job-card h3{font-size:17px}
-button,.footer-btn{font-size:14px}
-body{padding:8px;padding-bottom:85px;}
+.loader{
+  width:40px;
+  height:40px;
+  border:4px solid #ddd;
+  border-top:4px solid #16a34a;
+  border-radius:50%;
+  animation:spin 1s linear infinite;
+  margin:0 auto 10px;
+}
+@keyframes spin{
+  to{transform:rotate(360deg);}
 }
 
 </style>
@@ -121,11 +123,8 @@ body{padding:8px;padding-bottom:85px;}
 <div class="wrapper">
 
 <div class="header">
-<h1>🚀 FreeWalkins Updates</h1>
+<h1>FreeWalkins Updates</h1>
 <p>Latest Job Openings in Hyderabad</p>
-<div style="margin-top:10px;font-size:13px;background:rgba(255,255,255,.15);padding:8px;border-radius:10px">
-⭐ Daily Walk-ins | Instant Apply | Trusted Job Updates
-</div>
 </div>
 
 
@@ -135,7 +134,10 @@ body{padding:8px;padding-bottom:85px;}
 <select id="locationFilter" onchange="renderJobs()"><option value="">📍 All Locations</option></select>
 </div>
 
-<div id="jobsContainer">Loading jobs...</div>
+<div id="jobsContainer" style="text-align:center;padding:30px">
+<div class="loader"></div>
+<p>Loading Jobs...</p>
+</div>
 
 <div class="container" id="formContainer">
 
@@ -242,7 +244,7 @@ async function loadJobs(){
 
    const res=await fetch(API_URL+"?action=getJobs");
    allJobs=await res.json();
-   const jobs=allJobs;
+   const jobs=allJobs.slice(0,10); // Fast initial loading
 
    let html="";
 
@@ -371,16 +373,5 @@ document.getElementById("candidateForm")
 loadJobs();
 </script>
 
-
-<div class="footer-support">
-<a href="https://wa.me/916305232525" target="_blank">
-<div class="footer-btn wa-btn">💬 WhatsApp Support</div>
-</a>
-<a href="https://instagram.com/walkins_updates" target="_blank">
-<div class="footer-btn insta-btn">📸 Follow @walkins_updates</div>
-</a>
-</div>
-
 </body>
 </html>
-

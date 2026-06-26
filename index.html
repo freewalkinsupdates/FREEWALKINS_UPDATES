@@ -147,9 +147,9 @@ style="background:#ef4444;margin-bottom:10px">
 ❌ Close
 </button>
 
-<h2>🎯 VenuHR Registration</h2><br>
+<h2>🎯 FreeWalkins Registration</h2><br>
 
-<form id="candidateForm">
+<form id="candidateForm" autocomplete="off">
 
 <input type="text" id="name" placeholder="Full Name" required>
 
@@ -158,6 +158,7 @@ required maxlength="10">
 
 <input type="email" id="email" placeholder="Email" required>
 
+<label><b>Date of Birth</b></label>
 <input type="date" id="dob" required>
 
 <select id="gender" required>
@@ -254,12 +255,12 @@ async function loadJobs(){
 
      html+=`
      <div class="job-card">
-       <h3>${job.title}</h3>
-       <p>🏢 ${job.company}</p>
-       <p>📍 ${job.location}</p>
-       <p>💰 ₹${job.salary}</p>
-      <p>🕒 ${job.jobType || 'Full Time'}</p>
-      <p>📞 ${job.whatsapp || ''}</p>
+       <h3>${escapeHTML(job.title)}</h3>
+       <p>🏢 ${escapeHTML(job.company)}</p>
+       <p>📍 ${escapeHTML(job.location)}</p>
+       <p>💰 ₹${escapeHTML(job.salary)}</p>
+      <p>🕒 ${escapeHTML(job.jobType || 'Full Time')}</p>
+      <p>📞 ${escapeHTML(job.whatsapp || '')}</p>
       <button onclick="showForm('${title}')">
          Apply Now
       </button>
@@ -285,6 +286,16 @@ async function loadJobs(){
 }
 
 
+
+function escapeHTML(str){
+  return String(str || "")
+    .replace(/&/g,"&amp;")
+    .replace(/</g,"&lt;")
+    .replace(/>/g,"&gt;")
+    .replace(/"/g,"&quot;")
+    .replace(/'/g,"&#39;");
+}
+
 function renderJobs(){
  const s=document.getElementById("searchInput").value.toLowerCase();
  const j=document.getElementById("jobFilter").value;
@@ -292,7 +303,7 @@ function renderJobs(){
  let out="";
  allJobs.filter(x=>(!s||x.title.toLowerCase().includes(s)||x.company.toLowerCase().includes(s))&&(!j||x.title===j)&&(!l||x.location===l)).forEach(job=>{
  const title=String(job.title).replace(/'/g,"\\'");
- out+=`<div class="job-card"><h3>${job.title}</h3><p>🏢 ${job.company}</p><p>📍 ${job.location}</p><p>💰 ₹${job.salary}</p><p>🕒 ${job.jobType || 'Full Time'}</p><p>📞 ${job.whatsapp || ''}</p><button onclick="showForm('${title}')">Apply Now</button>${job.whatsapp ? `<a href="https://wa.me/91${job.whatsapp}" target="_blank"><button style="background:#25D366;margin-top:6px">💬 WhatsApp HR</button></a>` : ''}</div>`;
+ out+=`<div class="job-card"><h3>${escapeHTML(job.title)}</h3><p>🏢 ${escapeHTML(job.company)}</p><p>📍 ${escapeHTML(job.location)}</p><p>💰 ₹${escapeHTML(job.salary)}</p><p>🕒 ${escapeHTML(job.jobType || 'Full Time')}</p><p>📞 ${escapeHTML(job.whatsapp || '')}</p><button onclick="showForm('${title}')">Apply Now</button>${job.whatsapp ? `<a href="https://wa.me/91${job.whatsapp}" target="_blank"><button style="background:#25D366;margin-top:6px">💬 WhatsApp HR</button></a>` : ''}</div>`;
  });
  document.getElementById("jobsContainer").innerHTML=out||"No jobs found";
 }
@@ -324,9 +335,22 @@ document.getElementById("candidateForm")
   address:document.getElementById("address").value
  };
 
+
+ const mobileRegex=/^[6-9]\d{9}$/;
+ if(!mobileRegex.test(data.mobile)){
+   alert("Please enter a valid 10-digit mobile number");
+   return;
+ }
+
+ if(data.name.length < 3){
+   alert("Please enter a valid name");
+   return;
+ }
+
  try{
 
    const response = await fetch(API_URL,{
+
      method:"POST",
      headers:{
        "Content-Type":"text/plain;charset=utf-8"
@@ -370,6 +394,7 @@ document.getElementById("candidateForm")
  }
 });
 
+document.getElementById("dob").max = new Date().toISOString().split("T")[0];
 loadJobs();
 </script>
 

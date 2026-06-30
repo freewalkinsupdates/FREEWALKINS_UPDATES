@@ -92,6 +92,7 @@ input,select,textarea{
   background:rgba(0,0,0,.5);
   justify-content:center;
   align-items:center;
+  z-index:9999;
 }
 
 .popup-content{
@@ -100,6 +101,7 @@ input,select,textarea{
   border-radius:15px;
   text-align:center;
   width:300px;
+  z-index:10000;
 }
 
 .loader{
@@ -235,168 +237,131 @@ OK
 </div>
 </div>
 
-<script>
+
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { getFirestore, collection, getDocs, query, limit } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyAC8cxjgdG7ABnR5Nt7HaVuXWV9iznUAl0",
+  authDomain: "freewalkinsupdates-a87e0.firebaseapp.com",
+  projectId: "freewalkinsupdates-a87e0",
+  storageBucket: "freewalkinsupdates-a87e0.firebasestorage.app",
+  messagingSenderId: "648268858586",
+  appId: "1:648268858586:web:c5d3c79d8157e8a97151e3",
+  measurementId: "G-KCYM0HM4ZX"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
 const API_URL="https://script.google.com/macros/s/AKfycbxz1q8J8DoZNpNtiT9yeZ2bXTcqrukf0F387YHAxm8v6OCHE9A8FH_FGJwVbLEh315YZQ/exec";
 let allJobs=[];
+let selectedCompany="";
+let selectedJobGender='Both';
+
+function escapeHTML(str){
+ return String(str||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
+}
 
 async function loadJobs(){
-
  try{
+  const snap=await getDocs(query(collection(db,"jobs"), limit(50)));
+  allJobs=[];
+  snap.forEach(d=>allJobs.push(d.data()));
 
-   const res=await fetch(API_URL+"?action=getJobs");
-   allJobs=await res.json();
-   const jobs=allJobs.slice(0,10); // Fast initial loading
+  let out="";
 
-   let html="";
+  allJobs.forEach(job=>{
+   const title=String(job.title||"").replace(/'/g,"\'");
+   const company=String(job.company||"").replace(/'/g,"\\'");
+   const jobGender=String(job.jobGender||'Both').replace(/'/g,"\\'");
 
-   jobs.forEach(job=>{
+   out+=`<div class="job-card">
+   <h3>${escapeHTML(job.title)}</h3>
+   <p>🏢 ${escapeHTML(job.company)}</p>
+   <p>📍 ${escapeHTML(job.location)}</p>
+   <p>💰 ₹${escapeHTML(job.salary)}</p>
+   <p>🕒 ${escapeHTML(job.jobtype || job.jobType || 'Full Time')}</p>\n   <p>👥 ${escapeHTML(job.jobGender || 'Both')}</p>
+   <button onclick="showForm('${title}','${company}','${jobGender}')">Apply Now</button>
+   </div>`;
+  });
 
-     const title=String(job.title).replace(/'/g,"\\'");
-
-     html+=`
-     <div class="job-card">
-       <h3>${escapeHTML(job.title)}</h3>
-       <p>🏢 ${escapeHTML(job.company)}</p>
-       <p>📍 ${escapeHTML(job.location)}</p>
-       <p>💰 ₹${escapeHTML(job.salary)}</p>
-      <p>🕒 ${escapeHTML(job.jobType || 'Full Time')}</p>
-      <p>📞 ${escapeHTML(job.whatsapp || '')}</p>
-      <button onclick="showForm('${title}')">
-         Apply Now
-      </button>
-      ${job.whatsapp ? `<a href="https://wa.me/91${job.whatsapp}" target="_blank"><button style="background:#25D366;margin-top:6px">💬 WhatsApp HR</button></a>` : ''}
-     </div>`;
-
-   });
-
-   document.getElementById("jobsContainer").innerHTML=html;
-
-   const jt=[...new Set(allJobs.map(x=>x.title))];
-   const lc=[...new Set(allJobs.map(x=>x.location))];
-   document.getElementById("jobFilter").innerHTML='<option value="">💼 All Jobs</option>'+jt.map(x=>`<option>${x}</option>`).join('');
-   document.getElementById("locationFilter").innerHTML='<option value="">📍 All Locations</option>'+lc.map(x=>`<option>${x}</option>`).join('');
+  jobsContainer.innerHTML=out || "No jobs found";
 
  }catch(e){
-
-   document.getElementById("jobsContainer").innerHTML=
-   "Jobs loading failed";
-
-   console.log(e);
+  console.error(e);
+  jobsContainer.innerHTML="Unable to load jobs. Check Firestore rules.";
  }
 }
 
-
-
-function escapeHTML(str){
-  return String(str || "")
-    .replace(/&/g,"&amp;")
-    .replace(/</g,"&lt;")
-    .replace(/>/g,"&gt;")
-    .replace(/"/g,"&quot;")
-    .replace(/'/g,"&#39;");
+function renderJobs(){}
+function showForm(job,company,jobGender='Both'){
+ appliedFor.value=job;
+ selectedCompany=company||"";
+ selectedJobGender=jobGender||'Both';
+ formContainer.style.display="block";
 }
 
-function renderJobs(){
- const s=document.getElementById("searchInput").value.toLowerCase();
- const j=document.getElementById("jobFilter").value;
- const l=document.getElementById("locationFilter").value;
- let out="";
- allJobs.filter(x=>(!s||x.title.toLowerCase().includes(s)||x.company.toLowerCase().includes(s))&&(!j||x.title===j)&&(!l||x.location===l)).forEach(job=>{
- const title=String(job.title).replace(/'/g,"\\'");
- out+=`<div class="job-card"><h3>${escapeHTML(job.title)}</h3><p>🏢 ${escapeHTML(job.company)}</p><p>📍 ${escapeHTML(job.location)}</p><p>💰 ₹${escapeHTML(job.salary)}</p><p>🕒 ${escapeHTML(job.jobType || 'Full Time')}</p><p>📞 ${escapeHTML(job.whatsapp || '')}</p><button onclick="showForm('${title}')">Apply Now</button>${job.whatsapp ? `<a href="https://wa.me/91${job.whatsapp}" target="_blank"><button style="background:#25D366;margin-top:6px">💬 WhatsApp HR</button></a>` : ''}</div>`;
- });
- document.getElementById("jobsContainer").innerHTML=out||"No jobs found";
-}
+window.showForm=showForm;
+window.renderJobs=renderJobs;
 
-function showForm(job){
-
- document.getElementById("appliedFor").value=job;
-
- document.getElementById("formContainer").style.display="block";
-
-}
-
-document.getElementById("candidateForm")
-.addEventListener("submit",async function(e){
-
+candidateForm.addEventListener("submit",async e=>{
  e.preventDefault();
 
  const data={
-  name:document.getElementById("name").value,
-  mobile:document.getElementById("mobile").value,
-  email:document.getElementById("email").value,
+  name:document.getElementById("name").value.trim(),
+  mobile:document.getElementById("mobile").value.trim(),
+  email:document.getElementById("email").value.trim(),
   dob:document.getElementById("dob").value,
   gender:document.getElementById("gender").value,
   qualification:document.getElementById("qualification").value,
-  specialization:document.getElementById("specialization").value,
+  specialization:document.getElementById("specialization").value.trim(),
   appliedFor:document.getElementById("appliedFor").value,
   experience:document.getElementById("experience").value,
-  location:document.getElementById("location").value,
-  address:document.getElementById("address").value
+  location:document.getElementById("location").value.trim(),
+  address:document.getElementById("address").value.trim(),
+  company:selectedCompany
  };
 
-
- const mobileRegex=/^[6-9]\d{9}$/;
- if(!mobileRegex.test(data.mobile)){
-   alert("Please enter a valid 10-digit mobile number");
+ 
+ if(selectedJobGender==='Male' && data.gender!=='Male'){
+   popupTitle.innerText='Not Eligible';
+   popupMessage.innerHTML='❌ This job is only for Male candidates';
+   successPopup.style.display='flex';
+   return;
+ }
+ if(selectedJobGender==='Female' && data.gender!=='Female'){
+   popupTitle.innerText='Not Eligible';
+   popupMessage.innerHTML='❌ This job is only for Female candidates';
+   successPopup.style.display='flex';
    return;
  }
 
- if(data.name.length < 3){
-   alert("Please enter a valid name");
-   return;
+
+ const response=await fetch(API_URL,{
+  method:"POST",
+  headers:{"Content-Type":"text/plain;charset=utf-8"},
+  body:JSON.stringify(data)
+ });
+
+ const result=await response.json();
+
+ popupTitle.innerText=result.success?"Application Submitted":"Already Registered";
+ popupMessage.innerHTML=result.success
+ ? `✅ Application Submitted Successfully<br><br>Application ID: <b>${result.appId||""}</b>`
+ : `❌ ${result.message || "Mobile Number Already Registered"}`;
+
+ if(result.success){
+   candidateForm.reset();
+   formContainer.style.display="none";
  }
-
- try{
-
-   const response = await fetch(API_URL,{
-
-     method:"POST",
-     headers:{
-       "Content-Type":"text/plain;charset=utf-8"
-     },
-     body:JSON.stringify(data)
-   });
-
-   const result = await response.json();
-
-   if(result.success){
-
-     document.getElementById("popupTitle").innerText =
-     "Application Submitted";
-
-     document.getElementById("popupMessage").innerHTML =
-     "✅ Application Submitted Successfully<br><br>Application ID: <b>" +
-     (result.appId || "") + "</b>";
-
-     document.getElementById("successPopup").style.display = "flex";
-
-     document.getElementById("candidateForm").reset();
-     document.getElementById("formContainer").style.display = "none";
-
-   }else{
-
-     document.getElementById("formContainer").style.display = "none";
-
-     document.getElementById("popupTitle").innerText =
-     "Already Registered";
-
-     document.getElementById("popupMessage").innerHTML =
-     "❌ " + (result.message || "Mobile Number Already Registered");
-
-     document.getElementById("successPopup").style.display = "flex";
-
-   }
-
- }catch(err){
-
-   alert("Submission Failed");
- }
+ successPopup.style.display="flex";
 });
 
-document.getElementById("dob").max = new Date().toISOString().split("T")[0];
+dob.max=new Date().toISOString().split("T")[0];
 loadJobs();
 </script>
+
 
 </body>
 </html>

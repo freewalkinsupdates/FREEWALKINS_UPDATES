@@ -240,7 +240,7 @@ OK
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
-import { getFirestore, collection, getDocs, query, limit } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyAC8cxjgdG7ABnR5Nt7HaVuXWV9iznUAl0",
@@ -257,7 +257,9 @@ const db = getFirestore(app);
 const API_URL="https://script.google.com/macros/s/AKfycbxz1q8J8DoZNpNtiT9yeZ2bXTcqrukf0F387YHAxm8v6OCHE9A8FH_FGJwVbLEh315YZQ/exec";
 let allJobs=[];
 let selectedCompany="";
-let selectedJobGender='Both';
+let selectedJobGender="Both";
+let appliedCandidateName="";
+let selectedWhatsappNumber="";
 
 function escapeHTML(str){
  return String(str||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
@@ -265,28 +267,17 @@ function escapeHTML(str){
 
 async function loadJobs(){
  try{
-  const snap=await getDocs(query(collection(db,"jobs"), limit(50)));
+  const snap=await getDocs(collection(db,"jobs"));
   allJobs=[];
   snap.forEach(d=>allJobs.push(d.data()));
 
-  let out="";
+  const jobsSet=[...new Set(allJobs.map(j=>j.title).filter(Boolean))];
+  const locSet=[...new Set(allJobs.map(j=>j.location).filter(Boolean))];
 
-  allJobs.forEach(job=>{
-   const title=String(job.title||"").replace(/'/g,"\'");
-   const company=String(job.company||"").replace(/'/g,"\\'");
-   const jobGender=String(job.jobGender||'Both').replace(/'/g,"\\'");
+  jobFilter.innerHTML='<option value="">💼 All Jobs</option>'+jobsSet.map(x=>`<option>${x}</option>`).join('');
+  locationFilter.innerHTML='<option value="">📍 All Locations</option>'+locSet.map(x=>`<option>${x}</option>`).join('');
 
-   out+=`<div class="job-card">
-   <h3>${escapeHTML(job.title)}</h3>
-   <p>🏢 ${escapeHTML(job.company)}</p>
-   <p>📍 ${escapeHTML(job.location)}</p>
-   <p>💰 ₹${escapeHTML(job.salary)}</p>
-   <p>🕒 ${escapeHTML(job.jobtype || job.jobType || 'Full Time')}</p>\n   <p>👥 ${escapeHTML(job.jobGender || 'Both')}</p>
-   <button onclick="showForm('${title}','${company}','${jobGender}')">Apply Now</button>
-   </div>`;
-  });
-
-  jobsContainer.innerHTML=out || "No jobs found";
+  renderJobs();
 
  }catch(e){
   console.error(e);
@@ -294,21 +285,77 @@ async function loadJobs(){
  }
 }
 
-function renderJobs(){}
-function showForm(job,company,jobGender='Both'){
+function renderJobs(){
+ const search=(searchInput.value||'').toLowerCase();
+ const jobVal=jobFilter.value;
+ const locVal=locationFilter.value;
+
+ const filtered=allJobs.filter(j=>
+   (!search || (j.title||'').toLowerCase().includes(search) || (j.company||'').toLowerCase().includes(search)) &&
+   (!jobVal || j.title===jobVal) &&
+   (!locVal || j.location===locVal)
+ );
+
+ let out='';
+
+ filtered.forEach(job=>{
+   const title=String(job.title||'').replace(/'/g,"\\'");
+   const company=String(job.company||'').replace(/'/g,"\\'");
+
+   out+=`<div class="job-card">
+   <h3>${escapeHTML(job.title)}</h3>
+   <p>🏢 ${escapeHTML(job.company)}</p>
+   <p>📍 ${escapeHTML(job.location || 'Location Not Mentioned')}</p>
+   <p>👥 ${escapeHTML(job.jobGender || 'Both')}</p>
+   <p>💰 ₹${escapeHTML(job.salary)}</p>
+   <p>🕒 ${escapeHTML(job.jobtype || job.jobType || 'Full Time')}</p>
+   <div style="display:flex;gap:8px">
+<button style="flex:1" onclick="showForm('${title}','${company}','${job.jobGender || "Both"}','${job.whatsappNumber || ""}')">Apply Now</button>
+<button style="flex:1;background:#25D366" onclick="openJobWhatsapp('${title}','${company}')" >WhatsApp</button>
+</div>
+   </div>`;
+ });
+
+ jobsContainer.innerHTML=out || "No jobs found";
+}
+function showForm(job,company,gender,whatsappNumber){
  appliedFor.value=job;
  selectedCompany=company||"";
- selectedJobGender=jobGender||'Both';
+ selectedJobGender=gender||"Both";
+ selectedWhatsappNumber=whatsappNumber||"";
  formContainer.style.display="block";
 }
 
 window.showForm=showForm;
 window.renderJobs=renderJobs;
 
+window.openJobWhatsapp=function(job,company){
+ if(!appliedCandidateName){
+   alert('Please apply first');
+   return;
+ }
+ const msg=`Hello, i applied job in freewalkins updates This is ${appliedCandidateName}. looking for ${job} position at ${company}. and I am interested in this position. Thank You`;
+ const num=(selectedWhatsappNumber||'').replace(/\D/g,'');
+ if(!num){ alert('Company WhatsApp number not set'); return; }
+ window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`,'_blank');
+}
+
+
 candidateForm.addEventListener("submit",async e=>{
  e.preventDefault();
 
+
+ const candidateGender=document.getElementById("gender").value;
+
+ if(selectedJobGender!=="Both" && candidateGender!==selectedJobGender){
+   popupTitle.innerText="Not Eligible";
+   popupMessage.innerHTML=`❌ Only ${selectedJobGender} candidates can apply for this job.`;
+   successPopup.style.display="flex";
+   return;
+ }
+
  const data={
+
   name:document.getElementById("name").value.trim(),
   mobile:document.getElementById("mobile").value.trim(),
   email:document.getElementById("email").value.trim(),
@@ -322,21 +369,6 @@ candidateForm.addEventListener("submit",async e=>{
   address:document.getElementById("address").value.trim(),
   company:selectedCompany
  };
-
- 
- if(selectedJobGender==='Male' && data.gender!=='Male'){
-   popupTitle.innerText='Not Eligible';
-   popupMessage.innerHTML='❌ This job is only for Male candidates';
-   successPopup.style.display='flex';
-   return;
- }
- if(selectedJobGender==='Female' && data.gender!=='Female'){
-   popupTitle.innerText='Not Eligible';
-   popupMessage.innerHTML='❌ This job is only for Female candidates';
-   successPopup.style.display='flex';
-   return;
- }
-
 
  const response=await fetch(API_URL,{
   method:"POST",
@@ -352,6 +384,7 @@ candidateForm.addEventListener("submit",async e=>{
  : `❌ ${result.message || "Mobile Number Already Registered"}`;
 
  if(result.success){
+   appliedCandidateName=data.name;
    candidateForm.reset();
    formContainer.style.display="none";
  }

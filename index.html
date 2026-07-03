@@ -4,7 +4,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FreeWalkins AI Jobs</title>
+<title>FreeWalkins V17 Professional HR Message</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -335,12 +335,27 @@ window.renderJobs=renderJobs;
 
 window.openJobWhatsapp=function(job,company){
  if(!appliedCandidateName){
-   alert('Please apply first');
+   popupTitle.innerText = "Apply Required";
+   popupMessage.innerHTML = "⚠️ Please apply for the job first, then use WhatsApp to contact HR.";
+   successPopup.style.display = "flex";
    return;
  }
- const msg=`Hello, i applied job in freewalkins updates This is ${appliedCandidateName}. looking for ${job} position at ${company}. and I am interested in this position. Thank You`;
+ const msg=`Hello HR,
+
+My name is ${appliedCandidateName}.
+
+I have applied for the ${job} position at ${company} through FreeWalkins by VenuHR, and I am interested in this position.
+
+Kindly review my application and let me know the next steps.
+
+Thank you.`;
  const num=(selectedWhatsappNumber||'').replace(/\D/g,'');
- if(!num){ alert('Company WhatsApp number not set'); return; }
+ if(!num){
+   popupTitle.innerText = "WhatsApp Not Available";
+   popupMessage.innerHTML = "❌ Company WhatsApp number is not available.";
+   successPopup.style.display = "flex";
+   return;
+ }
  window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`,'_blank');
 }
 

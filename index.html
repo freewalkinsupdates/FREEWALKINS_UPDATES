@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>FreeWalkins V17 Professional HR Message</title>
 
 <!-- Inter Font for Premium Look -->
@@ -26,10 +26,9 @@
   --border: #e2e8f0;
   --radius-lg: 16px;
   --radius-md: 12px;
-  --transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Light/Dark mode auto adaptation */
 @media (prefers-color-scheme: dark) {
   :root {
     --bg-main: #0f172a;
@@ -46,12 +45,14 @@ body{
   font-family: 'Inter', sans-serif;
   background: var(--bg-main);
   color: var(--text-main);
-  padding: 16px;
-  line-height: 1.6;
+  padding: 12px;
+  line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  overflow-x: hidden; /* Prevents unwanted horizontal scrolling on mobile */
 }
 
 .wrapper{
+  width: 100%;
   max-width: 600px;
   margin: 0 auto;
 }
@@ -60,70 +61,59 @@ body{
 .header{
   background: linear-gradient(135deg, #059669 0%, #10b981 100%);
   color: #fff;
-  padding: 32px 20px;
+  padding: 24px 16px;
   border-radius: var(--radius-lg);
   text-align: center;
-  margin-bottom: 20px;
-  box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.3);
+  margin-bottom: 16px;
+  box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.25);
   position: relative;
   overflow: hidden;
 }
 
-.header::before {
-  content: '';
-  position: absolute;
-  top: -50%; right: -20%;
-  width: 200px; height: 200px;
-  background: rgba(255,255,255,0.1);
-  border-radius: 50%;
-}
-
 .header h1{
-  font-size: 28px;
+  font-size: 24px;
   font-weight: 700;
-  letter-spacing: -0.05em;
+  letter-spacing: -0.04em;
 }
 
 .header p{
-  font-size: 14px;
+  font-size: 13px;
   opacity: 0.9;
-  margin-top: 6px;
+  margin-top: 4px;
   font-weight: 500;
   letter-spacing: 0.05em;
   text-transform: uppercase;
 }
 
-/* Sticky Search & Filter Bar */
+/* Fluid Mobile Filter Box */
 .filter-box {
   background: var(--bg-card);
-  padding: 16px;
+  padding: 14px;
   border-radius: var(--radius-lg);
-  margin-bottom: 20px;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05), 0 2px 4px -1px rgba(0,0,0,0.03);
+  margin-bottom: 16px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.03);
   border: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  gap: 12px;
-  position: sticky;
-  top: 10px;
-  z-index: 10;
-  backdrop-filter: blur(8px);
-  background: rgba(255, 255, 255, 0.85);
-}
-@media (prefers-color-scheme: dark) {
-  .filter-box { background: rgba(30, 41, 59, 0.85); }
+  gap: 10px;
 }
 
 .filter-box-row {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  grid-template-columns: 1fr; /* Stacks seamlessly on small screens */
+  gap: 10px;
 }
 
-/* Inputs, Selects & Fields */
+@media (min-width: 400px) {
+  .filter-box-row {
+    grid-template-columns: 1fr 1fr; /* Side-by-side on larger mobile viewports */
+  }
+}
+
+/* Native-feeling UI Fields */
 input, select, textarea {
   width: 100%;
-  padding: 12px 16px;
+  padding: 12px;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   font-family: inherit;
@@ -132,64 +122,68 @@ input, select, textarea {
   background-color: var(--bg-card);
   transition: var(--transition);
   outline: none;
+  -webkit-appearance: none; /* Modern look for iOS select drops */
 }
 
 input:focus, select:focus, textarea:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 4px var(--primary-light);
+  box-shadow: 0 0 0 3px var(--primary-light);
 }
 
-/* Job Cards UI */
+/* Job Cards UI Optimization */
 .job-card{
   background: var(--bg-card);
   border-radius: var(--radius-lg);
-  padding: 24px;
-  margin-bottom: 16px;
-  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02), 0 2px 4px -1px rgba(0,0,0,0.01);
+  padding: 18px;
+  margin-bottom: 14px;
+  box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02);
   border: 1px solid var(--border);
-  transition: var(--transition);
-}
-
-.job-card:hover {
-  transform: translateY(-4px);
-  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.05), 0 10px 10px -5px rgba(0,0,0,0.03);
 }
 
 .job-card h3{
-  font-size: 20px;
+  font-size: 18px;
   color: var(--text-main);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
   font-weight: 600;
-  letter-spacing: -0.02em;
 }
 
 .job-card .company-name {
-  font-size: 15px;
+  font-size: 14px;
   color: var(--primary);
   font-weight: 600;
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
+/* Grid adapted perfectly to mobile widths without squeezing text */
 .job-details-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 20px;
+  gap: 8px;
+  margin-bottom: 16px;
+}
+
+@media (max-width: 350px) {
+  .job-details-grid {
+    grid-template-columns: 1fr; /* Single column on ultra-narrow phones */
+  }
 }
 
 .detail-badge {
   background: var(--bg-main);
-  padding: 8px 12px;
+  padding: 6px 10px;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 500;
   color: var(--text-muted);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 6px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
-/* Premium Buttons Styling */
+/* Responsive Action Buttons */
 button {
   font-family: inherit;
   font-size: 15px;
@@ -197,12 +191,12 @@ button {
   border: none;
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: var(--transition);
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 14px;
-  gap: 8px;
+  padding: 12px;
+  gap: 6px;
+  transition: transform 0.1s ease;
 }
 
 button:active {
@@ -212,42 +206,31 @@ button:active {
 .btn-primary {
   background: var(--primary);
   color: #fff;
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
 }
-.btn-primary:hover { background: var(--primary-hover); }
-
 .btn-whatsapp {
   background: var(--whatsapp);
   color: #fff;
-  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.3);
 }
-.btn-whatsapp:hover { background: var(--whatsapp-hover); }
-
 .btn-danger {
-  background: #fef2f2;
+  background: rgba(239, 68, 68, 0.1);
   color: var(--danger);
-  border: 1px solid #fee2e2;
-}
-.btn-danger:hover { background: #fee2e2; }
-@media (prefers-color-scheme: dark) {
-  .btn-danger { background: rgba(239, 68, 68, 0.1); border-color: rgba(239, 68, 68, 0.2); }
 }
 
-/* Modal / Form Shell Container */
+/* Fixed Mobile Overlap Fit Solution */
 .container{
   display: none;
   position: fixed;
   top: 50%; left: 50%;
   transform: translate(-50%, -50%) scale(0.95);
-  width: 92%;
-  max-width: 500px;
-  max-height: 85vh;
-  overflow-y: auto;
+  width: 94%;
+  max-width: 480px;
+  max-height: 90vh; /* Keeps space clear at top/bottom of viewports */
+  overflow-y: auto; /* Scrollable inside if height grows */
   background: var(--bg-card);
   border-radius: var(--radius-lg);
-  padding: 24px;
+  padding: 16px;
   z-index: 1000;
-  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+  box-shadow: 0 20px 25px -5px rgba(0,0,0,0.15);
   border: 1px solid var(--border);
   transition: var(--transition);
 }
@@ -257,29 +240,28 @@ button:active {
 }
 
 .container h2 {
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 700;
-  letter-spacing: -0.03em;
 }
 
 .form-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 14px;
-  margin-top: 16px;
+  gap: 10px;
+  margin-top: 12px;
 }
 
-@media (min-width: 480px) {
+@media (min-width: 450px) {
   .form-grid { grid-template-columns: 1fr 1fr; }
   .full-width { grid-column: span 2; }
 }
 
 .form-group label {
   display: block;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--text-muted);
-  margin-bottom: 6px;
+  margin-bottom: 4px;
 }
 
 #appliedFor{
@@ -288,52 +270,48 @@ button:active {
   color: var(--primary);
 }
 
-/* Backdrop Overlay Blur */
+/* Overlay Layer Blur */
 .modal-overlay {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(8px);
+  background: rgba(15, 23, 42, 0.5);
+  backdrop-filter: blur(4px);
   z-index: 999;
-  animation: fadeIn 0.2s ease;
 }
 
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-
-/* Alert Custom Popups */
+/* Status Notifications Popups */
 .popup{
   display:none;
   position:fixed;
   inset:0;
-  background:rgba(15, 23, 42, 0.6);
+  background:rgba(15, 23, 42, 0.5);
   backdrop-filter: blur(4px);
   justify-content:center;
   align-items:center;
   z-index:9999;
-  padding: 16px;
+  padding: 12px;
 }
 
 .popup-content{
   background: var(--bg-card);
-  padding: 28px;
+  padding: 20px;
   border-radius: var(--radius-lg);
   text-align: center;
   width: 100%;
-  max-width: 360px;
-  box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+  max-width: 320px;
   border: 1px solid var(--border);
 }
 
-/* Custom CSS Loader */
+/* Spinner component */
 .loader {
-  width: 48px;
-  height: 48px;
-  border: 4px solid var(--border);
-  border-top: 4px solid var(--primary);
+  width: 40px;
+  height: 40px;
+  border: 3px solid var(--border);
+  border-top: 3px solid var(--primary);
   border-radius: 50%;
-  animation: spin 0.8s cubic-bezier(0.4, 0, 0.2, 1) infinite;
-  margin: 0 auto 16px;
+  animation: spin 0.8s linear infinite;
+  margin: 0 auto 12px;
 }
 @keyframes spin{ to{transform:rotate(360deg);} }
 </style>
@@ -351,7 +329,7 @@ button:active {
   </div>
 
   <div class="filter-box">
-    <input id="searchInput" placeholder="🔍 Search job profiles or companies..." oninput="renderJobs()">
+    <input id="searchInput" placeholder="🔍 Search profiles or companies..." oninput="renderJobs()">
     <div class="filter-box-row">
       <select id="jobFilter" onchange="renderJobs()"><option value="">💼 All Jobs</option></select>
       <select id="locationFilter" onchange="renderJobs()"><option value="">📍 All Locations</option></select>
@@ -359,18 +337,18 @@ button:active {
   </div>
 
   <div id="jobsContainer">
-    <div style="text-align:center; padding:50px 20px; background: var(--bg-card); border-radius:var(--radius-lg); border: 1px solid var(--border)">
+    <div style="text-align:center; padding:40px 16px; background: var(--bg-card); border-radius:var(--radius-lg); border: 1px solid var(--border)">
       <div class="loader"></div>
-      <p style="color: var(--text-muted); font-weight:500;">Fetching fresh jobs...</p>
+      <p style="color: var(--text-muted); font-weight:500; font-size:14px;">Fetching fresh jobs...</p>
     </div>
   </div>
 
-  <!-- Main Multi-Column Form Modal -->
+  <!-- Main Multi-Column Form Modal Container -->
   <div class="container" id="formContainer">
-    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px;">
-      <h2>🎯 Apply & Register</h2>
-      <button type="button" class="btn-danger" onclick="closeForm()" style="padding: 8px 14px; font-size: 13px;">
-        Close
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 4px;">
+      <h2>🎯 Register Profile</h2>
+      <button type="button" class="btn-danger" onclick="closeForm()" style="padding: 6px 10px; font-size: 13px; border-radius: 8px;">
+        ❌ Close
       </button>
     </div>
 
@@ -441,16 +419,16 @@ button:active {
 
       </div>
 
-      <button type="submit" class="btn-primary" style="width:100%; margin-top:20px; padding:16px;">🚀 Submit Application</button>
+      <button type="submit" class="btn-primary" style="width:100%; margin-top:14px; padding:14px;">🚀 Submit Application</button>
     </form>
   </div>
 </div>
 
 <div class="popup" id="successPopup">
   <div class="popup-content">
-    <h3 id="popupTitle" style="font-size:20px; margin-bottom:10px;">Notification</h3>
-    <p id="popupMessage">Success message goes here.</p>
-    <button class="btn-primary" style="width:100%; padding:12px;" onclick="document.getElementById('successPopup').style.display='none'">
+    <h3 id="popupTitle" style="font-size:18px; margin-bottom:6px;">Notification</h3>
+    <p id="popupMessage" style="font-size:14px; color:var(--text-muted); margin-bottom:14px;"></p>
+    <button class="btn-primary" style="width:100%; padding:10px;" onclick="document.getElementById('successPopup').style.display='none'">
       Got it
     </button>
   </div>
@@ -513,7 +491,7 @@ async function loadJobs(){
 
  }catch(e){
   console.error(e);
-  jobsContainer.innerHTML="<div style='text-align:center; padding:30px; color:var(--danger); font-weight:600;'>❌ Failed to load jobs. Check Firestore configurations.</div>";
+  jobsContainer.innerHTML="<div style='text-align:center; padding:20px; color:var(--danger); font-weight:600; font-size:14px;'>❌ Failed to load jobs.</div>";
  }
 }
 
@@ -545,14 +523,14 @@ function renderJobs(){
      <div class="detail-badge">🕒 ${escapeHTML(job.jobtype || job.jobType || 'Full Time')}</div>
    </div>
 
-   <div style="display:flex; gap:12px;">
+   <div style="display:flex; gap:10px;">
      <button class="btn-primary" style="flex:1" onclick="showForm('${title}','${company}','${job.jobGender || "Both"}','${job.whatsappNumber || ""}')">Apply Now</button>
      <button class="btn-whatsapp" style="flex:1" onclick="openJobWhatsapp('${title}','${company}')">WhatsApp</button>
    </div>
    </div>`;
  });
 
- jobsContainer.innerHTML=out || "<div style='text-align:center; padding:40px; color:var(--text-muted); font-weight:500;'>No matching vacancies found.</div>";
+ jobsContainer.innerHTML=out || "<div style='text-align:center; padding:30px; color:var(--text-muted); font-size:14px;'>No matching vacancies found.</div>";
 }
 
 function showForm(job,company,gender,whatsappNumber){
@@ -583,7 +561,7 @@ window.renderJobs=renderJobs;
 window.openJobWhatsapp=function(job,company){
  if(!appliedCandidateName){
    popupTitle.innerText = "Application Required";
-   popupMessage.innerHTML = "⚠️ Form submittion is mandatory before sending a WhatsApp update to HR.";
+   popupMessage.innerHTML = "⚠️ Form submission is mandatory before sending a WhatsApp update to HR.";
    successPopup.style.display = "flex";
    return;
  }

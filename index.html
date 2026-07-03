@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>V25 - FreeWalkins V24.1 OpenRouter Real AI</title>
+<title>FreeWalkins AI Jobs</title>
 
 <style>
 *{box-sizing:border-box;margin:0;padding:0}
@@ -118,10 +119,7 @@ input,select,textarea{
 
 </style>
 
-<style>
-.ai-fab{position:fixed;right:20px;bottom:20px;background:#111827;color:#fff;border-radius:50px;padding:14px 18px;z-index:9999;box-shadow:0 8px 24px rgba(0,0,0,.25);width:auto}
-.ai-banner{background:linear-gradient(90deg,#16a34a,#0ea5e9);color:#fff;padding:14px;border-radius:12px;margin-bottom:12px;text-align:center}
-</style>
+
 
 </head>
 
@@ -131,8 +129,9 @@ input,select,textarea{
 
 <div class="header">
 <h1>FreeWalkins by VenuHR</h1>
-<p>💬 Chat • Smart Resume Upload • Job Guidance</p>
+<p>Job Updates • Apply Online</p>
 </div>
+
 
 <div style="background:#fff;padding:12px;border-radius:12px;margin-bottom:12px;box-shadow:0 2px 8px rgba(0,0,0,.08)">
 <input id="searchInput" placeholder="🔍 Search Jobs" oninput="renderJobs()">
@@ -140,43 +139,94 @@ input,select,textarea{
 <select id="locationFilter" onchange="renderJobs()"><option value="">📍 All Locations</option></select>
 </div>
 
-<marquee style="background:#16a34a;color:#fff;padding:12px;border-radius:12px;margin-bottom:12px;font-weight:bold">🎉 FreeWalkins - Free Jobs For Everyone | IT Jobs | Non-IT Jobs | Freshers | Experienced Candidates</marquee>
+
 <div id="jobsContainer" style="text-align:center;padding:30px">
 <div class="loader"></div>
 <p>Loading Jobs...</p>
 </div>
 
-<!-- Form Container -->
 <div class="container" id="formContainer">
-<button type="button" onclick="document.getElementById('formContainer').style.display='none'" style="background:#ef4444;margin-bottom:10px;width:auto;padding:8px 12px;float:right">❌</button>
-<div style="clear:both"></div>
+
+<button type="button"
+onclick="document.getElementById('formContainer').style.display='none'"
+style="background:#ef4444;margin-bottom:10px">
+❌ Close
+</button>
+
+
 <h2>🎯 FreeWalkins Registration</h2>
 <form id="candidateForm" autocomplete="off">
+
 <input type="text" id="name" placeholder="Full Name" required>
-<input type="tel" id="mobile" placeholder="Mobile Number" required maxlength="10" pattern="[0-9]{10}" inputmode="numeric">
+
+<input type="tel" id="mobile" placeholder="Mobile Number"
+required maxlength="10" pattern="[0-9]{10}" inputmode="numeric">
+
 <input type="email" id="email" placeholder="Email" required>
+
 <label><b>Date of Birth</b></label>
 <input type="date" id="dob" required max="2099-12-31">
+
 <select id="gender" required>
 <option value="">Select Gender</option>
 <option>Male</option>
 <option>Female</option>
 <option>Other</option>
 </select>
+
 <select id="qualification" required>
 <option value="">Select Qualification</option>
-<option>SSC</option><option>Intermediate</option><option>Diploma</option><option>ITI</option><option>Degree</option><option>B.Com</option><option>B.Sc</option><option>BA</option><option>BBA</option><option>BCA</option><option>B.Tech</option><option>B.Pharmacy</option><option>D.Pharmacy</option><option>MBA</option><option>MCA</option><option>M.Tech</option><option>M.Com</option><option>M.Sc</option><option>LLB</option><option>LLM</option><option>PhD</option><option>Other</option>
+<option>SSC</option>
+<option>Intermediate</option>
+<option>Diploma</option>
+<option>ITI</option>
+<option>Degree</option>
+<option>B.Com</option>
+<option>B.Sc</option>
+<option>BA</option>
+<option>BBA</option>
+<option>BCA</option>
+<option>B.Tech</option>
+<option>B.Pharmacy</option>
+<option>D.Pharmacy</option>
+<option>MBA</option>
+<option>MCA</option>
+<option>M.Tech</option>
+<option>M.Com</option>
+<option>M.Sc</option>
+<option>LLB</option>
+<option>LLM</option>
+<option>PhD</option>
+<option>Other</option>
 </select>
-<input id="specialization" placeholder="Specialization" required>
+
+<input id="specialization"
+placeholder="Specialization" required>
+
 <label><b>Applied For</b></label>
 <input id="appliedFor" readonly required>
+
 <select id="experience" required>
 <option value="">Select Experience</option>
-<option>Fresher</option><option>0-6 Months</option><option>6 Months - 1 Year</option><option>1-2 Years</option><option>2-3 Years</option><option>3-5 Years</option><option>5-7 Years</option><option>7-10 Years</option><option>10+ Years</option>
+<option>Fresher</option>
+<option>0-6 Months</option>
+<option>6 Months - 1 Year</option>
+<option>1-2 Years</option>
+<option>2-3 Years</option>
+<option>3-5 Years</option>
+<option>5-7 Years</option>
+<option>7-10 Years</option>
+<option>10+ Years</option>
 </select>
-<input id="location" placeholder="Current Location" required>
-<textarea id="address" placeholder="Address"></textarea>
+
+<input id="location"
+placeholder="Current Location" required>
+
+<textarea id="address"
+placeholder="Address"></textarea>
+
 <button type="submit">🚀 Submit Application</button>
+
 </form>
 </div>
 </div>
@@ -185,11 +235,13 @@ input,select,textarea{
 <div class="popup-content">
 <h3 id="popupTitle">Application Submitted</h3>
 <p id="popupMessage">Application Submitted Successfully</p>
-<button onclick="document.getElementById('successPopup').style.display='none'">OK</button>
+<button onclick="document.getElementById('successPopup').style.display='none'">
+OK
+</button>
 </div>
 </div>
 
-<!-- Firebase & Core Job Scripts -->
+
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
 import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
@@ -212,7 +264,6 @@ let selectedCompany="";
 let selectedJobGender="Both";
 let appliedCandidateName="";
 let selectedWhatsappNumber="";
-let friendMobiles=[];
 
 function escapeHTML(str){
  return String(str||"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;").replace(/'/g,"&#39;");
@@ -231,6 +282,7 @@ async function loadJobs(){
   locationFilter.innerHTML='<option value="">📍 All Locations</option>'+locSet.map(x=>`<option>${x}</option>`).join('');
 
   renderJobs();
+
  }catch(e){
   console.error(e);
   jobsContainer.innerHTML="Unable to load jobs. Check Firestore rules.";
@@ -249,6 +301,7 @@ function renderJobs(){
  );
 
  let out='';
+
  filtered.forEach(job=>{
    const title=String(job.title||'').replace(/'/g,"\\'");
    const company=String(job.company||'').replace(/'/g,"\\'");
@@ -262,13 +315,13 @@ function renderJobs(){
    <p>🕒 ${escapeHTML(job.jobtype || job.jobType || 'Full Time')}</p>
    <div style="display:flex;gap:8px">
 <button style="flex:1" onclick="showForm('${title}','${company}','${job.jobGender || "Both"}','${job.whatsappNumber || ""}')">Apply Now</button>
-
+<button style="flex:1;background:#25D366" onclick="openJobWhatsapp('${title}','${company}')" >WhatsApp</button>
 </div>
    </div>`;
  });
+
  jobsContainer.innerHTML=out || "No jobs found";
 }
-
 function showForm(job,company,gender,whatsappNumber){
  appliedFor.value=job;
  selectedCompany=company||"";
@@ -282,22 +335,22 @@ window.renderJobs=renderJobs;
 
 window.openJobWhatsapp=function(job,company){
  if(!appliedCandidateName){
-   alert('Please do Apply First');
+   alert('Please apply first');
    return;
  }
- let extra='';
- if(friendMobiles.length){
-   extra='\nFriends applying together: '+friendMobiles.length+'\n'+friendMobiles.map((x,i)=>'Friend '+(i+1)+' Mobile: '+x).join('\n');
- }
- const msg=`Hello HR, \n\nCandidate Name: ${appliedCandidateName}\nApplied Job: ${job}\nCompany: ${company}${extra}\n\nThank You`;
+ const msg=`Hello, i applied job in freewalkins updates This is ${appliedCandidateName}. looking for ${job} position at ${company}. and I am interested in this position. Thank You`;
  const num=(selectedWhatsappNumber||'').replace(/\D/g,'');
  if(!num){ alert('Company WhatsApp number not set'); return; }
  window.open(`https://wa.me/${num}?text=${encodeURIComponent(msg)}`,'_blank');
 }
 
+
 candidateForm.addEventListener("submit",async e=>{
  e.preventDefault();
+
+
  const candidateGender=document.getElementById("gender").value;
+
  if(selectedJobGender!=="Both" && candidateGender!==selectedJobGender){
    popupTitle.innerText="Not Eligible";
    popupMessage.innerHTML=`❌ Only ${selectedJobGender} candidates can apply for this job.`;
@@ -306,6 +359,7 @@ candidateForm.addEventListener("submit",async e=>{
  }
 
  const data={
+
   name:document.getElementById("name").value.trim(),
   mobile:document.getElementById("mobile").value.trim(),
   email:document.getElementById("email").value.trim(),
@@ -327,19 +381,39 @@ candidateForm.addEventListener("submit",async e=>{
  });
 
  const result=await response.json();
+
  popupTitle.innerText=result.success?"Application Submitted":"Already Registered";
- popupMessage.innerHTML=result.success ? `✅ Application Submitted Successfully<br><br>Application ID: <b>${result.appId||""}</b>` : `❌ ${result.message || "Mobile Number Already Registered"}`;
+ popupMessage.innerHTML=result.success
+ ? `✅ Application Submitted Successfully<br><br>Application ID: <b>${result.appId||""}</b>`
+ : `❌ ${result.message || "Mobile Number Already Registered"}`;
 
  if(result.success){
    appliedCandidateName=data.name;
    candidateForm.reset();
-   formContainer.style.display="none"; 
+   formContainer.style.display="none";
  }
  successPopup.style.display="flex";
 });
 
 dob.max=new Date().toISOString().split("T")[0];
 loadJobs();
+
+document.querySelectorAll('#candidateForm input,#candidateForm select,#candidateForm textarea').forEach(el=>{
+  el.addEventListener('focus',()=>{
+    const ai=document.getElementById('formAI');
+    if(ai) ai.style.display='none';
+  });
+});
+
 </script>
+
+
+
+
+
+
+
+
 </body>
+
 </html>

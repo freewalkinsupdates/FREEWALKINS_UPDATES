@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>FreeWalkins by VenuHR</title>
 
+<!-- Inter Font Layer -->
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
@@ -87,6 +88,7 @@ input:focus, select:focus, textarea:focus { border-color:var(--primary); box-sha
 .score-tag-60 { background: #f59e0b; color: white; font-size: 11px; padding: 4px 10px; position: absolute; top: 0; right: 0; border-bottom-left-radius: 8px; font-weight: 700; }
 .score-tag-low { background: #94a3b8; color: white; font-size: 11px; padding: 4px 10px; position: absolute; top: 0; right: 0; border-bottom-left-radius: 8px; font-weight: 700; }
 
+/* 🔒 BLUR CONTROL */
 .blurred-jobs .job-card h3, .blurred-jobs .job-card .company-name, .blurred-jobs .job-card .job-details-grid { filter: blur(5px); pointer-events: none; user-select: none; }
 
 .job-card h3{font-size:17px; font-weight:700; margin-bottom:4px; color: #0f172a;}
@@ -165,6 +167,7 @@ button { font-family:inherit; font-size:14px; font-weight:600; border:none; bord
      </div>
   </div>
 
+  <!-- REGISTRATION MODAL -->
   <div class="container" id="formContainer">
     <span class="modal-close-btn" onclick="closeFormModalBack()">&times;</span>
     <h2 style="text-align:center; color:var(--primary); font-size:20px; margin-top:10px;" id="lblFormTitle">📋 Enter Your Details</h2>
@@ -251,7 +254,8 @@ button { font-family:inherit; font-size:14px; font-weight:600; border:none; bord
   </div>
 </div>
 
-<div class="popup" id="successPopup"><div class="popup-content"><h3 id="popupTitle">Processing</h3><p id="popupMessage" style="margin:10px 0; font-size:13px; color:var(--text-muted);"></p><button class="btn-primary" id="popupBtn" style="width:100%;" onclick="document.getElementById('successPopup').style.display='none'">OK</button></div></div>
+<!-- GLOBAL SYSTEM POPUP -->
+<div class="popup" id="successPopup"><div class="popup-content"><h3 id="popupTitle">Processing</h3><p id="popupMessage" style="margin:10px 0; font-size:13px; color:var(--text-muted);"></p><button class="btn-primary" id="popupBtn" style="width:100%;">OK</button></div></div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
@@ -313,7 +317,7 @@ const langDictionary = {
     popSuccessMsg: "సక్సెస్ ఫుల్ గా అప్లై అయింది. ఇప్పుడు మీరు వాట్సాప్ బటన్ క్లిక్ చేసి హెచ్ఆర్ కి మెసేజ్ చేయవచ్చు.", badgeLocation: "హైదరాబాద్ ఏరియా",
     lblEducation: "చదువు:", lblExp: "ఎక్స్పీరియన్స్:", lblSalary: "జీతం:", btnApplied: "✓ అప్లై చేసావు", btnApply: "⚡ అప్లై చేయండి", btnHr: "💬 వాట్సాప్ HR",
     lblNoJobsFound: "❌ మీరు వెతికిన ఫిల్టర్స్ కి సరిపోయే జాబ్స్ ఏవీ ప్రస్తుతానికి అందుబాటులో లేవు.",
-    lblNoJobsFoundSubtitle: "కానీ మీ కోసం కింద కొన్ని రಿಕమండెడ్ జాబ్స్ చూపించబడ్డాయి:",
+    lblNoJobsFoundSubtitle: "కానీ మీ కోసం కింద కొన్ని రికమండెడ్ జాబ్స్ చూపించబడ్డాయి:",
     lblRecommendedSec: "⭐ మీ కోసం ప్రత్యేక సిఫార్సు చేయబడిన ఉద్యోగాలు", textFilterLock: "🔒 నాట్ మ్యాచ్", 
     textSkillsCategoryLabel: "కేటగిరీ స్కిల్స్", textGlobalCategoryLabel: "ఇతర స్కిల్స్ లిస్ట్", textPopularCategoryLabel: "పాపులర్ స్కిల్స్ లిస్ట్",
     textImportantLabel: "ముఖ్యమైనవి", alertMaxSkills: "⚠️ గరిష్టంగా 4 స్కిల్స్ మాత్రమే ఎంచుకోవడానికి వీలవుతుంది."
@@ -562,7 +566,6 @@ async function loadJobs(){
   allJobs = [];
   snap.forEach(d => allJobs.push(d.data()));
   renderJobs();
-  openFormModal();
  } catch(e) {
   document.getElementById('jobsContainer').innerHTML = "<p style='color:red; text-align:center;'>Database Connection Error.</p>";
  }
@@ -576,7 +579,9 @@ window.openFormModal = function() {
 window.closeFormModalBack = function() {
   document.getElementById('modalOverlay').style.display = "none";
   document.getElementById('formContainer').style.display = "none";
-  if(!registeredCandidate) document.getElementById('dynamicJobsOutput').className = "blurred-jobs";
+  if(!registeredCandidate) {
+     document.getElementById('dynamicJobsOutput').className = "blurred-jobs";
+  }
 }
 
 window.renderJobs = function() {
@@ -584,7 +589,7 @@ window.renderJobs = function() {
  const catFilter = document.getElementById('filterCategory').value;
  const locFilter = document.getElementById('filterLocation').value;
  const genFilter = document.getElementById('filterGender').value;
- const container = document.getElementById('dynamicJobsOutput');
+ const container = document.getElementById('jobsContainer');
  const currentLang = document.getElementById('languageToggle').value;
  const d = langDictionary[currentLang];
  
@@ -655,7 +660,6 @@ window.renderJobs = function() {
       else scoreBadgeHTML = `<div class="score-tag-low">🎯 ${item.matchPercentage}% Match</div>`;
    }
 
-   // 🎯 CRITICAL ACCESSIBILITY LOCK ENGINE
    const isButtonDisabled = alreadyApplied || item.isMismatch;
    const isWhatsAppDisabled = !alreadyApplied || item.isMismatch;
 
@@ -684,10 +688,9 @@ window.renderJobs = function() {
 
  if(directMatchesArray.length > 0) {
     let jobsListHTML = directMatchesArray.map(item => buildJobCardHtml(item)).join('');
-    finalHTMLOutput = `<div class="section-title" id="lblMainSectionTitle">${d.lblMainSec}</div><div>${jobsListHTML}</div>`;
+    finalHTMLOutput = `<div>${jobsListHTML}</div>`;
  } else {
-    finalHTMLOutput = `<div class="section-title" id="lblMainSectionTitle">${d.lblMainSec}</div>` +
-                      `<p style='text-align:center; color:#e11d48; font-weight:600; padding:16px; background:#fff1f2; border:1px dashed #fecdd3; border-radius:12px; font-size:13px;'>${d.lblNoJobsFound}<br><span style='font-size:11px; font-weight:normal; color:var(--text-muted);'>${d.lblNoJobsFoundSubtitle}</span></p>`;
+    finalHTMLOutput = `<p style='text-align:center; color:#e11d48; font-weight:600; padding:16px; background:#fff1f2; border:1px dashed #fecdd3; border-radius:12px; font-size:13px;'>${d.lblNoJobsFound}<br><span style='font-size:11px; font-weight:normal; color:var(--text-muted);'>${d.lblNoJobsFoundSubtitle}</span></p>`;
     
     let recommendedSubset = recommendationFallbackArray.slice(0, 5);
     if(recommendedSubset.length > 0) {
@@ -729,11 +732,18 @@ window.executeCloudJobSubmission = async function(title, company) {
    appliedCompanies.push(company);
    document.getElementById('popupTitle').innerText = d.popSuccess;
    document.getElementById('popupMessage').innerHTML = d.popSuccessMsg;
+   
+   document.getElementById('popupBtn').onclick = function() {
+      popup.style.display = 'none';
+   };
    renderJobs();
  } catch(e) {
    document.getElementById('popupTitle').innerText = "Saved";
    document.getElementById('popupMessage').innerText = "Application backed up successfully.";
    appliedCompanies.push(company);
+   document.getElementById('popupBtn').onclick = function() {
+      popup.style.display = 'none';
+   };
    renderJobs();
  }
 }
@@ -799,6 +809,51 @@ document.getElementById('candidateForm').addEventListener('submit', async (e) =>
  renderJobs();
  try { fetch(API_URL, { method: "POST", body: JSON.stringify(registeredCandidate) }); } catch(err){}
 });
+
+/* 🔒 ADVANCED MOBILE TOUCH & SCROLL PROTECTOR ENGINE */
+let alertActiveFlag = false;
+
+function triggerCustomRegistrationLock() {
+  if (registeredCandidate) return;
+
+  if (!alertActiveFlag) {
+    alertActiveFlag = true;
+    
+    const currentLang = document.getElementById('languageToggle').value;
+    const alertMsg = (currentLang === 'TE') 
+      ? "ఉద్యోగాలు చూడడానికి దయచేసి మొదట మీ వివరాలను నమోదు చేయండి." 
+      : "Please register your details first to view available jobs.";
+    
+    const popup = document.getElementById('successPopup');
+    document.getElementById('popupTitle').innerText = (currentLang === 'TE') ? "గమనిక!" : "Attention!";
+    document.getElementById('popupMessage').innerText = alertMsg;
+    popup.style.display = "flex";
+    
+    const popupBtn = document.getElementById('popupBtn');
+    popupBtn.onclick = function() {
+      popup.style.display = 'none';
+      openFormModal(); 
+    };
+
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    
+    setTimeout(() => { alertActiveFlag = false; }, 1000);
+  }
+}
+
+// 📱 1. Standard Scroll Event Listener
+window.addEventListener('scroll', function() {
+  if (window.scrollY > 40) {
+    triggerCustomRegistrationLock();
+  }
+}, { passive: true });
+
+// 📱 2. Mobile Touchmove Listener (For absolute response on touch devices)
+window.addEventListener('touchmove', function() {
+  if (window.scrollY > 20) {
+    triggerCustomRegistrationLock();
+  }
+}, { passive: true });
 
 loadJobs();
 </script>

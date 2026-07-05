@@ -1,224 +1,852 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>FreeWalkins Admin V5.3 Ultimate Fix</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>FreeWalkins by VenuHR</title>
+
+<!-- Inter Font Layer -->
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+
 <style>
-body{font-family:Arial,sans-serif;background:#f3f4f6;margin:0}
-.hidden{display:none}
-.login{max-width:350px;margin:80px auto;background:#fff;padding:20px;border-radius:14px;box-shadow:0 2px 10px rgba(0,0,0,.15)}
-.wrap{max-width:1000px;margin:auto;padding:12px}
-.card{background:#fff;padding:15px;border-radius:14px;margin-bottom:15px;box-shadow:0 2px 10px rgba(0,0,0,.1)}
-.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}
-.stat{background:#ecfdf5;padding:12px;border-radius:10px;text-align:center}
-input,select,button{width:100%;padding:12px;margin:6px 0 12px;border-radius:10px;box-sizing:border-box}
-input,select{border:1px solid #ddd}
-button{border:none;cursor:pointer}
-.save{background:#16a34a;color:#fff}
-.edit{background:#f59e0b;color:#fff;width:auto}
-.del{background:#dc2626;color:#fff;width:auto}
-.job{border:1px solid #e5e7eb;border-radius:10px;padding:12px;margin-top:10px}
-.dark{background:#111827;color:#fff}
-.dark .card,.dark .login{background:#1f2937}
+:root {
+  --primary: #10b981;
+  --primary-hover: #059669;
+  --primary-light: rgba(16, 185, 129, 0.08);
+  --whatsapp: #22c55e;
+  --whatsapp-hover: #16a34a;
+  --danger: #ef4444;
+  --bg-main: #f4f6f9;
+  --bg-card: #ffffff;
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border: #cbd5e1;
+  --radius-lg: 12px;
+  --radius-md: 8px;
+}
+
+*{box-sizing:border-box;margin:0;padding:0; -webkit-tap-highlight-color: transparent;}
+body{font-family:'Inter',sans-serif;background:var(--bg-main);color:var(--text-main);padding:12px;line-height:1.4;}
+.wrapper{width:100%;max-width:550px;margin:0 auto}
+
+/* 🎯 FIXED HEADER: No overlap, clean vertical layout for mobile */
+.header{
+  background: #ffffff; color: #1e293b; padding: 16px; border-radius: var(--radius-lg); 
+  text-align: center; margin-bottom: 16px; border: 1px solid var(--border);
+}
+.header h1{font-size:26px; font-weight:800; color: var(--primary); letter-spacing: -0.5px;}
+.header p { font-size: 14px; color: var(--text-muted); margin-top: 2px; font-weight: 600; }
+
+/* Clean Language Section underneath the main title */
+.lang-selector-container { margin-top: 12px; display: block; text-align: center; }
+.lang-select { width: auto; min-width: 130px; display: inline-block; padding: 6px 12px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid var(--border); background: #f8fafc; cursor: pointer; color: var(--text-main); }
+
+.filter-box {
+  background: var(--bg-card); padding: 14px; border-radius: var(--radius-lg); margin-bottom: 16px;
+  border: 1px solid var(--border); display: flex; flex-direction: column; gap: 10px;
+}
+.filter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+input, select, textarea {
+  width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:var(--radius-md);
+  font-family:inherit; font-size:14px; color:var(--text-main); background-color:#ffffff; outline:none; min-height: 40px;
+}
+input:focus, select:focus, textarea:focus { border-color:var(--primary); box-shadow:0 0 0 3px var(--primary-light); }
+
+.hint-text { font-size: 12px; color: #d97706; display: block; margin-top: 4px; font-weight: 500; }
+.section-title { font-size: 16px; font-weight: 700; margin: 20px 0 10px 0; color: var(--text-main); }
+.recommended-title { font-size: 15px; font-weight: 700; margin: 20px 0 10px 0; color: #3b82f6; border-left: 4px solid #3b82f6; padding-left: 8px; }
+
+.strength-meter-container { background: #f8fafc; padding: 12px; border-radius: var(--radius-md); margin-bottom: 14px; border: 1px solid var(--border); }
+.strength-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; margin-bottom: 6px; }
+.strength-bar-bg { background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden; }
+.strength-bar-fill { background: var(--danger); width: 0%; height: 100%; transition: width 0.4s ease; }
+
+.profile-summary-badge { background: #eff6ff; border: 1px solid #bfdbfe; padding: 12px; color: #1e40af; border-radius: var(--radius-md); font-size: 13px; font-weight: 500; margin-bottom: 16px; display: none; }
+
+.suggestions-wrapper { position: relative; width: 100%; }
+.suggestions-box {
+  position: absolute; top: calc(100% + 2px); left: 0; right: 0; background: #ffffff;
+  border: 1px solid var(--border); border-radius: var(--radius-md); max-height: 200px;
+  overflow-y: auto; z-index: 2000; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+.suggestion-item { padding: 10px 12px; font-size: 14px; cursor: pointer; color: var(--text-main); display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; }
+.suggestion-item:hover { background: var(--primary-light); color: var(--primary); }
+.suggestion-header-label { background: #f1f5f9; font-size: 11px; font-weight: 700; color: var(--text-muted); padding: 6px 12px; pointer-events: none; border-bottom: 1px solid var(--border); }
+
+.chips-output-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
+.skill-chip { background: var(--primary-light); color: var(--primary); border: 1px solid #10b981; padding: 4px 10px; border-radius: 16px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; margin-right: 4px; margin-bottom: 4px; }
+.skill-chip span { cursor: pointer; color: var(--danger); font-weight: bold; font-size: 14px; }
+
+.job-card { background: var(--bg-card); border-radius: var(--radius-lg); padding: 16px; margin-bottom: 12px; border: 1px solid var(--border); position: relative; overflow: hidden; }
+.job-card.mismatch { opacity: 0.6; border-left: 4px solid var(--danger); background: #f8fafc; }
+.mismatch-tag { background: #64748b; color: white; font-size: 10px; padding: 3px 8px; position: absolute; top: 0; right: 0; border-bottom-left-radius: 8px; font-weight: 600; }
+
+.score-tag-100 { background: #10b981; color: white; font-size: 11px; padding: 4px 10px; position: absolute; top: 0; right: 0; border-bottom-left-radius: 8px; font-weight: 700; }
+.score-tag-80 { background: #3b82f6; color: white; font-size: 11px; padding: 4px 10px; position: absolute; top: 0; right: 0; border-bottom-left-radius: 8px; font-weight: 700; }
+.score-tag-60 { background: #f59e0b; color: white; font-size: 11px; padding: 4px 10px; position: absolute; top: 0; right: 0; border-bottom-left-radius: 8px; font-weight: 700; }
+.score-tag-low { background: #94a3b8; color: white; font-size: 11px; padding: 4px 10px; position: absolute; top: 0; right: 0; border-bottom-left-radius: 8px; font-weight: 700; }
+
+.blurred-jobs .job-card h3, .blurred-jobs .job-card .company-name, .blurred-jobs .job-card .job-details-grid { filter: blur(5px); pointer-events: none; user-select: none; }
+
+.job-card h3{font-size:17px; font-weight:700; margin-bottom:4px; color: #0f172a;}
+.company-name { font-size: 14px; color: var(--primary); font-weight: 600; margin-bottom: 12px; }
+.job-details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+.detail-badge { background: #f8fafc; padding: 8px; border-radius: 6px; font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; border: 1px solid #e2e8f0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
+.proximity-badge { color: #2563eb !important; font-weight: 600; background: #eff6ff !important; border: 1px solid #bfdbfe; }
+
+.actions-flex { display: flex; gap: 8px; width: 100%; }
+button { font-family:inherit; font-size:14px; font-weight:600; border:none; border-radius:var(--radius-md); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; padding:11px; gap:6px; flex: 1; min-height: 40px; }
+.btn-primary { background: var(--primary); color: #fff; }
+.btn-primary:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; border: 1px solid var(--border); }
+.btn-whatsapp { background: var(--whatsapp); color: #fff; }
+.btn-whatsapp:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; border: 1px solid var(--border); }
+
+.container{
+  display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+  width: 94%; max-width: 460px; max-height: 85vh; overflow-y: auto; background: #ffffff;
+  border-radius: var(--radius-lg); padding: 20px; z-index: 1000; border: 1px solid var(--border);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.modal-close-btn { position: absolute; top: 12px; right: 16px; font-size: 24px; font-weight: 700; color: var(--text-muted); cursor: pointer; border: none; background: none; }
+.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); z-index: 999; }
+
+.conditional-exp-block { display: none; flex-direction: column; gap: 10px; border-left: 3px solid var(--primary); padding-left: 10px; margin: 2px 0; }
+.popup{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); backdrop-filter: blur(4px); justify-content:center; align-items:center; z-index:9999; padding: 12px; }
+.popup-content{ background: #ffffff; padding: 20px; border-radius: var(--radius-lg); text-align: center; width: 100%; max-width: 320px; border: 1px solid var(--border); }
+@keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
+
 <body>
+<div class="modal-overlay" id="modalOverlay"></div>
+<div class="wrapper">
 
-<div id="loginBox" class="login">
-<h2>Admin Login</h2>
-<input id="u" placeholder="Username">
-<input id="p" type="password" placeholder="Password">
-<button class="save" onclick="login()">Login</button>
-<p>Default: admin / 12345</p>
+  <div class="header">
+    <h1>FreeWalkins</h1>
+    <p id="lblAppSubtitle">by VenuHR</p>
+    
+    <div class="lang-selector-container">
+       <select id="languageToggle" class="lang-select" onchange="switchUIVectorLanguage()">
+          <option value="EN">English</option>
+          <option value="TE">తెలుగు (Telugu)</option>
+       </select>
+    </div>
+  </div>
+
+  <div class="filter-box">
+    <input id="searchInput" placeholder="🔍 Search company name or job role..." oninput="renderJobs()">
+    
+    <div class="filter-grid">
+      <select id="filterCategory" onchange="renderJobs()">
+        <option value="" id="optAllCategories">All Categories</option>
+      </select>
+
+      <select id="filterLocation" onchange="renderJobs()">
+        <option value="" id="optAllLocations">All Areas</option>
+      </select>
+    </div>
+    
+    <select id="filterGender" onchange="renderJobs()">
+      <option value="" id="optAllGenders">Gender (All List)</option>
+      <option value="Male" id="optMaleOnly">Male Candidates Only</option>
+      <option value="Female" id="optFemaleOnly">Female Candidates Only</option>
+      <option value="Both" id="optBothGenders">Open to Both</option>
+    </select>
+  </div>
+
+  <div class="profile-summary-badge" id="profileBadge"></div>
+
+  <div id="dynamicJobsOutput" class="blurred-jobs">
+     <div class="section-title" id="lblMainSectionTitle">💼 Available Jobs</div>
+     <div id="jobsContainer">
+       <div style="text-align:center; padding:30px;"><div style="width: 28px; height: 28px; border: 3px solid var(--border); border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div></div>
+     </div>
+  </div>
+
+  <!-- REGISTRATION MODAL -->
+  <div class="container" id="formContainer">
+    <span class="modal-close-btn" onclick="closeFormModalBack()">&times;</span>
+    <h2 style="text-align:center; color:var(--primary); font-size:20px; margin-top:10px;" id="lblFormTitle">📋 Enter Your Details</h2>
+    <p style="text-align:center; font-size:12px; color:var(--text-muted); margin-bottom:15px;" id="lblFormSubtitle">Please provide accurate info to match relevant jobs.</p>
+
+    <div class="strength-meter-container">
+      <div class="strength-header">
+        <span id="lblStrengthText">Profile Completion Score:</span>
+        <span id="strengthLabel" style="color:var(--danger)">0% Completed</span>
+      </div>
+      <div class="strength-bar-bg">
+        <div id="strengthBar" class="strength-bar-fill"></div>
+      </div>
+    </div>
+
+    <form id="candidateForm">
+      <div style="display:flex; flex-direction:column; gap:12px;">
+        
+        <div><input type="text" id="name" placeholder="Full Name" required style="text-transform: capitalize;"></div>
+        <div><input type="tel" id="mobile" placeholder="WhatsApp Number" required maxlength="10" pattern="[0-9]{10}"></div>
+        <div><input type="email" id="email" placeholder="Email Address" required></div>
+
+        <div>
+          <label style="font-size:12px; font-weight:600; color:var(--text-muted); display:block; margin-bottom:2px;" id="lblDob">Date of Birth</label>
+          <input type="date" id="dob" required>
+        </div>
+
+        <div>
+          <select id="gender" required>
+            <option value="" id="optFormGenderSelect">Select Gender</option>
+            <option>Male</option><option>Female</option>
+          </select>
+        </div>
+
+        <div>
+          <select id="qualification" required>
+            <option value="" id="optFormQualSelect">Highest Qualification</option>
+            <option>SSC</option><option>Intermediate</option><option>Diploma</option><option>ITI</option><option>Degree</option><option>B.Com</option><option>B.Sc</option><option>BA</option><option>BBA</option><option>BCA</option><option>B.Tech</option><option>B.Pharmacy</option><option>MBA</option><option>MCA</option><option>M.Tech</option>
+          </select>
+        </div>
+
+        <div>
+          <select id="candidateExperience" required>
+            <option value="" id="optFormExpSelect">Experience Status</option>
+            <option value="Fresher" id="optFresherText">No, I am a Fresher</option>
+            <option value="Experienced" id="optExpText">Yes, I have Experience</option>
+          </select>
+        </div>
+
+        <div class="conditional-exp-block" id="experienceDetailsBlock">
+          <input type="text" id="prevCompany" placeholder="Last Company Name">
+          <input type="text" id="prevRole" placeholder="Job Role (e.g. Recruiter)">
+          <input type="text" id="lastCtc" placeholder="Last Annual Salary (CTC)">
+        </div>
+
+        <div>
+          <select id="jobCategory" class="dynamic-category-select" required onchange="handleRoleCategoryChange()">
+            <option value="" id="optFormTargetCategory">Which job category are you looking for?</option>
+            <option value="Any" id="optAnyCategoryText">Any Category / Open to All</option>
+          </select>
+        </div>
+
+        <div>
+          <label style="font-size:12px; font-weight:600; color:var(--text-muted); display:block; margin-bottom:4px;" id="lblSkillsHeader">Select your skills here (Max 4 Only):</label>
+          <div class="suggestions-wrapper">
+            <input type="text" id="skillsSearchInput" placeholder="Type or click suggestions from list..." autocomplete="off" onfocus="handleSkillsInputFocus()">
+            <div class="suggestions-box" id="suggestionsBox"></div>
+          </div>
+          <span class="hint-text" id="skillsCountHint">💡 Selected Skills: 0 / 4</span>
+          <div class="selected-skills-chips" id="chipsContainer"></div>
+        </div>
+
+        <div>
+          <select id="candidateArea" class="dynamic-location-select" required>
+            <option value="" id="optFormAreaSelect">Your Area in Hyderabad</option>
+          </select>
+        </div>
+
+        <div><textarea id="address" placeholder="Full Home Address" rows="2" required></textarea></div>
+      </div>
+      
+      <button type="submit" class="btn-primary" style="margin-top:16px; padding:14px; flex: none; width: 100%;" id="btnFormSubmit">🚀 Save Details & View Jobs</button>
+    </form>
+  </div>
 </div>
 
-<div id="app" class="hidden">
-<div class="wrap">
-<div class="card">
-<button onclick="toggleDark()">🌙 Dark Mode</button>
-<h1>FreeWalkins Admin V5.3 Ultimate Fix</h1>
-
-<div class="stats">
-<div class="stat"><b id="totalJobs">0</b><br>Total Jobs</div>
-<div class="stat"><b id="activeJobs">0</b><br>Active Jobs</div>
-<div class="stat"><b id="expiredJobs">0</b><br>Expired Jobs</div>
-</div>
-
-<input id="search" placeholder="Search jobs">
-<input id="title" placeholder="Job Title">
-<input id="company" placeholder="Company">
-<input id="jobLocation" placeholder="Location">
-<input id="salary" type="number" placeholder="Salary">
-
-<input id="whatsappNumber" placeholder="Company WhatsApp Number (+91xxxxxxxxxx)">
-
-<select id="jobGender">
-<option>Both</option>
-<option>Male</option>
-<option>Female</option>
-</select>
-
-<select id="jobType">
-<option>Full Time</option>
-<option>Part Time</option>
-<option>Night Shift</option>
-</select>
-
-<select id="status">
-<option value="Active">Active</option>
-<option value="Inactive">Inactive</option>
-</select>
-
-
-<select id="category">
-<option>IT</option><option>Non-IT</option><option>Banking</option>
-<option>BPO</option><option>Pharma</option><option>Warehouse</option>
-<option>Telecalling</option><option>Sales</option>
-</select>
-
-<select id="experience">
-<option>Fresher</option><option>0-1 Year</option><option>1-3 Years</option>
-<option>3-5 Years</option><option>5+ Years</option>
-</select>
-
-<input id="expiryDate" type="date">
-<button id="saveBtn" class="save">Save Job</button>
-</div>
-
-<div class="card">
-<h2>Jobs</h2>
-<div id="jobs">Loading...</div>
-</div>
-</div>
-</div>
+<!-- GLOBAL SYSTEM POPUP -->
+<div class="popup" id="successPopup"><div class="popup-content"><h3 id="popupTitle">Processing</h3><p id="popupMessage" style="margin:10px 0; font-size:13px; color:var(--text-muted);"></p><button class="btn-primary" id="popupBtn" style="width:100%;" onclick="document.getElementById('successPopup').style.display='none'">OK</button></div></div>
 
 <script type="module">
-import {initializeApp} from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js';
-import {getFirestore,collection,addDoc,getDocs,doc,updateDoc,deleteDoc,serverTimestamp}
-from 'https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js';
+import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-firestore.js";
 
-const firebaseConfig={
-apiKey:'AIzaSyAC8cxjgdG7ABnR5Nt7HaVuXWV9iznUAl0',
-authDomain:'freewalkinsupdates-a87e0.firebaseapp.com',
-projectId:'freewalkinsupdates-a87e0',
-storageBucket:'freewalkinsupdates-a87e0.firebasestorage.app',
-messagingSenderId:'648268858586',
-appId:'1:648268858586:web:c5d3c79d8157e8a97151e3'
+const firebaseConfig = {
+  apiKey: "AIzaSyAC8cxjgdG7ABnR5Nt7HaVuXWV9iznUAl0",
+  authDomain: "freewalkinsupdates-a87e0.firebaseapp.com",
+  projectId: "freewalkinsupdates-a87e0",
+  storageBucket: "freewalkinsupdates-a87e0.firebasestorage.app",
+  messagingSenderId: "648268858586",
+  appId: "1:648268858586:web:c5d3c79d8157e8a97151e3"
 };
 
-const db=getFirestore(initializeApp(firebaseConfig));
-let jobs=[], editId=null;
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const API_URL = "https://script.google.com/macros/s/AKfycbx9JEuf9FmhROl2FuunAQVkkbfcbliO8YGdBFsrXwmrOyDqn0_te5Nd084f6lfp-Cwx/exec";
 
-window.login=function(){
- if(u.value==='admin' && p.value==='12345'){
-   loginBox.classList.add('hidden');
-   app.classList.remove('hidden');
- } else alert('Invalid login');
+let allJobs = [];
+let registeredCandidate = null;
+let appliedCompanies = []; 
+let candidateSkills = []; 
+
+const langDictionary = {
+  EN: {
+    optAllCat: "All Categories", optAllLoc: "All Areas",
+    optGender: "Gender (All List)", optMale: "Male Candidates Only", optFemale: "Female Candidates Only", optBoth: "Open to Both",
+    lblMainSec: "💼 Available Jobs", lblFormTitle: "📋 Enter Your Details", lblFormSub: "Please provide accurate info to match relevant jobs.",
+    lblStrength: "Profile Completion Score:", strengthWeak: "Weak Info", strengthStable: "Stable Profile", strengthOpt: "Optimal Profile Setup",
+    lblDob: "Date of Birth", optFormGen: "Select Gender", optFormQual: "Highest Qualification", optFormExp: "Experience Status",
+    optFresher: "No, I am a Fresher", optExp: "Yes, I have Experience", optTargetCat: "Which job category are you looking for?",
+    optAnyCat: "Any Category / Open to All", lblSkillsHead: "Select your skills here (Max 4 Only):", hintSkills: "Selected Skills:",
+    optFormArea: "Your Area in Hyderabad", btnSubmit: "🚀 Save Details & View Jobs", txtSearch: "🔍 Search company name or job role...",
+    txtPrevComp: "Last Company Name", txtPrevRole: "Job Role (e.g. Recruiter)", txtLastCtc: "Last Annual Salary (CTC)", txtAddress: "Full Home Address",
+    txtName: "Full Name", txtMob: "WhatsApp Number", txtEmail: "Email Address", alertSkill: "Please select at least 1 skill token.",
+    badgeActive: "🎯 Custom sorting engine matching jobs base matrix configuration mapping.",
+    popApply: "Applying...", popMsg: "Sending profile tracking parameters to server...", popSuccess: "Success!",
+    popSuccessMsg: "Applied successfully. Click the WhatsApp button to contact HR.", badgeLocation: "Hyd Location",
+    lblEducation: "Education:", lblExp: "Experience:", lblSalary: "Salary:", btnApplied: "✓ Applied", btnApply: "⚡ Apply Now", btnHr: "💬 WhatsApp HR",
+    lblNoJobsFound: "❌ No specific match criteria found for this configuration.",
+    lblNoJobsFoundSubtitle: "But here are some recommended openings for you below:",
+    lblRecommendedSec: "⭐ Recommended Jobs For You", textFilterLock: "🔒 Filter Lock", 
+    textSkillsCategoryLabel: "SKILLS MATCH SUITE", textGlobalCategoryLabel: "GLOBAL SKILLS", textPopularCategoryLabel: "POPULAR SYSTEM TOKENS",
+    textImportantLabel: "Core Tag", alertMaxSkills: "⚠️ Maximum 4 skills only allowed."
+  },
+  TE: {
+    optAllCat: "అన్ని కేటగిరీలు", optAllLoc: "అన్ని ఏరియాలు",
+    optGender: "లింగము (లిస్ట్ అంతా)", optMale: "పురుషులు మాత్రమే (Male)", optFemale: "స్త్రీలు మాత్రమే (Female)", optBoth: "ఇద్దరికీ ఓపెన్",
+    lblMainSec: "💼 అందుబాటులో ఉన్న ఉద్యోగాలు", lblFormTitle: "📋 మీ వివరాలు నమోదు చేయండి", lblFormSub: "జాబ్స్ మరియు స్కిల్స్ మ్యాచ్ అవ్వడానికి సరైన వివరాలు ఇవ్వండి.",
+    lblStrength: "ప్రొఫైల్ పూర్తి శాతం:", strengthWeak: "డేటా తక్కువగా ఉంది", strengthStable: "స్థిరమైన ప్రొఫైల్", strengthOpt: "ప్రొఫైల్ పూర్తయింది",
+    lblDob: "పుట్టిన తేదీ (Date of Birth)", optFormGen: "లింగము ఎంచుకోండి (Gender)", optFormQual: "చదువు (Highest Qualification)", optFormExp: "అనుభవం ఉందా? (Experience Status)",
+    optFresher: "లేదు, నేను ఫ్రెషర్ ని (Fresher)", optExp: "అవును, నాకు అనుభవం ఉంది (Experienced)", optTargetCat: "మీరు ఏ కేటగిరీ జాబ్ కోసం చూస్తున్నారు?",
+    optAnyCat: "ఏ జాబ్ అయినా పర్లేదు", lblSkillsHead: "మీకున్న స్కిల్స్ ఇక్కడ సెలెక్ట్ చేయండి (గరిష్టంగా 4 మాత్రమే):", hintSkills: "ఎంచుకున్న స్కిల్స్:",
+    optFormArea: "హైదరాబాద్ లో మీరు ఉండే ఏరియా", btnSubmit: "🚀 వివరాలు సేవ్ చేసి జాబ్స్ చూడండి", txtSearch: "🔍 ఇక్కడ కంపెనీ లేదా రోల్ పేరు టైప్ చేయండి...",
+    txtPrevComp: "పాత కంపెనీ పేరు", txtPrevRole: "పాత జాబ్ రోల్ (ఉదా: Recruiter)", txtLastCtc: "చివరి జీతం (సంవత్సరానికి ఎంత)", txtAddress: "ఇంటి పూర్తి అడ్రస్",
+    txtName: "పూర్తి పేరు (Full Name)", txtMob: "వాట్సాప్ నెంబర్ (WhatsApp Number)", txtEmail: "ఈమెయిల్ ఐడి (Email Address)", alertSkill: "కనీసం ఒక స్కిల్ అయినా సెలెక్ట్ చేయండి.",
+    badgeActive: "🎯 మీ స్కిల్స్ మరియు ప్రొఫైల్ కి సరిపోయే జాబ్స్ క్రమ పద్ధతిలో చూపించబడ్డాయి.",
+    popApply: "అప్లై అవుతోంది...", popMsg: "మీ ప్రొఫైల్ వివరాలు కంపెనీ సర్వర్ కి పంపిస్తున్నాము...", popSuccess: "సక్సెస్!",
+    popSuccessMsg: "సక్సెస్ ఫుల్ గా అప్లై అయింది. ఇప్పుడు మీరు వాట్సాప్ బటన్ క్లిక్ చేసి హెచ్ఆర్ కి మెసేజ్ చేయవచ్చు.", badgeLocation: "హైదరాబాద్ ఏరియా",
+    lblEducation: "చదువు:", lblExp: "ఎక్స్పీరియన్స్:", lblSalary: "జీతం:", btnApplied: "✓ అప్లై చేసావు", btnApply: "⚡ అప్లై చేయండి", btnHr: "💬 వాట్సాప్ HR",
+    lblNoJobsFound: "❌ మీరు వెతికిన ఫిల్టర్స్ కి సరిపోయే జాబ్స్ ఏవీ ప్రస్తుతానికి అందుబాటులో లేవు.",
+    lblNoJobsFoundSubtitle: "కానీ మీ కోసం కింద కొన్ని రికమండెడ్ జాబ్స్ చూపించబడ్డాయి:",
+    lblRecommendedSec: "⭐ మీ కోసం ప్రత్యేక సిఫార్సు చేయబడిన ఉద్యోగాలు", textFilterLock: "🔒 నాట్ మ్యాచ్", 
+    textSkillsCategoryLabel: "కేటగిరీ స్కిల్స్", textGlobalCategoryLabel: "ఇతర స్కిల్స్ లిస్ట్", textPopularCategoryLabel: "పాపులర్ స్కిల్స్ లిస్ట్",
+    textImportantLabel: "ముఖ్యమైనవి", alertMaxSkills: "⚠️ గరిష్టంగా 4 స్కిల్స్ మాత్రమే ఎంచుకోవడానికి వీలవుతుంది."
+  }
+};
+
+const multiTierSkillsMapping = {
+  "IT / Software": ["Java", "Python", "HTML/CSS", "JavaScript", "React JS", "Node.js", "SQL Database", "C++", "PHP", "Android UI", "Software Testing", "AWS Cloud", "UI/UX Design", "Git Control", "Data Structures"],
+  "BPO / Customer Support": ["Telecalling", "Customer Support", "International Voice", "Domestic Voice", "Chat Support", "Inbound Support", "Outbound Calling", "English Fluency", "Active Listening", "Problem Solving"],
+  "Banking & Finance": ["Accounting", "Tally ERP", "MS Excel", "GST Filing", "Taxation", "Auditing", "Banking Ops", "Financial Analysis", "Loan Processing", "KYC Verification"],
+  "Digital Marketing": ["Digital Marketing", "SEO Optimization", "Social Media Ads", "Google Analytics", "Email Marketing", "Copywriting", "PPC Management"],
+  "Sales & Marketing": ["Field Sales", "Business Development", "Relationship Management", "Lead Generation", "Negotiation", "B2B Sales", "Client Acquisition"],
+  "Retail / Mall Jobs": ["Retail Sales", "Billing Operations", "Counter Sales", "Customer Service", "Inventory Management", "Product Display"],
+  "Pharma / Healthcare": ["Pharma Knowledge", "Nursing", "Lab Assistant", "Medical Billing", "Pharmacist License", "Clinical Research", "Pharmacovigilance"],
+  "Office Assistant / Admin": ["Office Admin", "Front Office Reception", "Typing Speed", "Documentation", "E-mail Communication", "Executive Assistant", "Data Entry"],
+  "Delivery / Driving": ["Two Wheeler Driving", "Four Wheeler Driving", "Delivery Operations", "Route Navigation", "Time Management"],
+  "Manufacturing / ITI": ["CNC Programming", "Electrical Maintenance", "Welding & Fitting", "Quality Control", "Machine Operation", "ITI Technical", "Electronic Systems", "Safety Standards"],
+  "Logistics & Warehouse": ["Warehouse Management", "Inventory Control", "Logistics Operations", "Supply Chain", "Stock Auditing"],
+  "Real Estate": ["Property Sales", "Client Sourcing", "Real Estate Consulting", "Site Visits Coordination", "Market Research"],
+  "Hospitality & Hotel": ["Hotel Operations", "Front Desk Management", "Food & Beverage Service", "Guest Relations", "Housekeeping Coordination"],
+  "Education & Teaching": ["Teaching / Training", "Curriculum Design", "Classroom Management", "Subject Knowledge", "Online Tutoring"],
+  "Content & Media Production": ["Graphic Designing (Photoshop)", "Video Editing", "Content Writing", "Photography", "Adobe Illustrator", "Motion Graphics"]
+};
+
+const masterAllSkills = Array.from(new Set(Object.values(multiTierSkillsMapping).flat())).sort();
+const jobCategories = Object.keys(multiTierSkillsMapping);
+
+const hyderabadAreas = [
+  "Ameerpet", "Gachibowli", "Madhapur", "Kondapur", "Hitech City", "Jubilee Hills", "Banjara Hills", 
+  "Kukatpally", "K P H B", "Secunderabad", "Begumpet", "Dilsukhnagar", "LB Nagar", "Uppal", 
+  "Nagole", "Mehdipatnam", "Miyapur", "Chanda Nagar", "Hafeezpet", "Nizampet", "Bachupally", 
+  "Moosapet", "Sanathnagar", "Khairatabad", "Panjagutta", "Somajiguda", "Koti", "Abids", 
+  "Nampally", "Charminar", "Santoshnagar", "Malakpet", "Saidabad", "Vanasthalipuram", "Hayathnagar", 
+  "Tarnaka", "Habsiguda", "Ramanthapur", "Malkajgiri", "Alwal", "Kompally", "Jeedimetla", 
+  "Balanagar", "Bowenpally", "Trimulgherry", "Shaikpet", "Tolichowki", "Manikonda", "Kokapet", "Other"
+];
+
+const spatialCoordinates = {
+  "Ameerpet": {x: 12, y: 35}, "Gachibowli": {x: 2, y: 20}, "Madhapur": {x: 5, y: 24}, "Kondapur": {x: 4, y: 26},
+  "Hitech City": {x: 4, y: 22}, "Jubilee Hills": {x: 8, y: 26}, "Banjara Hills": {x: 10, y: 28}, "Kukatpally": {x: 8, y: 40},
+  "Secunderabad": {x: 22, y: 42}, "Begumpet": {x: 15, y: 38}, "Dilsukhnagar": {x: 25, y: 15}, "LB Nagar": {x: 29, y: 12}, "Other": {x: 50, y: 50}
+};
+
+const qualOrder = ["Any", "SSC", "Intermediate", "ITI", "Diploma", "Degree", "B.Com", "B.Sc", "BA", "BBA", "BCA", "B.Tech", "B.Pharmacy", "MBA", "MCA", "M.Tech"];
+
+window.switchUIVectorLanguage = function() {
+  const currentLang = document.getElementById('languageToggle').value;
+  const d = langDictionary[currentLang];
+
+  document.getElementById('optAllCategories').innerText = d.optAllCat;
+  document.getElementById('optAllLocations').innerText = d.optAllLoc;
+  document.getElementById('optAllGenders').innerText = d.optGender;
+  document.getElementById('optMaleOnly').innerText = d.optMale;
+  document.getElementById('optFemaleOnly').innerText = d.optFemale;
+  document.getElementById('optBothGenders').innerText = d.optBoth;
+  document.getElementById('lblMainSectionTitle').innerText = d.lblMainSec;
+  document.getElementById('lblFormTitle').innerText = d.lblFormTitle;
+  document.getElementById('lblFormSubtitle').innerText = d.lblFormSub;
+  document.getElementById('lblStrengthText').innerText = d.lblStrength;
+  document.getElementById('lblDob').innerText = d.lblDob;
+  document.getElementById('optFormGenderSelect').innerText = d.optFormGen;
+  document.getElementById('optFormQualSelect').innerText = d.optFormQual;
+  document.getElementById('optFormExpSelect').innerText = d.optFormExp;
+  document.getElementById('optFresherText').innerText = d.optFresher;
+  document.getElementById('optExpText').innerText = d.optExp;
+  document.getElementById('optFormTargetCategory').innerText = d.optTargetCat;
+  document.getElementById('optAnyCategoryText').innerText = d.optAnyCat;
+  document.getElementById('lblSkillsHeader').innerText = d.lblSkillsHead;
+  document.getElementById('optFormAreaSelect').innerText = d.optFormArea;
+  document.getElementById('searchInput').placeholder = d.txtSearch;
+  
+  document.getElementById('name').placeholder = d.txtName;
+  document.getElementById('mobile').placeholder = d.txtMob;
+  document.getElementById('email').placeholder = d.txtEmail;
+  document.getElementById('prevCompany').placeholder = d.txtPrevComp;
+  document.getElementById('prevRole').placeholder = d.txtPrevRole;
+  document.getElementById('lastCtc').placeholder = d.txtLastCtc;
+  document.getElementById('address').placeholder = d.txtAddress;
+
+  calculateLiveStrengthScore();
+  renderJobs();
 }
 
-window.toggleDark=function(){document.body.classList.toggle('dark')}
+function setupDropdownUI() {
+  const fCat = document.getElementById('filterCategory');
+  const fLoc = document.getElementById('filterLocation');
+  const formCat = document.getElementById('jobCategory');
+  const formLoc = document.getElementById('candidateArea');
+
+  jobCategories.sort().forEach(c => {
+    fCat.innerHTML += `<option value="${c}">${c}</option>`;
+    formCat.innerHTML += `<option value="${c}">${c}</option>`;
+  });
+
+  hyderabadAreas.sort((a,b) => a === 'Other' ? 1 : b === 'Other' ? -1 : a.localeCompare(b)).forEach(l => {
+    fLoc.innerHTML += `<option>${l}</option>`;
+    formLoc.innerHTML += `<option>${l}</option>`;
+  });
+}
+
+function calculateLiveStrengthScore() {
+  let score = 0;
+  if(document.getElementById('name').value.trim().length > 3) score += 10;
+  if(document.getElementById('mobile').value.trim().length === 10) score += 10;
+  if(document.getElementById('email').value.trim().includes('@')) score += 10;
+  if(document.getElementById('dob').value) score += 10;
+  if(document.getElementById('gender').value) score += 10;
+  if(document.getElementById('qualification').value) score += 10;
+  if(document.getElementById('candidateExperience').value) score += 10;
+  if(document.getElementById('jobCategory').value) score += 10;
+  if(document.getElementById('candidateArea').value) score += 10;
+  score += Math.min(candidateSkills.length * 2, 10); 
+
+  const fill = document.getElementById('strengthBar');
+  const lbl = document.getElementById('strengthLabel');
+  const currentLang = document.getElementById('languageToggle').value;
+  const d = langDictionary[currentLang];
+  
+  fill.style.width = score + "%";
+  if(score < 40) { fill.style.backgroundColor = "#ef4444"; lbl.innerText = `${score}% (${d.strengthWeak})`; }
+  else if(score < 80) { fill.style.backgroundColor = "#f59e0b"; lbl.innerText = `${score}% (${d.strengthStable})`; }
+  else { fill.style.backgroundColor = "#10b981"; lbl.innerText = `${score}% (${d.strengthOpt})`; }
+}
+
+document.getElementById('candidateForm').addEventListener('input', calculateLiveStrengthScore);
+document.getElementById('candidateForm').addEventListener('change', calculateLiveStrengthScore);
+
+document.getElementById('candidateExperience').addEventListener('change', (e) => {
+  const expBlock = document.getElementById('experienceDetailsBlock');
+  if(e.target.value === 'Experienced') {
+    expBlock.style.display = 'flex';
+    document.getElementById('prevCompany').required = true;
+    document.getElementById('prevRole').required = true;
+  } else {
+    expBlock.style.display = 'none';
+    document.getElementById('prevCompany').required = false;
+    document.getElementById('prevRole').required = false;
+  }
+});
+
+const skillsInput = document.getElementById('skillsSearchInput');
+const sugBox = document.getElementById('suggestionsBox');
+const chipsDiv = document.getElementById('chipsContainer');
+const hintText = document.getElementById('skillsCountHint');
+
+function renderSkillsSuggestionsEngine() {
+  if(candidateSkills.length >= 4) { sugBox.style.display = 'none'; return; }
+
+  const query = skillsInput.value.toLowerCase().trim();
+  const selectedRoleCategory = document.getElementById('jobCategory').value;
+  const currentLang = document.getElementById('languageToggle').value;
+  const d = langDictionary[currentLang];
+  
+  let targetedRoleSkills = (selectedRoleCategory && multiTierSkillsMapping[selectedRoleCategory]) ? multiTierSkillsMapping[selectedRoleCategory] : [];
+  
+  let roleSuggestedHTML = '';
+  let globalSuggestedHTML = '';
+
+  const filteredRoleSkills = targetedRoleSkills.filter(s => !candidateSkills.includes(s) && (query === '' || s.toLowerCase().includes(query)));
+  if(filteredRoleSkills.length > 0) {
+    roleSuggestedHTML = `<div class="suggestion-header-label"> ${d.textSkillsCategoryLabel} (${selectedRoleCategory || 'Default'})</div>` + 
+                         filteredRoleSkills.map(s => {
+                           let cleanLabel = s;
+                           if(query !== '') {
+                             const idx = s.toLowerCase().indexOf(query);
+                             if(idx >= 0) {
+                               cleanLabel = s.substring(0, idx) + `<b>${s.substring(idx, idx+query.length)}</b>` + s.substring(idx+query.length);
+                             }
+                           }
+                           return `<div class="suggestion-item" data-value="${s}"><span>✨ ${cleanLabel}</span><small style="color:var(--primary); font-size:11px;">${d.textImportantLabel}</small></div>`;
+                         }).join('');
+  }
+
+  const filteredGlobalSkills = masterAllSkills.filter(s => !targetedRoleSkills.includes(s) && !candidateSkills.includes(s) && (query !== '' && s.toLowerCase().includes(query)));
+  if(filteredGlobalSkills.length > 0) {
+    globalSuggestedHTML = `<div class="suggestion-header-label">${d.textGlobalCategoryLabel}</div>` + 
+                          filteredGlobalSkills.map(s => `<div class="suggestion-item" data-value="${s}"><span>🛠️ ${s}</span></div>`).join('');
+  }
+
+  if(query === '' && targetedRoleSkills.length === 0) {
+    const defaultBatch = masterAllSkills.filter(s => !candidateSkills.includes(s)).slice(0, 15);
+    globalSuggestedHTML = `<div class="suggestion-header-label">${d.textPopularCategoryLabel}</div>` + 
+                          defaultBatch.map(s => `<div class="suggestion-item" data-value="${s}"><span>🛠️ ${s}</span></div>`).join('');
+  }
+
+  const finalOutputCombined = roleSuggestedHTML + globalSuggestedHTML;
+
+  if(finalOutputCombined.trim().length > 0) { sugBox.innerHTML = finalOutputCombined; sugBox.style.display = 'block'; } 
+  else { sugBox.style.display = 'none'; }
+}
+
+skillsInput.addEventListener('input', renderSkillsSuggestionsEngine);
+window.handleSkillsInputFocus = function() { renderSkillsSuggestionsEngine(); };
+window.handleRoleCategoryChange = function() { renderSkillsSuggestionsEngine(); calculateLiveStrengthScore(); };
+
+document.addEventListener('click', (e) => {
+  if(!skillsInput.contains(e.target) && !sugBox.contains(e.target)) sugBox.style.display = 'none';
+});
+
+sugBox.addEventListener('click', (e) => {
+  const matchingItem = e.target.closest('.suggestion-item');
+  if(matchingItem) {
+    const chosenSkill = matchingItem.getAttribute('data-value');
+    const currentLang = document.getElementById('languageToggle').value;
+    
+    if(candidateSkills.length >= 4) {
+      alert(langDictionary[currentLang].alertMaxSkills);
+      sugBox.style.display = 'none';
+      return;
+    }
+
+    candidateSkills.push(chosenSkill);
+    skillsInput.value = '';
+    sugBox.style.display = 'none';
+    updateSkillChips();
+    calculateLiveStrengthScore();
+  }
+});
+
+function updateSkillChips() {
+  const currentLang = document.getElementById('languageToggle').value;
+  chipsDiv.innerHTML = "";
+  candidateSkills.forEach(skill => {
+    let chip = document.createElement('div');
+    chip.className = 'skill-chip';
+    chip.innerHTML = `${skill} <span data-skill="${skill}">&times;</span>`;
+    chipsDiv.appendChild(chip);
+  });
+  hintText.innerText = `💡 ${langDictionary[currentLang].hintSkills} ${candidateSkills.length} / 4`;
+}
+
+chipsDiv.addEventListener('click', (e) => {
+  if(e.target.tagName === 'SPAN') {
+    const sToRemove = e.target.getAttribute('data-skill');
+    candidateSkills = candidateSkills.filter(s => s !== sToRemove);
+    updateSkillChips();
+    renderSkillsSuggestionsEngine();
+    calculateLiveStrengthScore();
+  }
+});
 
 async function loadJobs(){
- const snap=await getDocs(collection(db,'jobs'));
- jobs=[];
- snap.forEach(d=>jobs.push({id:d.id,...d.data()}));
-
- const today=new Date().toISOString().split('T')[0];
- totalJobs.innerText=jobs.length;
- activeJobs.innerText=jobs.filter(j=>!j.expiryDate || j.expiryDate>=today).length;
- expiredJobs.innerText=jobs.filter(j=>j.expiryDate && j.expiryDate<today).length;
-
- renderJobs();
+ try {
+  setupDropdownUI();
+  const snap = await getDocs(collection(db, "jobs"));
+  allJobs = [];
+  snap.forEach(d => allJobs.push(d.data()));
+  renderJobs();
+  openFormModal();
+ } catch(e) {
+  document.getElementById('jobsContainer').innerHTML = "<p style='color:red; text-align:center;'>Database Connection Error.</p>";
+ }
 }
 
-window.renderJobs=function(){
- const q=(search.value||'').toLowerCase();
- const list=jobs.filter(j=>`${j.title||''} ${j.company||''}`.toLowerCase().includes(q));
-
- jobs.innerHTML='';
- document.getElementById('jobs').innerHTML=list.map(j=>`
- <div class="job">
- <b>${j.title||''}</b><br>
- 🏢 ${j.company||''}<br>
- 📍 ${j.location||''}<br>
- 💰 ₹${j.salary||0}<br>
-👥 ${j.jobGender||'Both'}<br>
-🕒 ${j.jobType||'Full Time'}<br>
-✅ ${j.status||'Active'}<br>
-⏰ ${j.expiryDate||'No Expiry'}<br><br>
- <button class="edit" onclick="editJob('${j.id}')">Edit</button>
- <button class="del" onclick="removeJob('${j.id}')">Delete</button>
- </div>`).join('') || 'No jobs';
+window.openFormModal = function() {
+  document.getElementById('modalOverlay').style.display = "block";
+  document.getElementById('formContainer').style.display = "block";
 }
 
-search.addEventListener('input',renderJobs);
-
-window.editJob=function(id){
- const j=jobs.find(x=>x.id===id);
- editId=id;
- ['title','company','salary','category','experience','expiryDate','whatsappNumber','jobGender','jobType','status']
- .forEach(k=>document.getElementById(k).value=j[k]||'');
- document.getElementById('jobLocation').value = j.location || '';
- saveBtn.innerText='Update Job';
+window.closeFormModalBack = function() {
+  document.getElementById('modalOverlay').style.display = "none";
+  document.getElementById('formContainer').style.display = "none";
+  if(!registeredCandidate) {
+     document.getElementById('dynamicJobsOutput').className = "blurred-jobs";
+  }
 }
 
-window.removeJob=async function(id){
- if(!confirm('Delete job?')) return;
- await deleteDoc(doc(db,'jobs',id));
- loadJobs();
+window.renderJobs = function() {
+ const search = (document.getElementById('searchInput').value || '').toLowerCase();
+ const catFilter = document.getElementById('filterCategory').value;
+ const locFilter = document.getElementById('filterLocation').value;
+ const genFilter = document.getElementById('filterGender').value;
+ const container = document.getElementById('dynamicJobsOutput');
+ const currentLang = document.getElementById('languageToggle').value;
+ const d = langDictionary[currentLang];
+ 
+ let directMatchesArray = [];
+ let recommendationFallbackArray = [];
+
+ allJobs.forEach(j => {
+   let matchesSearch = !search || j.title.toLowerCase().includes(search) || j.company.toLowerCase().includes(search);
+   let matchesCat = !catFilter || j.category === catFilter;
+   let matchesLoc = !locFilter || j.location === locFilter;
+   let matchesGen = !genFilter || j.jobGender === "Both" || j.jobGender === genFilter;
+
+   let isMismatch = false;
+   let mismatchReason = '';
+   let matchPercentage = 100;
+
+   let distanceString = d.badgeLocation;
+   if(registeredCandidate) {
+      const cLocData = spatialCoordinates[registeredCandidate.area] || spatialCoordinates["Other"];
+      const jLocData = spatialCoordinates[j.location] || spatialCoordinates["Other"];
+      const calcDistance = Math.sqrt(Math.pow(cLocData.x - jLocData.x, 2) + Math.pow(cLocData.y - jLocData.y, 2)).toFixed(1);
+      distanceString = (currentLang === 'TE') ? `${j.location} (${calcDistance} కి.మీ దూరం)` : `${j.location} (${calcDistance} KM)`;
+
+      if(j.jobGender && j.jobGender !== "Both" && registeredCandidate.gender !== j.jobGender) { isMismatch = true; mismatchReason = (currentLang === 'TE') ? `${j.jobGender} మాత్రమే` : `${j.jobGender} Only`; }
+      if(j.minQualification && j.minQualification !== "Any") {
+         let cRank = qualOrder.indexOf(registeredCandidate.qualification);
+         let jRank = qualOrder.indexOf(j.minQualification);
+         if(cRank < jRank) { isMismatch = true; mismatchReason = (currentLang === 'TE') ? `${j.minQualification} చదివి ఉండాలి` : `${j.minQualification} Req`; }
+      }
+      if(j.experienceRequired === "Experience Only" && registeredCandidate.experience === "Fresher") { isMismatch = true; mismatchReason = (currentLang === 'TE') ? "అనుభవం అడిగారు" : "Experience Req"; }
+      if(j.experienceRequired === "Freshers Only" && registeredCandidate.experience === "Experienced") { isMismatch = true; mismatchReason = (currentLang === 'TE') ? "ఫ్రెషర్స్ మాత్రమే" : "Freshers Only"; }
+
+      if(!isMismatch) {
+         let targetJobRequiredSkills = multiTierSkillsMapping[j.category] || [];
+         if(targetJobRequiredSkills.length > 0) {
+            let overlappingSkillsCount = candidateSkills.filter(skill => targetJobRequiredSkills.includes(skill)).length;
+            if(overlappingSkillsCount >= 3) matchPercentage = 100;
+            else if(overlappingSkillsCount === 2) matchPercentage = 80;
+            else if(overlappingSkillsCount === 1) matchPercentage = 60;
+            else matchPercentage = 40;
+         }
+      }
+   }
+
+   let packageObject = {data: j, isMismatch, mismatchReason, matchPercentage, distanceString};
+
+   if(matchesSearch && matchesCat && matchesLoc && matchesGen) { directMatchesArray.push(packageObject); } 
+   else { recommendationFallbackArray.push(packageObject); }
+ });
+
+ if(registeredCandidate) {
+   directMatchesArray.sort((a, b) => (a.isMismatch && !b.isMismatch) ? 1 : (!a.isMismatch && b.isMismatch) ? -1 : b.matchPercentage - a.matchPercentage);
+   recommendationFallbackArray.sort((a, b) => (a.isMismatch && !b.isMismatch) ? 1 : (!a.isMismatch && b.isMismatch) ? -1 : b.matchPercentage - a.matchPercentage);
+ }
+
+ function buildJobCardHtml(item) {
+   const j = item.data;
+   const escTitle = String(j.title||'').replace(/'/g,"\\'");
+   const escCompany = String(j.company||'').replace(/'/g,"\\'");
+   const escWhatsApp = String(j.whatsappNumber || '').replace(/'/g,"\\'");
+   const alreadyApplied = appliedCompanies.includes(j.company);
+
+   let scoreBadgeHTML = '';
+   if(registeredCandidate && !item.isMismatch) {
+      if(item.matchPercentage >= 100) scoreBadgeHTML = `<div class="score-tag-100">🔥 100% Match</div>`;
+      else if(item.matchPercentage >= 80) scoreBadgeHTML = `<div class="score-tag-80">⚡ 80% Match</div>`;
+      else if(item.matchPercentage >= 60) scoreBadgeHTML = `<div class="score-tag-60">⚠️ 60% Match</div>`;
+      else scoreBadgeHTML = `<div class="score-tag-low">🎯 ${item.matchPercentage}% Match</div>`;
+   }
+
+   const isButtonDisabled = alreadyApplied || item.isMismatch;
+   const isWhatsAppDisabled = !alreadyApplied || item.isMismatch;
+
+   return `<div class="job-card ${item.isMismatch ? 'mismatch' : ''}">
+     ${item.isMismatch ? `<div class="mismatch-tag">${d.textFilterLock} (${item.mismatchReason})</div>` : scoreBadgeHTML}
+     <h3>${j.title || 'Job Title'}</h3>
+     <div class="company-name">🏢 ${j.company || 'Company'} ${j.category ? `<span style="font-size:11px; background:var(--primary-light); padding:2px 6px; border-radius:4px; margin-left:6px; color:var(--primary);">${j.category}</span>` : ''}</div>
+     <div class="job-details-grid">
+       <div class="detail-badge ${registeredCandidate ? 'proximity-badge' : ''}">📍 ${item.distanceString}</div>
+       <div class="detail-badge">🎓 ${d.lblEducation} ${j.minQualification || 'Any'}</div>
+       <div class="detail-badge">💼 ${d.lblExp} ${j.experienceRequired || 'Both'}</div>
+       <div class="detail-badge">💰 ${d.lblSalary} ₹${j.salary || 'Best in Industry'}</div>
+     </div>
+     <div class="actions-flex">
+       <button class="btn-primary" ${isButtonDisabled ? 'disabled' : ''} onclick="handleJobApplyAction('${escTitle}','${escCompany}')">
+         ${alreadyApplied ? d.btnApplied : d.btnApply}
+       </button>
+       <button class="btn-whatsapp" ${isWhatsAppDisabled ? 'disabled' : ''} onclick="sendWhatsappResume('${escTitle}','${escCompany}','${escWhatsApp}')">
+         ${d.btnHr}
+       </button>
+     </div>
+   </div>`;
+ }
+
+ let finalHTMLOutput = '';
+
+ if(directMatchesArray.length > 0) {
+    let jobsListHTML = directMatchesArray.map(item => buildJobCardHtml(item)).join('');
+    finalHTMLOutput = `<div class="section-title" id="lblMainSectionTitle">${d.lblMainSec}</div><div>${jobsListHTML}</div>`;
+ } else {
+    finalHTMLOutput = `<div class="section-title" id="lblMainSectionTitle">${d.lblMainSec}</div>` +
+                      `<p style='text-align:center; color:#e11d48; font-weight:600; padding:16px; background:#fff1f2; border:1px dashed #fecdd3; border-radius:12px; font-size:13px;'>${d.lblNoJobsFound}<br><span style='font-size:11px; font-weight:normal; color:var(--text-muted);'>${d.lblNoJobsFoundSubtitle}</span></p>`;
+    
+    let recommendedSubset = recommendationFallbackArray.slice(0, 5);
+    if(recommendedSubset.length > 0) {
+       let recommendedHTML = recommendedSubset.map(item => buildJobCardHtml(item)).join('');
+       finalHTMLOutput += `<div class="recommended-title">${d.lblRecommendedSec}</div><div>${recommendedHTML}</div>`;
+    }
+ }
+
+ container.innerHTML = finalHTMLOutput;
+ 
+ if(registeredCandidate) {
+   const badge = document.getElementById('profileBadge');
+   badge.style.display = "block";
+   badge.innerHTML = d.badgeActive;
+ }
 }
 
-saveBtn.addEventListener('click',async()=>{
-try{
- const data={
-  title:(title.value||'').trim(),
-  company:(company.value||'').trim(),
-  location: document.getElementById('jobLocation').value.trim(),
-  salary:Number(salary.value||0),
-  whatsappNumber:(whatsappNumber.value||'').trim(),
-  jobGender:jobGender.value || 'Both',
-  jobType:jobType.value || 'Full Time',
-  status:status.value || 'Active',
-  category:category.value,
-  experience:experience.value,
-  expiryDate:expiryDate.value
+window.handleJobApplyAction = function(title, company) {
+  if(!registeredCandidate) openFormModal();
+  else executeCloudJobSubmission(title, company);
+}
+
+window.executeCloudJobSubmission = async function(title, company) {
+ if(appliedCompanies.includes(company)) return;
+ const currentLang = document.getElementById('languageToggle').value;
+ const d = langDictionary[currentLang];
+ const popup = document.getElementById('successPopup');
+ 
+ document.getElementById('popupTitle').innerText = d.popApply;
+ document.getElementById('popupMessage').innerText = d.popMsg;
+ popup.style.display = "flex";
+
+ try {
+   await fetch(API_URL, {
+     method: "POST",
+     headers: {"Content-Type": "text/plain;charset=utf-8"},
+     body: JSON.stringify({...registeredCandidate, formType:"job_apply", appliedFor: title, company: company})
+   });
+   appliedCompanies.push(company);
+   document.getElementById('popupTitle').innerText = d.popSuccess;
+   document.getElementById('popupMessage').innerHTML = d.popSuccessMsg;
+   
+   // Reset to standard functionality for form closing
+   document.getElementById('popupBtn').onclick = function() {
+      popup.style.display = 'none';
+   };
+   renderJobs();
+ } catch(e) {
+   document.getElementById('popupTitle').innerText = "Saved";
+   document.getElementById('popupMessage').innerText = "Application backed up successfully.";
+   appliedCompanies.push(company);
+   document.getElementById('popupBtn').onclick = function() {
+      popup.style.display = 'none';
+   };
+   renderJobs();
+ }
+}
+
+window.sendWhatsappResume = function(title, company, phone) {
+  if(!registeredCandidate || !appliedCompanies.includes(company)) return;
+  if(!phone) return;
+
+  let expString = registeredCandidate.experience;
+  if(registeredCandidate.experience === 'Experienced') {
+     expString += ` (${registeredCandidate.prevRole} at ${registeredCandidate.prevCompany})`;
+  }
+
+  const textMessage = 
+`Hi, this is *${registeredCandidate.name}*. I found a job vacancy for the *${title}* position in your company from *FreeWalkins by VenuHR* job portal.
+
+Here are my details below:
+------------------------------------------
+• *Name:* ${registeredCandidate.name}
+• *Mobile:* ${registeredCandidate.mobile}
+• *Email:* ${registeredCandidate.email}
+• *Education:* ${registeredCandidate.qualification}
+• *Experience Level:* ${expString}
+• *Key Skills:* ${registeredCandidate.skills}
+• *Current Area:* ${registeredCandidate.area}
+------------------------------------------
+Looking forward to hearing from you. Thank you!`;
+
+  window.open(`https://wa.me/91${phone.replace(/\D/g,'')}?text=${encodeURIComponent(textMessage)}`, '_blank');
+}
+
+document.getElementById('candidateForm').addEventListener('submit', async (e) => {
+ e.preventDefault();
+ const currentLang = document.getElementById('languageToggle').value;
+ if(candidateSkills.length === 0){ alert(langDictionary[currentLang].alertSkill); return; }
+ 
+ registeredCandidate = {
+   name: document.getElementById('name').value.trim(),
+   mobile: document.getElementById('mobile').value.trim(),
+   email: document.getElementById('email').value.trim(),
+   dob: document.getElementById('dob').value,
+   gender: document.getElementById('gender').value,
+   qualification: document.getElementById('qualification').value,
+   experience: document.getElementById('candidateExperience').value,
+   prevCompany: document.getElementById('prevCompany').value.trim() || "N/A",
+   prevRole: document.getElementById('prevRole').value.trim() || "N/A",
+   lastCtc: document.getElementById('lastCtc').value.trim() || "N/A",
+   jobCategory: document.getElementById('jobCategory').value,
+   skills: candidateSkills.join(", "),
+   area: document.getElementById('candidateArea').value,
+   address: document.getElementById('address').value.trim(),
+   formType: "quick_onboard"
  };
 
- if(!data.title || !data.company){
-   alert('Title and Company required');
-   return;
- }
+ document.getElementById('formContainer').style.display = "none";
+ document.getElementById('modalOverlay').style.display = "none";
+ document.getElementById('dynamicJobsOutput').className = "";
+ 
+ document.getElementById('filterCategory').value = (registeredCandidate.jobCategory === 'Any') ? "" : registeredCandidate.jobCategory;
+ document.getElementById('filterLocation').value = (registeredCandidate.area === 'Other') ? "" : registeredCandidate.area;
+ document.getElementById('filterGender').value = registeredCandidate.gender;
 
- if(editId){
-   await updateDoc(doc(db,'jobs',editId),data);
-   editId=null;
-   saveBtn.innerText='Save Job';
-   alert('Job updated successfully');
- }else{
-   data.createdAt=serverTimestamp();
-   await addDoc(collection(db,'jobs'),data);
-   alert('Job saved successfully');
- }
-
- title.value='';
- company.value='';
- document.getElementById('jobLocation').value='';
- salary.value='';
- whatsappNumber.value='';
- expiryDate.value='';
- jobGender.value='Both';
- jobType.value='Full Time';
- status.value='Active';
- category.selectedIndex=0;
- experience.selectedIndex=0;
-
- await loadJobs();
-}catch(err){
- console.error(err);
- alert('Error: '+err.message);
-}
+ renderJobs();
+ try { fetch(API_URL, { method: "POST", body: JSON.stringify(registeredCandidate) }); } catch(err){}
 });
+
+/* 🔒 BRAND NEW CUSTOM SCROLL PROTECTOR ENGINE (NO "THIS PAGE SAYS") */
+let alertActiveFlag = false;
+
+window.onscroll = function() {
+  if (registeredCandidate) return;
+
+  if (window.scrollY > 60) {
+    if (!alertActiveFlag) {
+      alertActiveFlag = true;
+      
+      const currentLang = document.getElementById('languageToggle').value;
+      const alertMsg = (currentLang === 'TE') 
+        ? "ఉద్యోగాలు చూడడానికి దయచేసి మొదట మీ వివరాలను నమోదు చేయండి." 
+        : "Please register your details first to view available jobs.";
+      
+      // Open Custom App UI Modal Popup
+      const popup = document.getElementById('successPopup');
+      document.getElementById('popupTitle').innerText = (currentLang === 'TE') ? "గమనిక!" : "Attention!";
+      document.getElementById('popupMessage').innerText = alertMsg;
+      popup.style.display = "flex";
+      
+      // Action Matrix: OK click opens the Registration Quick Form instantly
+      const popupBtn = document.getElementById('popupBtn');
+      popupBtn.onclick = function() {
+        popup.style.display = 'none';
+        openFormModal(); 
+      };
+
+      // Reset scroll viewport vector to zero index
+      window.scrollTo(0, 0);
+      
+      setTimeout(() => { alertActiveFlag = false; }, 1200);
+    }
+  }
+};
 
 loadJobs();
 </script>

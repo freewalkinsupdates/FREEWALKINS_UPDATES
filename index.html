@@ -29,15 +29,17 @@
 body{font-family:'Inter',sans-serif;background:var(--bg-main);color:var(--text-main);padding:12px;line-height:1.4;}
 .wrapper{width:100%;max-width:550px;margin:0 auto}
 
+/* 🎯 FIXED HEADER: No overlap, clean vertical layout for mobile */
 .header{
-  background: #ffffff; color: #1e293b; padding: 20px; border-radius: var(--radius-lg); 
-  text-align: center; margin-bottom: 16px; border: 1px solid var(--border); position: relative;
+  background: #ffffff; color: #1e293b; padding: 16px; border-radius: var(--radius-lg); 
+  text-align: center; margin-bottom: 16px; border: 1px solid var(--border);
 }
-.header h1{font-size:24px; font-weight:700; color: var(--primary);}
-.header p { font-size: 13px; color: var(--text-muted); margin-top: 4px; font-weight: 600; }
+.header h1{font-size:26px; font-weight:800; color: var(--primary); letter-spacing: -0.5px;}
+.header p { font-size: 14px; color: var(--text-muted); margin-top: 2px; font-weight: 600; }
 
-.lang-selector-wrapper { position: absolute; top: 12px; right: 12px; }
-.lang-select { padding: 4px 8px; font-size: 11px; font-weight: bold; border-radius: 6px; border: 1px solid var(--border); background: #f8fafc; cursor: pointer; }
+/* Clean Language Section underneath the main title */
+.lang-selector-container { margin-top: 12px; display: block; text-align: center; }
+.lang-select { width: auto; min-width: 130px; display: inline-block; padding: 6px 12px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid var(--border); background: #f8fafc; cursor: pointer; color: var(--text-main); }
 
 .filter-box {
   background: var(--bg-card); padding: 14px; border-radius: var(--radius-lg); margin-bottom: 16px;
@@ -73,11 +75,11 @@ input:focus, select:focus, textarea:focus { border-color:var(--primary); box-sha
 .suggestion-header-label { background: #f1f5f9; font-size: 11px; font-weight: 700; color: var(--text-muted); padding: 6px 12px; pointer-events: none; border-bottom: 1px solid var(--border); }
 
 .chips-output-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-.skill-token-chip { background: var(--primary-light); color: var(--primary); border: 1px solid #10b981; padding: 4px 10px; border-radius: 16px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; }
-.skill-token-chip span { cursor: pointer; color: var(--danger); font-weight: bold; font-size: 14px; }
+.skill-chip { background: var(--primary-light); color: var(--primary); border: 1px solid #10b981; padding: 4px 10px; border-radius: 16px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; margin-right: 4px; margin-bottom: 4px; }
+.skill-chip span { cursor: pointer; color: var(--danger); font-weight: bold; font-size: 14px; }
 
 .job-card { background: var(--bg-card); border-radius: var(--radius-lg); padding: 16px; margin-bottom: 12px; border: 1px solid var(--border); position: relative; overflow: hidden; }
-.job-card.mismatch { opacity: 0.5; border-left: 4px solid var(--danger); background: #f8fafc; }
+.job-card.mismatch { opacity: 0.6; border-left: 4px solid var(--danger); background: #f8fafc; }
 .mismatch-tag { background: #64748b; color: white; font-size: 10px; padding: 3px 8px; position: absolute; top: 0; right: 0; border-bottom-left-radius: 8px; font-weight: 600; }
 
 .score-tag-100 { background: #10b981; color: white; font-size: 11px; padding: 4px 10px; position: absolute; top: 0; right: 0; border-bottom-left-radius: 8px; font-weight: 700; }
@@ -96,9 +98,9 @@ input:focus, select:focus, textarea:focus { border-color:var(--primary); box-sha
 .actions-flex { display: flex; gap: 8px; width: 100%; }
 button { font-family:inherit; font-size:14px; font-weight:600; border:none; border-radius:var(--radius-md); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; padding:11px; gap:6px; flex: 1; min-height: 40px; }
 .btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; }
+.btn-primary:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; border: 1px solid var(--border); }
 .btn-whatsapp { background: var(--whatsapp); color: #fff; }
-.btn-whatsapp:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; }
+.btn-whatsapp:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; border: 1px solid var(--border); }
 
 .container{
   display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
@@ -113,6 +115,7 @@ button { font-family:inherit; font-size:14px; font-weight:600; border:none; bord
 .conditional-exp-block { display: none; flex-direction: column; gap: 10px; border-left: 3px solid var(--primary); padding-left: 10px; margin: 2px 0; }
 .popup{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); backdrop-filter: blur(4px); justify-content:center; align-items:center; z-index:9999; padding: 12px; }
 .popup-content{ background: #ffffff; padding: 20px; border-radius: var(--radius-lg); text-align: center; width: 100%; max-width: 320px; border: 1px solid var(--border); }
+@keyframes spin { to { transform: rotate(360deg); } }
 </style>
 </head>
 
@@ -124,7 +127,7 @@ button { font-family:inherit; font-size:14px; font-weight:600; border:none; bord
     <h1>FreeWalkins</h1>
     <p id="lblAppSubtitle">by VenuHR</p>
     
-    <div class="lang-selector-wrapper">
+    <div class="lang-selector-container">
        <select id="languageToggle" class="lang-select" onchange="switchUIVectorLanguage()">
           <option value="EN">English</option>
           <option value="TE">తెలుగు (Telugu)</option>
@@ -243,7 +246,7 @@ button { font-family:inherit; font-size:14px; font-weight:600; border:none; bord
         <div><textarea id="address" placeholder="Full Home Address" rows="2" required></textarea></div>
       </div>
       
-      <button type="submit" class="btn-primary" style="margin-top:16px; padding:14px; flex: none; width: 100%; id='btnFormSubmit'">🚀 Save Details & View Jobs</button>
+      <button type="submit" class="btn-primary" style="margin-top:16px; padding:14px; flex: none; width: 100%;" id="btnFormSubmit">🚀 Save Details & View Jobs</button>
     </form>
   </div>
 </div>
@@ -299,7 +302,7 @@ const langDictionary = {
     optGender: "లింగము (లిస్ట్ అంతా)", optMale: "పురుషులు మాత్రమే (Male)", optFemale: "స్త్రీలు మాత్రమే (Female)", optBoth: "ఇద్దరికీ ఓపెన్",
     lblMainSec: "💼 అందుబాటులో ఉన్న ఉద్యోగాలు", lblFormTitle: "📋 మీ వివరాలు నమోదు చేయండి", lblFormSub: "జాబ్స్ మరియు స్కిల్స్ మ్యాచ్ అవ్వడానికి సరైన వివరాలు ఇవ్వండి.",
     lblStrength: "ప్రొఫైల్ పూర్తి శాతం:", strengthWeak: "డేటా తక్కువగా ఉంది", strengthStable: "స్థిరమైన ప్రొఫైల్", strengthOpt: "ప్రొఫైల్ పూర్తయింది",
-    lblDob: "पुట్టిన తేదీ (Date of Birth)", optFormGen: "లింగము ఎంచుకోండి (Gender)", optFormQual: "చదువు (Highest Qualification)", optFormExp: "అనుభవం ఉందా? (Experience Status)",
+    lblDob: "పుట్టిన తేదీ (Date of Birth)", optFormGen: "లింగము ఎంచుకోండి (Gender)", optFormQual: "చదువు (Highest Qualification)", optFormExp: "అనుభవం ఉందా? (Experience Status)",
     optFresher: "లేదు, నేను ఫ్రెషర్ ని (Fresher)", optExp: "అవును, నాకు అనుభవం ఉంది (Experienced)", optTargetCat: "మీరు ఏ కేటగిరీ జాబ్ కోసం చూస్తున్నారు?",
     optAnyCat: "ఏ జాబ్ అయినా పర్లేదు", lblSkillsHead: "మీకున్న స్కిల్స్ ఇక్కడ సెలెక్ట్ చేయండి (గరిష్టంగా 4 మాత్రమే):", hintSkills: "ఎంచుకున్న స్కిల్స్:",
     optFormArea: "హైదరాబాద్ లో మీరు ఉండే ఏరియా", btnSubmit: "🚀 వివరాలు సేవ్ చేసి జాబ్స్ చూడండి", txtSearch: "🔍 ఇక్కడ కంపెనీ లేదా రోల్ పేరు టైప్ చేయండి...",
@@ -310,7 +313,7 @@ const langDictionary = {
     popSuccessMsg: "సక్సెస్ ఫుల్ గా అప్లై అయింది. ఇప్పుడు మీరు వాట్సాప్ బటన్ క్లిక్ చేసి హెచ్ఆర్ కి మెసేజ్ చేయవచ్చు.", badgeLocation: "హైదరాబాద్ ఏరియా",
     lblEducation: "చదువు:", lblExp: "ఎక్స్పీరియన్స్:", lblSalary: "జీతం:", btnApplied: "✓ అప్లై చేసావు", btnApply: "⚡ అప్లై చేయండి", btnHr: "💬 వాట్సాప్ HR",
     lblNoJobsFound: "❌ మీరు వెతికిన ఫిల్టర్స్ కి సరిపోయే జాబ్స్ ఏవీ ప్రస్తుతానికి అందుబాటులో లేవు.",
-    lblNoJobsFoundSubtitle: "కానీ మీ కోసం కింద కొన్ని రికమండెడ్ జాబ్స్ చూపించబడ్డాయి:",
+    lblNoJobsFoundSubtitle: "కానీ మీ కోసం కింద కొన్ని రಿಕమండెడ్ జాబ్స్ చూపించబడ్డాయి:",
     lblRecommendedSec: "⭐ మీ కోసం ప్రత్యేక సిఫార్సు చేయబడిన ఉద్యోగాలు", textFilterLock: "🔒 నాట్ మ్యాచ్", 
     textSkillsCategoryLabel: "కేటగిరీ స్కిల్స్", textGlobalCategoryLabel: "ఇతర స్కిల్స్ లిస్ట్", textPopularCategoryLabel: "పాపులర్ స్కిల్స్ లిస్ట్",
     textImportantLabel: "ముఖ్యమైనవి", alertMaxSkills: "⚠️ గరిష్టంగా 4 స్కిల్స్ మాత్రమే ఎంచుకోవడానికి వీలవుతుంది."
@@ -516,7 +519,6 @@ sugBox.addEventListener('click', (e) => {
     const chosenSkill = matchingItem.getAttribute('data-value');
     const currentLang = document.getElementById('languageToggle').value;
     
-    // Strict Lock Matrix - MAX 4 SKILLS ONLY
     if(candidateSkills.length >= 4) {
       alert(langDictionary[currentLang].alertMaxSkills);
       sugBox.style.display = 'none';
@@ -653,6 +655,10 @@ window.renderJobs = function() {
       else scoreBadgeHTML = `<div class="score-tag-low">🎯 ${item.matchPercentage}% Match</div>`;
    }
 
+   // 🎯 CRITICAL ACCESSIBILITY LOCK ENGINE
+   const isButtonDisabled = alreadyApplied || item.isMismatch;
+   const isWhatsAppDisabled = !alreadyApplied || item.isMismatch;
+
    return `<div class="job-card ${item.isMismatch ? 'mismatch' : ''}">
      ${item.isMismatch ? `<div class="mismatch-tag">${d.textFilterLock} (${item.mismatchReason})</div>` : scoreBadgeHTML}
      <h3>${j.title || 'Job Title'}</h3>
@@ -664,10 +670,10 @@ window.renderJobs = function() {
        <div class="detail-badge">💰 ${d.lblSalary} ₹${j.salary || 'Best in Industry'}</div>
      </div>
      <div class="actions-flex">
-       <button class="btn-primary" ${alreadyApplied ? 'disabled' : ''} onclick="handleJobApplyAction('${escTitle}','${escCompany}')">
+       <button class="btn-primary" ${isButtonDisabled ? 'disabled' : ''} onclick="handleJobApplyAction('${escTitle}','${escCompany}')">
          ${alreadyApplied ? d.btnApplied : d.btnApply}
        </button>
-       <button class="btn-whatsapp" ${!alreadyApplied ? 'disabled' : ''} onclick="sendWhatsappResume('${escTitle}','${escCompany}','${escWhatsApp}')">
+       <button class="btn-whatsapp" ${isWhatsAppDisabled ? 'disabled' : ''} onclick="sendWhatsappResume('${escTitle}','${escCompany}','${escWhatsApp}')">
          ${d.btnHr}
        </button>
      </div>
@@ -732,7 +738,6 @@ window.executeCloudJobSubmission = async function(title, company) {
  }
 }
 
-// 🎯 PREMIUM WHATSAPP BRANDING & DETAIL STRUCTURE MESSAGING ENGINE
 window.sendWhatsappResume = function(title, company, phone) {
   if(!registeredCandidate || !appliedCompanies.includes(company)) return;
   if(!phone) return;
@@ -742,7 +747,6 @@ window.sendWhatsappResume = function(title, company, phone) {
      expString += ` (${registeredCandidate.prevRole} at ${registeredCandidate.prevCompany})`;
   }
 
-  // 📝 BRANDED TEXT OUTLINE DESIGN REQUIRED BY USER
   const textMessage = 
 `Hi, this is *${registeredCandidate.name}*. I found a job vacancy for the *${title}* position in your company from *FreeWalkins by VenuHR* job portal.
 

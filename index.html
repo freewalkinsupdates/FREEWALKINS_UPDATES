@@ -2,120 +2,797 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
 <title>FreeWalkins by VenuHR</title>
 
+<link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <style>
 :root {
   --primary: #10b981;
   --primary-hover: #059669;
   --primary-light: rgba(16, 185, 129, 0.08);
+  --primary-light-hover: rgba(16, 185, 129, 0.15);
   --whatsapp: #22c55e;
   --whatsapp-hover: #16a34a;
   --danger: #ef4444;
-  --bg-main: #f4f6f9;
+  --danger-hover: #dc2626;
+  --bg-main: #f8fafc;
   --bg-card: #ffffff;
-  --text-main: #1e293b;
+  --text-main: #0f172a;
   --text-muted: #64748b;
-  --border: #cbd5e1;
-  --radius-lg: 12px;
-  --radius-md: 8px;
+  --border: #e2e8f0;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
+  --highlight: #fef08a;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
+  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
 }
 
-*{box-sizing:border-box;margin:0;padding:0; -webkit-tap-highlight-color: transparent;}
-body{font-family:'Inter',sans-serif;background:var(--bg-main);color:var(--text-main);padding:12px;line-height:1.4;}
-.wrapper{width:100%;max-width:550px;margin:0 auto}
-
-/* 🎯 FIXED HEADER: No overlap, clean vertical layout for mobile */
-.header{
-  background: #ffffff; color: #1e293b; padding: 16px; border-radius: var(--radius-lg); 
-  text-align: center; margin-bottom: 16px; border: 1px solid var(--border);
+/* 🌙 DARK THEME VARIABLES */
+[data-theme="dark"] {
+  --bg-main: #0b0f19;
+  --bg-card: #151f32;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border: #222f45;
+  --primary-light: rgba(16, 185, 129, 0.12);
+  --primary-light-hover: rgba(16, 185, 129, 0.22);
+  --highlight: #451a03;
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 20px 30px rgba(0, 0, 0, 0.4);
 }
-.header h1{font-size:26px; font-weight:800; color: var(--primary); letter-spacing: -0.5px;}
-.header p { font-size: 14px; color: var(--text-muted); margin-top: 2px; font-weight: 600; }
 
-/* Clean Language Section underneath the main title */
-.lang-selector-container { margin-top: 12px; display: block; text-align: center; }
-.lang-select { width: auto; min-width: 130px; display: inline-block; padding: 6px 12px; font-size: 12px; font-weight: 700; border-radius: 20px; border: 1px solid var(--border); background: #f8fafc; cursor: pointer; color: var(--text-main); }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  -webkit-tap-highlight-color: transparent;
+}
 
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg-main);
+  color: var(--text-main);
+  padding: 24px 16px;
+  line-height: 1.5;
+  overflow-x: hidden;
+  transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 580px;
+  margin: 0 auto;
+}
+
+/* FIXED HEADER */
+.header {
+  background: var(--bg-card);
+  color: var(--text-main);
+  padding: 24px;
+  border-radius: var(--radius-lg);
+  text-align: center;
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  position: relative;
+  box-shadow: var(--shadow-md);
+}
+
+.header h1 {
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--primary);
+  letter-spacing: -0.75px;
+  margin-bottom: 4px;
+}
+
+.header p {
+  font-size: 13px;
+  color: var(--text-muted);
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+/* 🌓 DARK MODE TOGGLE BUTTON */
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  background: var(--bg-main);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  font-size: 18px;
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+.theme-toggle:hover {
+  transform: translateY(-1px);
+  border-color: var(--primary);
+}
+
+/* Edit Profile Button Style */
+.btn-edit-profile {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  display: none;
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  font-size: 12px;
+  padding: 8px 14px;
+  border-radius: 30px;
+  font-weight: 700;
+  width: auto;
+  min-height: auto;
+  transition: all 0.2s ease;
+}
+.btn-edit-profile:hover {
+  background: var(--primary-light-hover);
+  border-color: var(--primary);
+  transform: translateY(-1px);
+}
+
+/* 🌟 BLINK ANIMATION FOR EDIT BUTTON */
+@keyframes blinkBtn {
+  0% { transform: scale(1); background: var(--primary-light); }
+  50% { transform: scale(1.05); background: #f59e0b; color: #fff; border-color: #f59e0b; box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
+  100% { transform: scale(1); background: var(--primary-light); }
+}
+.blink-active {
+  animation: blinkBtn 0.8s ease-in-out 5;
+  z-index: 9999;
+}
+
+.lang-selector-container {
+  margin-top: 16px;
+  display: block;
+  text-align: center;
+}
+
+.lang-select {
+  width: auto;
+  min-width: 140px;
+  display: inline-block;
+  padding: 8px 16px;
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 30px;
+  border: 1px solid var(--border);
+  background: var(--bg-main);
+  cursor: pointer;
+  color: var(--text-main);
+  text-align: center;
+}
+
+/* FILTERS */
 .filter-box {
-  background: var(--bg-card); padding: 14px; border-radius: var(--radius-lg); margin-bottom: 16px;
-  border: 1px solid var(--border); display: flex; flex-direction: column; gap: 10px;
+  background: var(--bg-card);
+  padding: 20px;
+  border-radius: var(--radius-lg);
+  margin-bottom: 20px;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  box-shadow: var(--shadow-md);
 }
-.filter-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+
+.filter-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
 
 input, select, textarea {
-  width:100%; padding:10px 12px; border:1px solid var(--border); border-radius:var(--radius-md);
-  font-family:inherit; font-size:14px; color:var(--text-main); background-color:#ffffff; outline:none; min-height: 40px;
+  width: 100%;
+  padding: 12px 16px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-main);
+  background-color: var(--bg-main);
+  outline: none;
+  min-height: 46px;
+  transition: all 0.2s ease;
 }
-input:focus, select:focus, textarea:focus { border-color:var(--primary); box-shadow:0 0 0 3px var(--primary-light); }
+input:focus, select:focus, textarea:focus {
+  border-color: var(--primary);
+  box-shadow: 0 0 0 4px var(--primary-light);
+  background-color: var(--bg-card);
+}
 
-.hint-text { font-size: 12px; color: #d97706; display: block; margin-top: 4px; font-weight: 500; }
-.section-title { font-size: 16px; font-weight: 700; margin: 20px 0 10px 0; color: var(--text-main); }
-.recommended-title { font-size: 15px; font-weight: 700; margin: 20px 0 10px 0; color: #3b82f6; border-left: 4px solid #3b82f6; padding-left: 8px; }
+.hint-text {
+  font-size: 12px;
+  color: #d97706;
+  display: block;
+  margin-top: 6px;
+  font-weight: 600;
+}
 
-.strength-meter-container { background: #f8fafc; padding: 12px; border-radius: var(--radius-md); margin-bottom: 14px; border: 1px solid var(--border); }
-.strength-header { display: flex; justify-content: space-between; font-size: 12px; font-weight: 600; margin-bottom: 6px; }
-.strength-bar-bg { background: #e2e8f0; height: 8px; border-radius: 4px; overflow: hidden; }
-.strength-bar-fill { background: var(--danger); width: 0%; height: 100%; transition: width 0.4s ease; }
+.section-title {
+  font-size: 18px;
+  font-weight: 800;
+  margin: 24px 0 14px 0;
+  color: var(--text-main);
+  letter-spacing: -0.3px;
+}
 
-.profile-summary-badge { background: #eff6ff; border: 1px solid #bfdbfe; padding: 12px; color: #1e40af; border-radius: var(--radius-md); font-size: 13px; font-weight: 500; margin-bottom: 16px; display: none; }
+.recommended-title {
+  font-size: 16px;
+  font-weight: 800;
+  margin: 28px 0 14px 0;
+  color: #3b82f6;
+  border-left: 4px solid #3b82f6;
+  padding-left: 10px;
+  letter-spacing: -0.3px;
+}
 
-.suggestions-wrapper { position: relative; width: 100%; }
+/* PROFILE MATRIX STRENGTH */
+.strength-meter-container {
+  background: var(--bg-main);
+  padding: 16px;
+  border-radius: var(--radius-md);
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+}
+
+.strength-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 13px;
+  font-weight: 700;
+  margin-bottom: 8px;
+}
+
+.strength-bar-bg {
+  background: var(--border);
+  height: 8px;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.strength-bar-fill {
+  background: var(--danger);
+  width: 0%;
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.profile-summary-badge {
+  background: rgba(59, 130, 246, 0.08);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  padding: 14px 16px;
+  color: #2563eb;
+  border-radius: var(--radius-md);
+  font-size: 13px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  display: none;
+  line-height: 1.5;
+}
+[data-theme="dark"] .profile-summary-badge {
+  background: rgba(37, 99, 235, 0.15);
+  border-color: rgba(37, 99, 235, 0.3);
+  color: #60a5fa;
+}
+
+/* SUGGESTIONS ENGINE */
+.suggestions-wrapper {
+  position: relative;
+  width: 100%;
+}
+
 .suggestions-box {
-  position: absolute; top: calc(100% + 2px); left: 0; right: 0; background: #ffffff;
-  border: 1px solid var(--border); border-radius: var(--radius-md); max-height: 200px;
-  overflow-y: auto; z-index: 2000; display: none; box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-}
-.suggestion-item { padding: 10px 12px; font-size: 14px; cursor: pointer; color: var(--text-main); display: flex; justify-content: space-between; border-bottom: 1px solid #f1f5f9; }
-.suggestion-item:hover { background: var(--primary-light); color: var(--primary); }
-.suggestion-header-label { background: #f1f5f9; font-size: 11px; font-weight: 700; color: var(--text-muted); padding: 6px 12px; pointer-events: none; border-bottom: 1px solid var(--border); }
-
-.chips-output-container { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px; }
-.skill-chip { background: var(--primary-light); color: var(--primary); border: 1px solid #10b981; padding: 4px 10px; border-radius: 16px; font-size: 12px; font-weight: 600; display: inline-flex; align-items: center; gap: 6px; margin-right: 4px; margin-bottom: 4px; }
-.skill-chip span { cursor: pointer; color: var(--danger); font-weight: bold; font-size: 14px; }
-
-.job-card { background: var(--bg-card); border-radius: var(--radius-lg); padding: 16px; margin-bottom: 12px; border: 1px solid var(--border); position: relative; overflow: hidden; }
-.job-card.mismatch { opacity: 0.6; border-left: 4px solid var(--danger); background: #f8fafc; }
-.mismatch-tag { background: #64748b; color: white; font-size: 10px; padding: 3px 8px; position: absolute; top: 0; right: 0; border-bottom-left-radius: 8px; font-weight: 600; }
-
-.score-tag-100 { background: #10b981; color: white; font-size: 11px; padding: 4px 10px; position: absolute; top: 0; right: 0; border-bottom-left-radius: 8px; font-weight: 700; }
-.score-tag-80 { background: #3b82f6; color: white; font-size: 11px; padding: 4px 10px; position: absolute; top: 0; right: 0; border-bottom-left-radius: 8px; font-weight: 700; }
-.score-tag-60 { background: #f59e0b; color: white; font-size: 11px; padding: 4px 10px; position: absolute; top: 0; right: 0; border-bottom-left-radius: 8px; font-weight: 700; }
-.score-tag-low { background: #94a3b8; color: white; font-size: 11px; padding: 4px 10px; position: absolute; top: 0; right: 0; border-bottom-left-radius: 8px; font-weight: 700; }
-
-.blurred-jobs .job-card h3, .blurred-jobs .job-card .company-name, .blurred-jobs .job-card .job-details-grid { filter: blur(5px); pointer-events: none; user-select: none; }
-
-.job-card h3{font-size:17px; font-weight:700; margin-bottom:4px; color: #0f172a;}
-.company-name { font-size: 14px; color: var(--primary); font-weight: 600; margin-bottom: 12px; }
-.job-details-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-.detail-badge { background: #f8fafc; padding: 8px; border-radius: 6px; font-size: 12px; color: var(--text-muted); display: flex; align-items: center; gap: 6px; border: 1px solid #e2e8f0; text-overflow: ellipsis; overflow: hidden; white-space: nowrap; }
-.proximity-badge { color: #2563eb !important; font-weight: 600; background: #eff6ff !important; border: 1px solid #bfdbfe; }
-
-.actions-flex { display: flex; gap: 8px; width: 100%; }
-button { font-family:inherit; font-size:14px; font-weight:600; border:none; border-radius:var(--radius-md); cursor:pointer; display:inline-flex; align-items:center; justify-content:center; padding:11px; gap:6px; flex: 1; min-height: 40px; }
-.btn-primary { background: var(--primary); color: #fff; }
-.btn-primary:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; border: 1px solid var(--border); }
-.btn-whatsapp { background: var(--whatsapp); color: #fff; }
-.btn-whatsapp:disabled { background: #e2e8f0; color: #94a3b8; cursor: not-allowed; border: 1px solid var(--border); }
-
-.container{
-  display: none; position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
-  width: 94%; max-width: 460px; max-height: 85vh; overflow-y: auto; background: #ffffff;
-  border-radius: var(--radius-lg); padding: 20px; z-index: 1000; border: 1px solid var(--border);
-  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  right: 0;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  max-height: 220px;
+  overflow-y: auto;
+  z-index: 2000;
+  display: none;
+  box-shadow: var(--shadow-lg);
 }
 
-.modal-close-btn { position: absolute; top: 12px; right: 16px; font-size: 24px; font-weight: 700; color: var(--text-muted); cursor: pointer; border: none; background: none; }
-.modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0, 0, 0, 0.4); backdrop-filter: blur(4px); z-index: 999; }
+.suggestion-item {
+  padding: 12px 16px;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  color: var(--text-main);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.suggestion-item:hover {
+  background: var(--primary-light);
+  color: var(--primary);
+}
 
-.conditional-exp-block { display: none; flex-direction: column; gap: 10px; border-left: 3px solid var(--primary); padding-left: 10px; margin: 2px 0; }
-.popup{ display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4); backdrop-filter: blur(4px); justify-content:center; align-items:center; z-index:9999; padding: 12px; }
-.popup-content{ background: #ffffff; padding: 20px; border-radius: var(--radius-lg); text-align: center; width: 100%; max-width: 320px; border: 1px solid var(--border); }
+.suggestion-header-label {
+  background: var(--bg-main);
+  font-size: 11px;
+  font-weight: 800;
+  color: var(--text-muted);
+  padding: 8px 16px;
+  pointer-events: none;
+  border-bottom: 1px solid var(--border);
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.chips-output-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.skill-chip {
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 6px 14px;
+  border-radius: 30px;
+  font-size: 13px;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.skill-chip span {
+  cursor: pointer;
+  color: var(--danger);
+  font-weight: 800;
+  font-size: 16px;
+  line-height: 1;
+}
+
+/* JOB CARDS STYLE */
+.job-card {
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 20px;
+  margin-bottom: 16px;
+  border: 1px solid var(--border);
+  position: relative;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+.job-card:hover {
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-lg);
+  border-color: rgba(16, 185, 129, 0.2);
+}
+.job-card.mismatch {
+  opacity: 0.65;
+  border-left: 4px solid var(--danger);
+  background: var(--bg-main);
+}
+.mismatch-tag {
+  background: #475569;
+  color: white;
+  font-size: 11px;
+  padding: 5px 12px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-bottom-left-radius: var(--radius-sm);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+}
+
+.score-tag-100, .score-tag-80, .score-tag-60, .score-tag-low {
+  font-size: 11px;
+  padding: 5px 12px;
+  position: absolute;
+  top: 0;
+  right: 0;
+  border-bottom-left-radius: var(--radius-sm);
+  font-weight: 700;
+  letter-spacing: 0.3px;
+  color: white;
+}
+.score-tag-100 { background: #10b981; }
+.score-tag-80 { background: #3b82f6; }
+.score-tag-60 { background: #f59e0b; }
+.score-tag-low { background: #64748b; }
+
+.blurred-jobs .job-card h3, 
+.blurred-jobs .job-card .company-name, 
+.blurred-jobs .job-card .job-details-grid {
+  filter: blur(6px);
+  pointer-events: none;
+  user-select: none;
+}
+
+.job-card h3 {
+  font-size: 19px;
+  font-weight: 800;
+  margin-bottom: 6px;
+  color: var(--text-main);
+  line-height: 1.3;
+  padding-right: 80px;
+}
+
+.company-name {
+  font-size: 14px;
+  color: var(--primary);
+  font-weight: 700;
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.job-details-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 18px;
+}
+
+.detail-badge {
+  background: var(--bg-main);
+  padding: 10px 12px;
+  border-radius: var(--radius-sm);
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid var(--border);
+  white-space: normal;
+  word-break: break-word;
+  overflow: visible;
+}
+
+.proximity-badge {
+  color: #2563eb !important;
+  font-weight: 700;
+  background: rgba(59, 130, 246, 0.06) !important;
+  border: 1px solid rgba(59, 130, 246, 0.15) !important;
+}
+[data-theme="dark"] .proximity-badge {
+  color: #60a5fa !important;
+  background: rgba(37, 99, 235, 0.15) !important;
+  border-color: rgba(37, 99, 235, 0.25) !important;
+}
+
+/* INTERACTIVE ACTIONS */
+.actions-flex {
+  display: flex;
+  gap: 10px;
+  width: 100%;
+}
+
+button {
+  font-family: inherit;
+  font-size: 14px;
+  font-weight: 700;
+  border: none;
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 20px;
+  gap: 8px;
+  flex: 1;
+  min-height: 46px;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+button:active {
+  transform: scale(0.98);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+}
+.btn-primary:hover:not(:disabled) {
+  background: var(--primary-hover);
+}
+.btn-primary:disabled {
+  background: var(--border);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+.btn-whatsapp {
+  background: var(--whatsapp);
+  color: #fff;
+  box-shadow: 0 2px 4px rgba(34, 197, 94, 0.2);
+}
+.btn-whatsapp:hover:not(:disabled) {
+  background: var(--whatsapp-hover);
+}
+.btn-whatsapp:disabled {
+  background: var(--border);
+  color: var(--text-muted);
+  cursor: not-allowed;
+  opacity: 0.6;
+  box-shadow: none;
+}
+
+/* REGISTRATION CONTAINER MODAL */
+.container {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 92%;
+  max-width: 480px;
+  max-height: 85vh;
+  overflow-y: auto;
+  background: var(--bg-card);
+  border-radius: var(--radius-lg);
+  padding: 28px;
+  z-index: 1000;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
+}
+
+/* ❌ RED CROSS BUTTON IN FORM TOP RIGHT CORNER */
+.modal-close-btn {
+  position: absolute;
+  top: 16px;
+  right: 20px;
+  font-size: 28px;
+  font-weight: 400;
+  color: var(--danger);
+  cursor: pointer;
+  border: none;
+  background: none;
+  display: none;
+  line-height: 1;
+  width: 36px;
+  height: 36px;
+  text-align: center;
+  transition: color 0.2s;
+}
+.modal-close-btn:hover {
+  color: var(--danger-hover);
+}
+
+.conditional-exp-block {
+  display: none;
+  flex-direction: column;
+  gap: 12px;
+  border-left: 3px solid var(--primary);
+  padding-left: 14px;
+  margin: 4px 0;
+}
+
+/* =======================================================
+   ✨ PREMIUM ATTRACTIVE POPUP & LOADER DESIGN 
+   ======================================================= */
+.popup {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.3);
+  backdrop-filter: blur(12px); /* Beautiful premium blur background */
+  -webkit-backdrop-filter: blur(12px);
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+  padding: 16px;
+  transition: all 0.3s ease;
+}
+
+.popup-content {
+  background: var(--bg-card);
+  padding: 32px 24px;
+  border-radius: 24px; /* Ultra smooth curved corners */
+  text-align: center;
+  width: 100%;
+  max-width: 360px;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  transform: scale(0.9);
+  animation: popupReveal 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+}
+
+@keyframes popupReveal {
+  to { transform: scale(1); }
+}
+
+/* Stunning Smooth Progress Bar */
+.premium-loader-container {
+  width: 100%;
+  background: var(--border);
+  height: 6px;
+  border-radius: 10px;
+  margin: 20px 0;
+  overflow: hidden;
+  position: relative;
+}
+
+.premium-loader-bar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #10b981, #3b82f6); /* Gradient speed bar */
+  border-radius: 10px;
+  transition: width 1.5s linear;
+}
+
+/* Glowing Success Animated Icon */
+.success-checkmark-glow {
+  width: 72px;
+  height: 72px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0) 70%);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 16px auto;
+  animation: pulseGlow 1.5s infinite;
+}
+
+.success-checkmark-glow span {
+  font-size: 36px;
+  animation: scalePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+}
+
+@keyframes pulseGlow {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.3); }
+  70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+}
+
+@keyframes scalePop {
+  0% { transform: scale(0); }
+  100% { transform: scale(1); }
+}
+
+/* 🔍 SEARCH TEXT HIGHLIGHT STYLE */
+mark {
+  background: var(--highlight);
+  color: var(--text-main);
+  border-radius: 4px;
+  padding: 1px 4px;
+  font-weight: inherit;
+}
+
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* =======================================================
+   📱 ADVANCED MOBILE RESPONSIVE ENGINE (ALL OVERRIDES)
+   ======================================================= */
+@media (max-width: 768px) {
+  body {
+    padding: 12px 8px;
+  }
+  .wrapper {
+    max-width: 100%;
+    width: 100%;
+  }
+  .header {
+    padding: 45px 12px 20px 12px;
+    border-radius: var(--radius-md);
+  }
+  .header h1 {
+    font-size: 24px;
+  }
+  .theme-toggle {
+    top: 10px;
+    left: 10px;
+    width: 34px;
+    height: 34px;
+    font-size: 16px;
+  }
+  .btn-edit-profile {
+    display: none;
+    top: 10px;
+    right: 10px;
+    font-size: 11px;
+    padding: 6px 12px;
+  }
+  .filter-box {
+    padding: 14px;
+    border-radius: var(--radius-md);
+    gap: 10px;
+  }
+  .filter-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  input, select, textarea {
+    font-size: 16px;
+    padding: 10px 14px;
+    min-height: 44px;
+  }
+  .job-card {
+    padding: 16px;
+    border-radius: var(--radius-md);
+  }
+  .job-card h3 {
+    font-size: 18px;
+    padding-right: 0;
+    margin-top: 16px;
+  }
+  .mismatch-tag, .score-tag-100, .score-tag-80, .score-tag-60, .score-tag-low {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    border-bottom-left-radius: 0;
+    text-align: center;
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+  .job-details-grid {
+    grid-template-columns: 1fr;
+    gap: 6px;
+  }
+  .detail-badge {
+    font-size: 13px;
+    padding: 8px 10px;
+    width: 100%;
+  }
+  .actions-flex {
+    flex-direction: column;
+    gap: 8px;
+  }
+  button {
+    width: 100%;
+    min-height: 44px;
+    font-size: 14px;
+  }
+  
+  .container {
+    width: 100% !important;
+    max-width: 100% !important;
+    height: 100dvh !important;
+    max-height: 100dvh !important;
+    top: 0 !important;
+    left: 0 !important;
+    transform: none !important;
+    border-radius: 0 !important;
+    padding: 20px 14px !important;
+    position: fixed !important;
+  }
+  .modal-close-btn {
+    top: 12px;
+    right: 12px;
+  }
+}
+
+@media (max-width: 360px) {
+  .header h1 { font-size: 20px; }
+  .job-card h3 { font-size: 16px; }
+  .detail-badge { font-size: 12px; }
+}
 </style>
 </head>
 
@@ -124,8 +801,12 @@ button { font-family:inherit; font-size:14px; font-weight:600; border:none; bord
 <div class="wrapper">
 
   <div class="header">
+    <button class="theme-toggle" onclick="toggleThemeMode()">🌓</button>
+    
     <h1>FreeWalkins</h1>
     <p id="lblAppSubtitle">by VenuHR</p>
+    
+    <button id="editProfileBtn" class="btn-edit-profile" onclick="openFormModal(true)">✏️ Edit Profile</button>
     
     <div class="lang-selector-container">
        <select id="languageToggle" class="lang-select" onchange="switchUIVectorLanguage()">
@@ -166,8 +847,8 @@ button { font-family:inherit; font-size:14px; font-weight:600; border:none; bord
   </div>
 
   <div class="container" id="formContainer">
-    <span class="modal-close-btn" onclick="closeFormModalBack()">&times;</span>
-    <h2 style="text-align:center; color:var(--primary); font-size:20px; margin-top:10px;" id="lblFormTitle">📋 Enter Your Details</h2>
+    <span class="modal-close-btn" id="modalCloseBtn" onclick="closeFormModalBack()">&times;</span>
+    <h2 style="text-align:center; color:var(--primary); font-size:20px; margin-top:10px;" id="lblFormTitle">📋 Register Details to View Site</h2>
     <p style="text-align:center; font-size:12px; color:var(--text-muted); margin-bottom:15px;" id="lblFormSubtitle">Please provide accurate info to match relevant jobs.</p>
 
     <div class="strength-meter-container">
@@ -184,7 +865,7 @@ button { font-family:inherit; font-size:14px; font-weight:600; border:none; bord
       <div style="display:flex; flex-direction:column; gap:12px;">
         
         <div><input type="text" id="name" placeholder="Full Name" required style="text-transform: capitalize;"></div>
-        <div><input type="tel" id="mobile" placeholder="WhatsApp Number" required maxlength="10" pattern="[0-9]{10}"></div>
+        <div><input type="tel" id="mobile" placeholder="WhatsApp Number" required maxlength="10" pattern="[6-9][0-9]{9}"></div>
         <div><input type="email" id="email" placeholder="Email Address" required></div>
 
         <div>
@@ -246,12 +927,31 @@ button { font-family:inherit; font-size:14px; font-weight:600; border:none; bord
         <div><textarea id="address" placeholder="Full Home Address" rows="2" required></textarea></div>
       </div>
       
-      <button type="submit" class="btn-primary" style="margin-top:16px; padding:14px; flex: none; width: 100%;" id="btnFormSubmit">🚀 Save Details & View Jobs</button>
+      <div style="display: flex; margin-top: 20px;">
+        <button type="submit" class="btn-primary" style="padding:14px; width: 100%; flex: initial;" id="btnFormSubmit">🚀 Save Details & View Jobs</button>
+      </div>
     </form>
   </div>
 </div>
 
-<div class="popup" id="successPopup"><div class="popup-content"><h3 id="popupTitle">Processing</h3><p id="popupMessage" style="margin:10px 0; font-size:13px; color:var(--text-muted);"></p><button class="btn-primary" id="popupBtn" style="width:100%;" onclick="document.getElementById('successPopup').style.display='none'">OK</button></div></div>
+<!-- =======================================================
+     ✨ ATTRACTIVE POPUP DESIGN STRUCTURE 
+     ======================================================= -->
+<div class="popup" id="successPopup">
+  <div class="popup-content">
+    <div id="popupAnimationIcon"></div>
+    <h3 id="popupTitle" style="font-size: 22px; font-weight: 800; color: var(--text-main);">Processing</h3>
+    
+    <div id="popupLoaderWrapper">
+      <div class="premium-loader-container">
+        <div class="premium-loader-bar" id="premiumBar"></div>
+      </div>
+    </div>
+    
+    <p id="popupMessage" style="margin: 14px 0 20px 0; font-size: 14px; color: var(--text-muted); font-weight: 500; line-height: 1.5;"></p>
+    <button class="btn-primary" id="popupBtn" style="width: 100%; display: none; border-radius: 12px; font-weight: 700;" onclick="document.getElementById('successPopup').style.display='none'">Awesome, Got it!</button>
+  </div>
+</div>
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/12.1.0/firebase-app.js";
@@ -275,11 +975,18 @@ let registeredCandidate = null;
 let appliedCompanies = []; 
 let candidateSkills = []; 
 
+// 🌓 THEME ENGINE SWITCHER
+window.toggleThemeMode = function() {
+  const currentTheme = document.documentElement.getAttribute('data-theme');
+  const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+  document.documentElement.setAttribute('data-theme', targetTheme);
+}
+
 const langDictionary = {
   EN: {
     optAllCat: "All Categories", optAllLoc: "All Areas",
     optGender: "Gender (All List)", optMale: "Male Candidates Only", optFemale: "Female Candidates Only", optBoth: "Open to Both",
-    lblMainSec: "💼 Available Jobs", lblFormTitle: "📋 Enter Your Details", lblFormSub: "Please provide accurate info to match relevant jobs.",
+    lblMainSec: "💼 Available Jobs", lblFormTitle: "📋 Register Details to View Site", lblFormSub: "Please provide accurate info to match relevant jobs.",
     lblStrength: "Profile Completion Score:", strengthWeak: "Weak Info", strengthStable: "Stable Profile", strengthOpt: "Optimal Profile Setup",
     lblDob: "Date of Birth", optFormGen: "Select Gender", optFormQual: "Highest Qualification", optFormExp: "Experience Status",
     optFresher: "No, I am a Fresher", optExp: "Yes, I have Experience", optTargetCat: "Which job category are you looking for?",
@@ -288,54 +995,54 @@ const langDictionary = {
     txtPrevComp: "Last Company Name", txtPrevRole: "Job Role (e.g. Recruiter)", txtLastCtc: "Last Annual Salary (CTC)", txtAddress: "Full Home Address",
     txtName: "Full Name", txtMob: "WhatsApp Number", txtEmail: "Email Address", alertSkill: "Please select at least 1 skill token.",
     badgeActive: "🎯 Custom sorting engine matching jobs base matrix configuration mapping.",
-    popApply: "Applying...", popMsg: "Sending profile tracking parameters to server...", popSuccess: "Success!",
-    popSuccessMsg: "Applied successfully. Click the WhatsApp button to contact HR.", badgeLocation: "Hyd Location",
+    popApply: "Submitting Profile...", popMsg: "Encrypting and sending profile routing parameters safely to server...", popSuccess: "Application Successful!",
+    popSuccessMsg: "Your application is saved successfully on cloud logs. Tap the green <b>WhatsApp HR</b> button to finalize alignment.", badgeLocation: "Hyd Location",
     lblEducation: "Education:", lblExp: "Experience:", lblSalary: "Salary:", btnApplied: "✓ Applied", btnApply: "⚡ Apply Now", btnHr: "💬 WhatsApp HR",
     lblNoJobsFound: "❌ No specific match criteria found for this configuration.",
     lblNoJobsFoundSubtitle: "But here are some recommended openings for you below:",
     lblRecommendedSec: "⭐ Recommended Jobs For You", textFilterLock: "🔒 Filter Lock", 
     textSkillsCategoryLabel: "SKILLS MATCH SUITE", textGlobalCategoryLabel: "GLOBAL SKILLS", textPopularCategoryLabel: "POPULAR SYSTEM TOKENS",
-    textImportantLabel: "Core Tag", alertMaxSkills: "⚠️ Maximum 4 skills only allowed."
+    textImportantLabel: "Core Tag", alertMaxSkills: "⚠️ Maximum 4 skills only allowed.", btnEditTxt: "✏️ Edit Profile"
   },
   TE: {
     optAllCat: "అన్ని కేటగిరీలు", optAllLoc: "అన్ని ఏరియాలు",
     optGender: "లింగము (లిస్ట్ అంతా)", optMale: "పురుషులు మాత్రమే (Male)", optFemale: "స్త్రీలు మాత్రమే (Female)", optBoth: "ఇద్దరికీ ఓపెన్",
-    lblMainSec: "💼 అందుబాటులో ఉన్న ఉద్యోగాలు", lblFormTitle: "📋 మీ వివరాలు నమోదు చేయండి", lblFormSub: "జాబ్స్ మరియు స్కిల్స్ మ్యాచ్ అవ్వడానికి సరైన వివరాలు ఇవ్వండి.",
-    lblStrength: "ప్రొఫైల్ పూర్తి శాతం:", strengthWeak: "డేటా తక్కువగా ఉంది", strengthStable: "స్థిరమైన ప్రొఫైల్", strengthOpt: "ప్రొఫైల్ పూర్తయింది",
+    lblMainSec: "💼 అందుబాటులో ఉన్న ఉద్యోగాలు", lblFormTitle: "📋 వివరాలు నమోదు చేసి సైట్ చూడండి", lblFormSub: "జాబ్స్ మరియు స్కిల్స్ మ్యాచ్ అవ్వడానికి సరైన వివరాలు ఇవ్వండి.",
+    lblStrength: "ప్రۆఫైల్ పూర్తి శాతం:", strengthWeak: "డేటా తక్కువగా ఉంది", strengthStable: "స్థిరమైన ప్రొఫైల్", strengthOpt: "ప్రొఫైల్ పూర్తయింది",
     lblDob: "పుట్టిన తేదీ (Date of Birth)", optFormGen: "లింగము ఎంచుకోండి (Gender)", optFormQual: "చదువు (Highest Qualification)", optFormExp: "అనుభవం ఉందా? (Experience Status)",
-    optFresher: "లేదు, నేను ఫ్రెషర్ ని (Fresher)", optExp: "అవును, నాకు అనుభవం ఉంది (Experienced)", optTargetCat: "మీరు ఏ కేటగిరీ జాబ్ కోసం చూస్తున్నారు?",
+    optFresher: "లేదు, నేను ఫ్రెషర్ ని (Fresher)", optExp: "అవును, నాకు అనుభవం ఉంది (Experienced)", optTargetCat: "మీరు ఏ కేటగరీ జాబ్ కోసం చూస్తున్నారు?",
     optAnyCat: "ఏ జాబ్ అయినా పర్లేదు", lblSkillsHead: "మీకున్న స్కిల్స్ ఇక్కడ సెలెక్ట్ చేయండి (గరిష్టంగా 4 మాత్రమే):", hintSkills: "ఎంచుకున్న స్కిల్స్:",
     optFormArea: "హైదరాబాద్ లో మీరు ఉండే ఏరియా", btnSubmit: "🚀 వివరాలు సేవ్ చేసి జాబ్స్ చూడండి", txtSearch: "🔍 ఇక్కడ కంపెనీ లేదా రోల్ పేరు టైప్ చేయండి...",
     txtPrevComp: "పాత కంపెనీ పేరు", txtPrevRole: "పాత జాబ్ రోల్ (ఉదా: Recruiter)", txtLastCtc: "చివరి జీతం (సంవత్సరానికి ఎంత)", txtAddress: "ఇంటి పూర్తి అడ్రస్",
     txtName: "పూర్తి పేరు (Full Name)", txtMob: "వాట్సాప్ నెంబర్ (WhatsApp Number)", txtEmail: "ఈమెయిల్ ఐడి (Email Address)", alertSkill: "కనీసం ఒక స్కిల్ అయినా సెలెక్ట్ చేయండి.",
     badgeActive: "🎯 మీ స్కిల్స్ మరియు ప్రొఫైల్ కి సరిపోయే జాబ్స్ క్రమ పద్ధతిలో చూపించబడ్డాయి.",
-    popApply: "అప్లై అవుతోంది...", popMsg: "మీ ప్రొఫైల్ వివరాలు కంపెనీ సర్వర్ కి పంపిస్తున్నాము...", popSuccess: "సక్సెస్!",
-    popSuccessMsg: "సక్సెస్ ఫుల్ గా అప్లై అయింది. ఇప్పుడు మీరు వాట్సాప్ బటన్ క్లిక్ చేసి హెచ్ఆర్ కి మెసేజ్ చేయవచ్చు.", badgeLocation: "హైదరాబాద్ ఏరియా",
+    popApply: "అప్లై అవుతోంది...", popMsg: "మీ ప్రొఫైల్ వివరాలు కంపెనీ సర్వర్ కి భద్రంగా పంపిస్తున్నాము...", popSuccess: "అప్లికేషన్ విజయవంతమైంది!",
+    popSuccessMsg: "మీ ప్రొఫైల్ విజయవంతంగా సేవ్ అయింది. నేరుగా హెచ్ఆర్ ని కాంటాక్ట్ చేయడానికి గ్రీన్ కలర్ <b>వాట్సాప్ HR</b> బటన్ క్లిక్ చేయండి.", badgeLocation: "హైదరాబాద్ ఏరియా",
     lblEducation: "చదువు:", lblExp: "ఎక్స్పీరియన్స్:", lblSalary: "జీతం:", btnApplied: "✓ అప్లై చేసావు", btnApply: "⚡ అప్లై చేయండి", btnHr: "💬 వాట్సాప్ HR",
     lblNoJobsFound: "❌ మీరు వెతికిన ఫిల్టర్స్ కి సరిపోయే జాబ్స్ ఏవీ ప్రస్తుతానికి అందుబాటులో లేవు.",
-    lblNoJobsFoundSubtitle: "కానీ మీ కోసం కింద కొన్ని రಿಕమండెడ్ జాబ్స్ చూపించబడ్డాయి:",
+    lblNoJobsFoundSubtitle: "కానీ మీ కోసం కింద కొన్ని రికమండెడ్ జాబ్స్ చూపించబడ్డాయి:",
     lblRecommendedSec: "⭐ మీ కోసం ప్రత్యేక సిఫార్సు చేయబడిన ఉద్యోగాలు", textFilterLock: "🔒 నాట్ మ్యాచ్", 
     textSkillsCategoryLabel: "కేటగిరీ స్కిల్స్", textGlobalCategoryLabel: "ఇతర స్కిల్స్ లిస్ట్", textPopularCategoryLabel: "పాపులర్ స్కిల్స్ లిస్ట్",
-    textImportantLabel: "ముఖ్యమైనవి", alertMaxSkills: "⚠️ గరిష్టంగా 4 స్కిల్స్ మాత్రమే ఎంచుకోవడానికి వీలవుతుంది."
+    textImportantLabel: "ముఖ్యమైనవి", alertMaxSkills: "⚠️ గరిష్టంగా 4 స్కిల్స్ మాత్రమే ఎంచుకోవడానికి వీలవుతుంది.", btnEditTxt: "✏️ ప్రొఫైల్ మార్చండి"
   }
 };
 
 const multiTierSkillsMapping = {
-  "IT / Software": ["Java", "Python", "HTML/CSS", "JavaScript", "React JS", "Node.js", "SQL Database", "C++", "PHP", "Android UI", "Software Testing", "AWS Cloud", "UI/UX Design", "Git Control", "Data Structures"],
-  "BPO / Customer Support": ["Telecalling", "Customer Support", "International Voice", "Domestic Voice", "Chat Support", "Inbound Support", "Outbound Calling", "English Fluency", "Active Listening", "Problem Solving"],
-  "Banking & Finance": ["Accounting", "Tally ERP", "MS Excel", "GST Filing", "Taxation", "Auditing", "Banking Ops", "Financial Analysis", "Loan Processing", "KYC Verification"],
-  "Digital Marketing": ["Digital Marketing", "SEO Optimization", "Social Media Ads", "Google Analytics", "Email Marketing", "Copywriting", "PPC Management"],
-  "Sales & Marketing": ["Field Sales", "Business Development", "Relationship Management", "Lead Generation", "Negotiation", "B2B Sales", "Client Acquisition"],
-  "Retail / Mall Jobs": ["Retail Sales", "Billing Operations", "Counter Sales", "Customer Service", "Inventory Management", "Product Display"],
-  "Pharma / Healthcare": ["Pharma Knowledge", "Nursing", "Lab Assistant", "Medical Billing", "Pharmacist License", "Clinical Research", "Pharmacovigilance"],
-  "Office Assistant / Admin": ["Office Admin", "Front Office Reception", "Typing Speed", "Documentation", "E-mail Communication", "Executive Assistant", "Data Entry"],
-  "Delivery / Driving": ["Two Wheeler Driving", "Four Wheeler Driving", "Delivery Operations", "Route Navigation", "Time Management"],
-  "Manufacturing / ITI": ["CNC Programming", "Electrical Maintenance", "Welding & Fitting", "Quality Control", "Machine Operation", "ITI Technical", "Electronic Systems", "Safety Standards"],
-  "Logistics & Warehouse": ["Warehouse Management", "Inventory Control", "Logistics Operations", "Supply Chain", "Stock Auditing"],
-  "Real Estate": ["Property Sales", "Client Sourcing", "Real Estate Consulting", "Site Visits Coordination", "Market Research"],
-  "Hospitality & Hotel": ["Hotel Operations", "Front Desk Management", "Food & Beverage Service", "Guest Relations", "Housekeeping Coordination"],
-  "Education & Teaching": ["Teaching / Training", "Curriculum Design", "Classroom Management", "Subject Knowledge", "Online Tutoring"],
-  "Content & Media Production": ["Graphic Designing (Photoshop)", "Video Editing", "Content Writing", "Photography", "Adobe Illustrator", "Motion Graphics"]
+  "IT / Software": ["Java", "Python", "HTML/CSS", "JavaScript", "React JS", "Node.js", "SQL Database", "C++", "PHP", "Android UI", "Software Testing", "AWS Cloud", "UI/UX Design", "Git Control", "Data Structures", "TypeScript", "Angular", "Vue.js", "Docker", "Kubernetes", "Cyber Security", "DevOps Ops", "Django", "Machine Learning", "Data Analysis"],
+  "BPO / Customer Support": ["Telecalling", "Customer Support", "International Voice", "Domestic Voice", "Chat Support", "Inbound Support", "Outbound Calling", "English Fluency", "Active Listening", "Problem Solving", "Email Support", "Technical Support", "Escalation Handling", "CRM Tools", "Inbound Sales", "Accent Neutrality"],
+  "Banking & Finance": ["Accounting", "Tally ERP", "MS Excel", "GST Filing", "Taxation", "Auditing", "Banking Ops", "Financial Analysis", "Loan Processing", "KYC Verification", "SAP FICO", "Wealth Management", "Credit Appraisal", "Payroll Processing", "Balance Sheet Analysis", "TDS Returns"],
+  "Digital Marketing": ["Digital Marketing", "SEO Optimization", "Social Media Ads", "Google Analytics", "Email Marketing", "Copywriting", "PPC Management", "Content Strategy", "Lead Generation", "Affiliate Marketing", "Meta Ads Manager", "Influencer Marketing", "Wordpress Design"],
+  "Sales & Marketing": ["Field Sales", "Business Development", "Relationship Management", "Lead Generation", "Negotiation", "B2B Sales", "Client Acquisition", "Cold Calling", "Direct Sales", "Corporate Sales", "Retail Sales", "CRM Tracking", "Product Demo", "Channel Sales"],
+  "Retail / Mall Jobs": ["Retail Sales", "Billing Operations", "Counter Sales", "Customer Service", "Inventory Management", "Product Display", "Cashier Duties", "Store Management", "Upselling Techniques", "Visual Merchandising", "Stock Refilling"],
+  "Pharma / Healthcare": ["Pharma Knowledge", "Nursing", "Lab Assistant", "Medical Billing", "Pharmacist License", "Clinical Research", "Pharmacovigilance", "Medical Coding", "Quality Assurance (QA)", "Quality Control (QC)", "Microbiology", "Formulation R&D", "Drug Safety"],
+  "Office Assistant / Admin": ["Office Admin", "Front Office Reception", "Typing Speed", "Documentation", "E-mail Communication", "Executive Assistant", "Data Entry", "MS Office Suite", "File Management", "Visitor Management", "Meeting Scheduling", "Travel Desk Coordination"],
+  "Delivery / Driving": ["Two Wheeler Driving", "Four Wheeler Driving", "Delivery Operations", "Route Navigation", "Time Management", "E-commerce Logistics", "Commercial Driving Licence", "Package Handling", "Customer Politeness"],
+  "Manufacturing / ITI": ["CNC Programming", "Electrical Maintenance", "Welding & Fitting", "Quality Control", "Machine Operation", "ITI Technical", "Electronic Systems", "Safety Standards", "PLC Scada", "Lathe Machine Operations", "Hydraulics & Pneumatics", "Tool and Die Maker"],
+  "Logistics & Warehouse": ["Warehouse Management", "Inventory Control", "Logistics Operations", "Supply Chain", "Stock Auditing", "Forklift Operation", "Dispatched Planning", "Inbound Outbound Tracking", "SAP MM"],
+  "Real Estate": ["Property Sales", "Client Sourcing", "Real Estate Consulting", "Site Visits Coordination", "Market Research", "Commercial Real Estate", "Residential Sales", "Leasing Operations", "Tele-sales Sourcing"],
+  "Hospitality & Hotel": ["Hotel Operations", "Front Desk Management", "Food & Beverage Service", "Guest Relations", "Housekeeping Coordination", "Chef / Cooking", "Billing Ops", "Event Management", "Banquet Coordination"],
+  "Education & Teaching": ["Teaching / Training", "Curriculum Design", "Classroom Management", "Subject Knowledge", "Online Tutoring", "Communication Coaching", "Child Psychology", "Counseling", "Aptitude Training"],
+  "Content & Media Production": ["Graphic Designing (Photoshop)", "Video Editing", "Content Writing", "Photography", "Adobe Illustrator", "Motion Graphics", "CorelDraw", "Adobe Premiere Pro", "After Effects", "Script Writing", "Audio Editing", "Social Media Reels Creation"]
 };
 
 const masterAllSkills = Array.from(new Set(Object.values(multiTierSkillsMapping).flat())).sort();
@@ -345,19 +1052,28 @@ const hyderabadAreas = [
   "Ameerpet", "Gachibowli", "Madhapur", "Kondapur", "Hitech City", "Jubilee Hills", "Banjara Hills", 
   "Kukatpally", "K P H B", "Secunderabad", "Begumpet", "Dilsukhnagar", "LB Nagar", "Uppal", 
   "Nagole", "Mehdipatnam", "Miyapur", "Chanda Nagar", "Hafeezpet", "Nizampet", "Bachupally", 
-  "Moosapet", "Sanathnagar", "Khairatabad", "Panjagutta", "Somajiguda", "Koti", "Abids", 
-  "Nampally", "Charminar", "Santoshnagar", "Malakpet", "Saidabad", "Vanasthalipuram", "Hayathnagar", 
-  "Tarnaka", "Habsiguda", "Ramanthapur", "Malkajgiri", "Alwal", "Kompally", "Jeedimetla", 
-  "Balanagar", "Bowenpally", "Trimulgherry", "Shaikpet", "Tolichowki", "Manikonda", "Kokapet", "Other"
+  "Pragathi Nagar", "JNTU", "Moosapet", "Sanathnagar", "Khairatabad", "Panjagutta", "Somajiguda", 
+  "Koti", "Abids", "Nampally", "Charminar", "Santoshnagar", "Malakpet", "Saidabad", "Vanasthalipuram", 
+  "Hayathnagar", "Tarnaka", "Habsiguda", "Ramanthapur", "Malkajgiri", "Alwal", "Kompally", 
+  "Jeedimetla", "Balanagar", "Bowenpally", "Trimulgherry", "Shaikpet", "Tolichowki", "Manikonda", 
+  "Kokapet", "Attapur", "Rajendra Nagar", "Langor Houz", "Karwan", "Asif Nagar", 
+  "Narayanguda", "Himayatnagar", "Barkatpura", "Kachiguda", "Vidyanagar", "Osmania University", 
+  "ECIL", "AS Rao Nagar", "Sainikpuri", "Moula Ali", "Nacharam", "Mallapur", "Boduppal", "Peerzadiguda", 
+  "Chengicherla", "Ghatkesar", "Medchal", "Gundlapochampally", "Patancheru", "Ramachandrapuram", 
+  "RC Puram", "Lingampally", "BHEL", "Tellapur", "Narsingi", "Puppalguda", "Bandlaguda Jagir", "Other"
 ];
 
-const spatialCoordinates = {
-  "Ameerpet": {x: 12, y: 35}, "Gachibowli": {x: 2, y: 20}, "Madhapur": {x: 5, y: 24}, "Kondapur": {x: 4, y: 26},
-  "Hitech City": {x: 4, y: 22}, "Jubilee Hills": {x: 8, y: 26}, "Banjara Hills": {x: 10, y: 28}, "Kukatpally": {x: 8, y: 40},
-  "Secunderabad": {x: 22, y: 42}, "Begumpet": {x: 15, y: 38}, "Dilsukhnagar": {x: 25, y: 15}, "LB Nagar": {x: 29, y: 12}, "Other": {x: 50, y: 50}
-};
-
 const qualOrder = ["Any", "SSC", "Intermediate", "ITI", "Diploma", "Degree", "B.Com", "B.Sc", "BA", "BBA", "BCA", "B.Tech", "B.Pharmacy", "MBA", "MCA", "M.Tech"];
+
+// 🔵 LOCAL STORAGE SYNC ENGINE
+const savedUser = localStorage.getItem("registeredCandidate");
+if(savedUser) {
+  registeredCandidate = JSON.parse(savedUser);
+  const savedApplied = localStorage.getItem("appliedCompanies");
+  if(savedApplied) {
+    appliedCompanies = JSON.parse(savedApplied);
+  }
+}
 
 window.switchUIVectorLanguage = function() {
   const currentLang = document.getElementById('languageToggle').value;
@@ -384,6 +1100,7 @@ window.switchUIVectorLanguage = function() {
   document.getElementById('lblSkillsHeader').innerText = d.lblSkillsHead;
   document.getElementById('optFormAreaSelect').innerText = d.optFormArea;
   document.getElementById('searchInput').placeholder = d.txtSearch;
+  document.getElementById('editProfileBtn').innerText = d.btnEditTxt;
   
   document.getElementById('name').placeholder = d.txtName;
   document.getElementById('mobile').placeholder = d.txtMob;
@@ -403,12 +1120,19 @@ function setupDropdownUI() {
   const formCat = document.getElementById('jobCategory');
   const formLoc = document.getElementById('candidateArea');
 
+  fCat.innerHTML = '<option value="" id="optAllCategories">All Categories</option>';
+  fLoc.innerHTML = '<option value="" id="optAllLocations">All Areas</option>';
+  formCat.innerHTML = '<option value="" id="optFormTargetCategory">Which job category are you looking for?</option><option value="Any" id="optAnyCategoryText">Any Category / Open to All</option>';
+  formLoc.innerHTML = '<option value="" id="optFormAreaSelect">Your Area in Hyderabad</option>';
+
   jobCategories.sort().forEach(c => {
     fCat.innerHTML += `<option value="${c}">${c}</option>`;
     formCat.innerHTML += `<option value="${c}">${c}</option>`;
   });
 
-  hyderabadAreas.sort((a,b) => a === 'Other' ? 1 : b === 'Other' ? -1 : a.localeCompare(b)).forEach(l => {
+  const uniqueAndSortedAreas = Array.from(new Set(hyderabadAreas)).sort((a,b) => a === 'Other' ? 1 : b === 'Other' ? -1 : a.localeCompare(b));
+  
+  uniqueAndSortedAreas.forEach(l => {
     fLoc.innerHTML += `<option>${l}</option>`;
     formLoc.innerHTML += `<option>${l}</option>`;
   });
@@ -494,7 +1218,7 @@ function renderSkillsSuggestionsEngine() {
   }
 
   if(query === '' && targetedRoleSkills.length === 0) {
-    const defaultBatch = masterAllSkills.filter(s => !candidateSkills.includes(s)).slice(0, 15);
+    const defaultBatch = masterAllSkills.filter(s => !candidateSkills.includes(s)).slice(0, 20);
     globalSuggestedHTML = `<div class="suggestion-header-label">${d.textPopularCategoryLabel}</div>` + 
                           defaultBatch.map(s => `<div class="suggestion-item" data-value="${s}"><span>🛠️ ${s}</span></div>`).join('');
   }
@@ -561,22 +1285,74 @@ async function loadJobs(){
   const snap = await getDocs(collection(db, "jobs"));
   allJobs = [];
   snap.forEach(d => allJobs.push(d.data()));
+  
+  if(registeredCandidate) {
+    document.getElementById('dynamicJobsOutput').className = "";
+    document.getElementById('filterCategory').value = (registeredCandidate.jobCategory === 'Any') ? "" : registeredCandidate.jobCategory;
+    document.getElementById('filterLocation').value = (registeredCandidate.area === 'Other') ? "" : registeredCandidate.area;
+    document.getElementById('filterGender').value = registeredCandidate.gender;
+    
+    if(registeredCandidate.skills) {
+      candidateSkills = registeredCandidate.skills.split(", ").filter(x => x);
+      updateSkillChips();
+    }
+  } else {
+    openFormModal(false);
+  }
+
   renderJobs();
-  openFormModal();
  } catch(e) {
   document.getElementById('jobsContainer').innerHTML = "<p style='color:red; text-align:center;'>Database Connection Error.</p>";
  }
 }
 
-window.openFormModal = function() {
+window.openFormModal = function(isEdit = false) {
   document.getElementById('modalOverlay').style.display = "block";
   document.getElementById('formContainer').style.display = "block";
+  
+  if(registeredCandidate) {
+    document.getElementById('name').value = registeredCandidate.name;
+    document.getElementById('mobile').value = registeredCandidate.mobile;
+    document.getElementById('email').value = registeredCandidate.email;
+    document.getElementById('dob').value = registeredCandidate.dob;
+    document.getElementById('gender').value = registeredCandidate.gender;
+    document.getElementById('qualification').value = registeredCandidate.qualification;
+    document.getElementById('candidateExperience').value = registeredCandidate.experience;
+    
+    if(registeredCandidate.experience === 'Experienced') {
+      document.getElementById('experienceDetailsBlock').style.display = 'flex';
+      document.getElementById('prevCompany').value = registeredCandidate.prevCompany;
+      document.getElementById('prevRole').value = registeredCandidate.prevRole;
+      document.getElementById('lastCtc').value = registeredCandidate.lastCtc;
+    }
+    document.getElementById('jobCategory').value = registeredCandidate.jobCategory;
+    document.getElementById('candidateArea').value = registeredCandidate.area;
+    document.getElementById('address').value = registeredCandidate.address;
+    calculateLiveStrengthScore();
+  }
+
+  document.getElementById('modalCloseBtn').style.display = "block"; 
 }
 
 window.closeFormModalBack = function() {
   document.getElementById('modalOverlay').style.display = "none";
   document.getElementById('formContainer').style.display = "none";
   if(!registeredCandidate) document.getElementById('dynamicJobsOutput').className = "blurred-jobs";
+  
+  const editBtn = document.getElementById('editProfileBtn');
+  editBtn.style.display = "block";
+  editBtn.classList.add('blink-active');
+  
+  setTimeout(() => {
+    editBtn.classList.remove('blink-active');
+  }, 4000);
+}
+
+function highlightSearchTermsText(sourceText, query) {
+  if (!query) return sourceText;
+  const escapeRegEx = query.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+  const regexPattern = new RegExp(`(${escapeRegEx})`, 'gi');
+  return sourceText.replace(regexPattern, '<mark>$1</mark>');
 }
 
 window.renderJobs = function() {
@@ -601,13 +1377,9 @@ window.renderJobs = function() {
    let mismatchReason = '';
    let matchPercentage = 100;
 
-   let distanceString = d.badgeLocation;
-   if(registeredCandidate) {
-      const cLocData = spatialCoordinates[registeredCandidate.area] || spatialCoordinates["Other"];
-      const jLocData = spatialCoordinates[j.location] || spatialCoordinates["Other"];
-      const calcDistance = Math.sqrt(Math.pow(cLocData.x - jLocData.x, 2) + Math.pow(cLocData.y - jLocData.y, 2)).toFixed(1);
-      distanceString = (currentLang === 'TE') ? `${j.location} (${calcDistance} కి.మీ దూరం)` : `${j.location} (${calcDistance} KM)`;
+   let distanceString = j.location || (currentLang === 'TE' ? "హైదరాబాద్" : "Hyd Location");
 
+   if(registeredCandidate) {
       if(j.jobGender && j.jobGender !== "Both" && registeredCandidate.gender !== j.jobGender) { isMismatch = true; mismatchReason = (currentLang === 'TE') ? `${j.jobGender} మాత్రమే` : `${j.jobGender} Only`; }
       if(j.minQualification && j.minQualification !== "Any") {
          let cRank = qualOrder.indexOf(registeredCandidate.qualification);
@@ -636,8 +1408,19 @@ window.renderJobs = function() {
  });
 
  if(registeredCandidate) {
-   directMatchesArray.sort((a, b) => (a.isMismatch && !b.isMismatch) ? 1 : (!a.isMismatch && b.isMismatch) ? -1 : b.matchPercentage - a.matchPercentage);
-   recommendationFallbackArray.sort((a, b) => (a.isMismatch && !b.isMismatch) ? 1 : (!a.isMismatch && b.isMismatch) ? -1 : b.matchPercentage - a.matchPercentage);
+   const sortWithLocationContext = (a, b) => {
+      if (a.isMismatch && !b.isMismatch) return 1;
+      if (!a.isMismatch && b.isMismatch) return -1;
+      
+      const aSameArea = a.data.location === registeredCandidate.candidateArea ? 1 : 0;
+      const bSameArea = b.data.location === registeredCandidate.candidateArea ? 1 : 0;
+      if (aSameArea !== bSameArea) return bSameArea - aSameArea;
+      
+      return b.matchPercentage - a.matchPercentage;
+   };
+
+   directMatchesArray.sort(sortWithLocationContext);
+   recommendationFallbackArray.sort(sortWithLocationContext);
  }
 
  function buildJobCardHtml(item) {
@@ -655,14 +1438,16 @@ window.renderJobs = function() {
       else scoreBadgeHTML = `<div class="score-tag-low">🎯 ${item.matchPercentage}% Match</div>`;
    }
 
-   // 🎯 CRITICAL ACCESSIBILITY LOCK ENGINE
    const isButtonDisabled = alreadyApplied || item.isMismatch;
    const isWhatsAppDisabled = !alreadyApplied || item.isMismatch;
 
+   const processedHighlightTitle = highlightSearchTermsText(j.title || 'Job Title', search);
+   const processedHighlightCompany = highlightSearchTermsText(j.company || 'Company', search);
+
    return `<div class="job-card ${item.isMismatch ? 'mismatch' : ''}">
      ${item.isMismatch ? `<div class="mismatch-tag">${d.textFilterLock} (${item.mismatchReason})</div>` : scoreBadgeHTML}
-     <h3>${j.title || 'Job Title'}</h3>
-     <div class="company-name">🏢 ${j.company || 'Company'} ${j.category ? `<span style="font-size:11px; background:var(--primary-light); padding:2px 6px; border-radius:4px; margin-left:6px; color:var(--primary);">${j.category}</span>` : ''}</div>
+     <h3>${processedHighlightTitle}</h3>
+     <div class="company-name">🏢 ${processedHighlightCompany} ${j.category ? `<span style="font-size:11px; background:var(--primary-light); padding:2px 8px; border-radius:4px; margin-left:6px; color:var(--primary);">${j.category}</span>` : ''}</div>
      <div class="job-details-grid">
        <div class="detail-badge ${registeredCandidate ? 'proximity-badge' : ''}">📍 ${item.distanceString}</div>
        <div class="detail-badge">🎓 ${d.lblEducation} ${j.minQualification || 'Any'}</div>
@@ -702,38 +1487,74 @@ window.renderJobs = function() {
    const badge = document.getElementById('profileBadge');
    badge.style.display = "block";
    badge.innerHTML = d.badgeActive;
+   
+   document.getElementById('editProfileBtn').style.display = "block";
  }
 }
 
 window.handleJobApplyAction = function(title, company) {
-  if(!registeredCandidate) openFormModal();
+  if(!registeredCandidate) openFormModal(false);
   else executeCloudJobSubmission(title, company);
 }
 
+// =======================================================
+// ✨ NEW HIGHLY INTERACTIVE APPLY ENGINE WITH PROGRESSION
+// =======================================================
 window.executeCloudJobSubmission = async function(title, company) {
  if(appliedCompanies.includes(company)) return;
+
+ appliedCompanies.push(company);
+ localStorage.setItem("appliedCompanies", JSON.stringify(appliedCompanies));
+ renderJobs(); 
+
  const currentLang = document.getElementById('languageToggle').value;
  const d = langDictionary[currentLang];
+ 
  const popup = document.getElementById('successPopup');
+ const premiumBar = document.getElementById('premiumBar');
+ const animIcon = document.getElementById('popupAnimationIcon');
+ const popupBtn = document.getElementById('popupBtn');
+ const loaderWrapper = document.getElementById('popupLoaderWrapper');
+ 
+ // Reset to Processing State Setup
+ popupBtn.style.display = "none";
+ loaderWrapper.style.display = "block";
+ premiumBar.style.width = "0%";
+ animIcon.innerHTML = `<div style="width: 44px; height: 44px; border: 4px solid var(--border); border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px auto;"></div>`;
  
  document.getElementById('popupTitle').innerText = d.popApply;
  document.getElementById('popupMessage').innerText = d.popMsg;
  popup.style.display = "flex";
 
+ // Trigger smooth progression visual sequence bar
+ setTimeout(() => {
+   premiumBar.style.width = "100%";
+ }, 50);
+
  try {
+   // Simulated smooth delay for premium aesthetics experience
+   await new Promise(resolve => setTimeout(resolve, 1500));
+   
    await fetch(API_URL, {
      method: "POST",
      headers: {"Content-Type": "text/plain;charset=utf-8"},
      body: JSON.stringify({...registeredCandidate, formType:"job_apply", appliedFor: title, company: company})
    });
-   appliedCompanies.push(company);
+   
+   // Beautiful success state transition
+   loaderWrapper.style.display = "none";
+   animIcon.innerHTML = `<div class="success-checkmark-glow"><span>🎉</span></div>`;
    document.getElementById('popupTitle').innerText = d.popSuccess;
    document.getElementById('popupMessage').innerHTML = d.popSuccessMsg;
+   popupBtn.style.display = "block";
+   
    renderJobs();
  } catch(e) {
+   loaderWrapper.style.display = "none";
+   animIcon.innerHTML = `<div class="success-checkmark-glow"><span>💾</span></div>`;
    document.getElementById('popupTitle').innerText = "Saved";
    document.getElementById('popupMessage').innerText = "Application backed up successfully.";
-   appliedCompanies.push(company);
+   popupBtn.style.display = "block";
    renderJobs();
  }
 }
@@ -787,6 +1608,8 @@ document.getElementById('candidateForm').addEventListener('submit', async (e) =>
    address: document.getElementById('address').value.trim(),
    formType: "quick_onboard"
  };
+
+ localStorage.setItem("registeredCandidate", JSON.stringify(registeredCandidate));
 
  document.getElementById('formContainer').style.display = "none";
  document.getElementById('modalOverlay').style.display = "none";

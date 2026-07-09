@@ -956,7 +956,7 @@ mark {
         <div>
           <select id="gender" required>
             <option value="" id="optFormGenderSelect">Select Gender</option>
-            <option>Male</option><option>Female</option>
+            <option value="Male">Male</option><option value="Female">Female</option>
           </select>
         </div>
 
@@ -984,7 +984,6 @@ mark {
         <div>
           <select id="jobCategory" class="dynamic-category-select" required onchange="handleRoleCategoryChange()">
             <option value="" id="optFormTargetCategory">Which job category are you looking for?</option>
-            <option value="Any" id="optAnyCategoryText">Any Category / Open to All</option>
           </select>
         </div>
 
@@ -1062,7 +1061,7 @@ const langDictionary = {
     lblStrength: "Profile Completion Score:", strengthWeak: "Weak Info", strengthStable: "Stable Profile", strengthOpt: "Optimal Profile Setup",
     lblDob: "Date of Birth", optFormGen: "Select Gender", optFormQual: "Highest Qualification", optFormExp: "Experience Status",
     optFresher: "No, I am a Fresher", optExp: "Yes, I have Experience", optTargetCat: "Which job category are you looking for?",
-    optAnyCat: "Any Category / Open to All", lblSkillsHead: "Select your skills here (Max 4 Only):", hintSkills: "Selected Skills:",
+    lblSkillsHead: "Select your skills here (Max 4 Only):", hintSkills: "Selected Skills:",
     optFormArea: "Your Area in Hyderabad", btnSubmit: "🚀 Save Details & View Jobs", txtSearch: "🔍 Search company name or job role...",
     txtPrevComp: "Last Company Name", txtPrevRole: "Job Role (e.g. Recruiter)", txtLastCtc: "Last Annual Salary (CTC)", txtAddress: "Full Home Address",
     txtName: "Full Name", txtMob: "WhatsApp Number", txtEmail: "Email Address", alertSkill: "Please select at least 1 skill token.",
@@ -1077,22 +1076,24 @@ const langDictionary = {
     textImportantLabel: "Core Tag", alertMaxSkills: "⚠️ Maximum 4 skills only allowed.", btnEditTxt: "✏️ Edit Profile", txtMagicAlert: "🚀 New Jobs Added! 🔔"
   },
   TE: {
-    lblMainSec: "💼 అందుబాటులో ఉన్న ఉద్యోగాలు", lblMainSecNew: "🔔 మీ అర్హతకు తగ్గ కొత్త ఉద్యోగాలు (Recommended)", lblOtherNewSec: "📣 ఇతర కొత్త ఉద్యోగాలు (Other New Jobs)", lblFormTitle: "📋 Register Details to View Site", lblFormSub: "జాబ్స్ మరియు స్కిల్స్ మ్యాచ్ అవ్వడానికి సరైన వివరాలు ఇవ్వండి.",
-    lblStrength: "ప్రۆఫైల్ పూర్తి శాతం:", strengthWeak: "డేటా తక్కువగా ఉంది", strengthStable: "స్థిరమైన ప్రొఫైల్", strengthOpt: "ప్రొఫైల్ పూర్తయింది",
-    lblDob: "పుట్టిన తేదీ (Date of Birth)", optFormGen: "లింగము ఎంచుకోండి (Gender)", optFormQual: "చదువు (Highest Qualification)", optFormExp: "అनुభవం ఉందా? (Experience Status)",
+    optAllCat: "అన్ని కేటగిరీలు", optAllLoc: "అన్ని ఏరియాలు",
+    optGender: "జెండర్ (అన్ని లిస్ట్)", optMale: "పురుషులు మాత్రమే (Male)", optFemale: "మహిళలు మాత్రమే (Female)", optBoth: "ఇద్దరికీ అవకాశం (Both)",
+    lblMainSec: "💼 అందుబాటులో ఉన్న ఉద్యోగాలు", lblMainSecNew: "🔔 మీ అర్హతకు తగ్గ కొత్త ఉద్యోగాలు (Recommended)", lblOtherNewSec: "📣 ఇతర కొత్త ఉద్యోగాలు (Other New Jobs)", lblFormTitle: "📋 రిజిస్ట్రేషన్ ఫారమ్ (Register Details)", lblFormSub: "జాబ్స్ మరియు స్కిల్స్ మ్యాచ్ అవ్వడానికి సరైన వివరాలు ఇవ్వండి.",
+    lblStrength: "ప్రొఫైల్ పూర్తి శాతం:", strengthWeak: "డేటా తక్కువగా ఉంది", strengthStable: "స్థిరమైన ప్రొఫైల్", strengthOpt: "ప్రొఫైల్ పూర్తయింది",
+    lblDob: "పుట్టిన తేదీ (Date of Birth)", optFormGen: "లింగము ఎంచుకోండి (Select Gender)", optFormQual: "చదువు (Highest Qualification)", optFormExp: "అనుభవం ఉందా? (Experience Status)",
     optFresher: "లేదు, నేను ఫ్రెషర్ ని (Fresher)", optExp: "అవును, నాకు అనుభవం ఉంది (Experienced)", optTargetCat: "మీరు ఏ కేటగరీ జాబ్ కోసం చూస్తున్నారు?",
-    optAnyCat: "ఏ జాబ్ అయినా పర్లేదు", lblSkillsHead: "మీకున్న స్కిల్స్ ఇక్కడ సెలెక్ట్ చేయండి (గరిష్టంగా 4 మాత్రమే):", hintSkills: "ఎంచుకున్న స్కిల్స్:",
+    lblSkillsHead: "మీకున్న స్కిల్స్ ఇక్కడ సెలెక్ట్ చేయండి (గరిష్టంగా 4 మాత్రమే):", hintSkills: "ఎంచుకున్న స్కిల్స్:",
     optFormArea: "హైదరాబాద్ లో మీరు ఉండే ఏరియా", btnSubmit: "🚀 వివరాలు సేవ్ చేసి జాబ్స్ చూడండి", txtSearch: "🔍 ఇక్కడ కంపెనీ లేదా రోల్ పేరు టైప్ చేయండి...",
     txtPrevComp: "పాత కంపెనీ పేరు", txtPrevRole: "పాత జాబ్ రోల్ (ఉదా: Recruiter)", txtLastCtc: "చివరి జీతం (సంవత్సరానికి ఎంత)", txtAddress: "ఇంటి పూర్తి అడ్రస్",
     txtName: "పూర్తి పేరు (Full Name)", txtMob: "వాట్సాప్ నెంబర్ (WhatsApp Number)", txtEmail: "ఈమెయిల్ ఐడి (Email Address)", alertSkill: "కనీసం ఒక స్కిల్ అయినా సెలెక్ట్ చేయండి.",
-    badgeActive: "🎯 మీ స్కిల్స్ మరియు ప్రొఫైల్ ki సరిపోయే జాబ్స్ క్రమ పద్ధతిలో చూపించబద్ధాయి.",
-    popApply: "అప్లై అవుతోంది...", popMsg: "మీ ప్రొఫైల్ వివరాలు కంపెనీ సర్వర్ ki భద్రంగా పంపిస్తున్నాము...", popSuccess: "అప్లికేషన్ విజయవంతమైంది!",
+    badgeActive: "🎯 మీ స్కిల్స్ మరియు ప్రొఫైల్ కి సరిపోయే జాబ్స్ క్రమ పద్ధతిలో చూపించబడ్డాయి.",
+    popApply: "అప్లై అవుతోంది...", popMsg: "మీ ప్రొఫైల్ వివరాలు కంపెనీ సర్వర్ కి భద్రంగా పంపిస్తున్నాము...", popSuccess: "అప్లికేషన్ విజయవంతమైంది!",
     popSuccessMsg: "మీ ప్రొఫైల్ విజయవంతంగా సేవ్ అయింది. నేరుగా హెచ్ఆర్ ని కాంటాక్ట్ చేయడానికి గ్రీన్ కలర్ <b>వాట్సాప్ HR</b> బటన్ క్లిక్ చేయండి.", badgeLocation: "హైదరాబాద్ ఏరియా",
     lblEducation: "చదువు:", lblExp: "ఎక్స్పీరియన్స్:", lblSalary: "జీతం:", btnApplied: "✓ అప్లై చేసావు", btnApply: "⚡ అప్లై చేయండి", btnHr: "💬 వాట్సాప్ HR",
     lblNoJobsFound: "❌ మీరు వెతికిన ఫిల్టర్స్ కి సరిపోయే జాబ్స్ ఏవీ ప్రస్తుతానికి అందుబాటులో లేవు.",
     lblNoJobsFoundSubtitle: "కానీ మీ కోసం కింద కొన్ని రికమండెడ్ జాబ్స్ చూపించబడ్డాయి:",
     lblRecommendedSec: "⭐ మీ కోసం ప్రత్యేక సిఫార్సు చేయబడిన ఉద్యోగాలు", textFilterLock: "🔒 కేటగిరీ లాక్", 
-    textSkillsCategoryLabel: "కేటగిరీ స్కిల్స్", textGlobalCategoryLabel: "ఇਤਰ స్కిల్స్ లిస్ట్", textPopularCategoryLabel: "పాపులర్ స్కిల్స్ లిస్ట్",
+    textSkillsCategoryLabel: "కేటగిరీ స్కిల్స్", textGlobalCategoryLabel: "ఇతర స్కిల్స్ లిస్ట్", textPopularCategoryLabel: "పాపులర్ స్కిల్స్ లిస్ట్",
     textImportantLabel: "ముఖ్యమైనవి", alertMaxSkills: "⚠️ గరిష్టంగా 4 స్కిల్స్ మాత్రమే ఎంచుకోవడానికి వీలవుతుంది.", btnEditTxt: "✏️ ప్రొఫైల్ మార్చండి", txtMagicAlert: "🚀 కొత్త ఉద్యోగాలు వచ్చాయి! 🔔"
   }
 };
@@ -1159,8 +1160,8 @@ window.switchUIVectorLanguage = function() {
   const currentLang = document.getElementById('languageToggle').value;
   const d = langDictionary[currentLang];
 
-  document.getElementById('optAllCategories').innerText = d.optAllCat || "All Categories";
-  document.getElementById('optAllLocations').innerText = d.optAllLoc || "All Areas";
+  document.getElementById('optAllCategories').innerText = d.optAllCat;
+  document.getElementById('optAllLocations').innerText = d.optAllLoc;
   document.getElementById('optAllGenders').innerText = d.optGender;
   document.getElementById('optMaleOnly').innerText = d.optMale;
   document.getElementById('optFemaleOnly').innerText = d.optFemale;
@@ -1176,7 +1177,6 @@ window.switchUIVectorLanguage = function() {
   document.getElementById('optFresherText').innerText = d.optFresher;
   document.getElementById('optExpText').innerText = d.optExp;
   document.getElementById('optFormTargetCategory').innerText = d.optTargetCat;
-  document.getElementById('optAnyCategoryText').innerText = d.optAnyCat;
   document.getElementById('lblSkillsHeader').innerText = d.lblSkillsHead;
   document.getElementById('optFormAreaSelect').innerText = d.optFormArea;
   document.getElementById('searchInput').placeholder = d.txtSearch;
@@ -1206,7 +1206,7 @@ function setupDropdownUI() {
 
   fCat.innerHTML = '<option value="" id="optAllCategories">All Categories</option>';
   fLoc.innerHTML = '<option value="" id="optAllLocations">All Areas</option>';
-  formCat.innerHTML = '<option value="" id="optFormTargetCategory">Which job category are you looking for?</option><option value="Any" id="optAnyCategoryText">Any Category / Open to All</option>';
+  formCat.innerHTML = '<option value="" id="optFormTargetCategory">Which job category are you looking for?</option>';
   formLoc.innerHTML = '<option value="" id="optFormAreaSelect">Your Area in Hyderabad</option>';
 
   jobCategories.sort().forEach(c => {
@@ -1226,6 +1226,15 @@ function setupDropdownUI() {
 
   if (currentFilterLocValue) fLoc.value = currentFilterLocValue;
   if (currentFormLocValue) formLoc.value = currentFormLocValue;
+  
+  // Re-run language text injection over options after setting them up dynamically
+  const currentLang = document.getElementById('languageToggle').value;
+  if(currentLang === 'TE') {
+    document.getElementById('optAllCategories').innerText = langDictionary.TE.optAllCat;
+    document.getElementById('optAllLocations').innerText = langDictionary.TE.optAllLoc;
+    document.getElementById('optFormTargetCategory').innerText = langDictionary.TE.optTargetCat;
+    document.getElementById('optFormAreaSelect').innerText = langDictionary.TE.optFormArea;
+  }
 }
 
 function calculateLiveStrengthScore() {
@@ -1445,8 +1454,8 @@ async function loadJobs(){
   
   if(registeredCandidate) {
     document.getElementById('dynamicJobsOutput').className = "";
-    document.getElementById('filterCategory').value = (registeredCandidate.jobCategory === 'Any') ? "" : registeredCandidate.jobCategory;
-    document.getElementById('filterLocation').value = (registeredCandidate.area === 'Other') ? "" : registeredCandidate.area;
+    document.getElementById('filterCategory').value = registeredCandidate.jobCategory || "";
+    document.getElementById('filterLocation').value = (registeredCandidate.candidateArea === 'Other') ? "" : registeredCandidate.candidateArea;
     document.getElementById('filterGender').value = registeredCandidate.gender;
     
     if(registeredCandidate.skills) {
@@ -1483,7 +1492,7 @@ window.openFormModal = function(isEdit = false) {
       document.getElementById('lastCtc').value = registeredCandidate.lastCtc;
     }
     document.getElementById('jobCategory').value = registeredCandidate.jobCategory;
-    document.getElementById('candidateArea').value = registeredCandidate.area;
+    document.getElementById('candidateArea').value = registeredCandidate.candidateArea || registeredCandidate.area;
     document.getElementById('address').value = registeredCandidate.address;
     calculateLiveStrengthScore();
   }
@@ -1526,6 +1535,17 @@ window.renderJobs = function() {
  let directMatchesArray = [];
  let recommendationFallbackArray = [];
 
+ // Advanced Near By Proximity Cluster Configuration
+ const nearByAreasMap = {
+   "Uppal": ["Uppal", "Nagole", "Habsiguda", "Ramanthapur", "Boduppal", "Peerzadiguda", "Nacharam", "Mallapur", "Chengicherla", "ECIL"],
+   "Nagole": ["Nagole", "Uppal", "LB Nagar", "Dilsukhnagar", "Kothapet", "Peerzadiguda"],
+   "Habsiguda": ["Habsiguda", "Tarnaka", "Uppal", "Ramanthapur", "Nacharam"],
+   "LB Nagar": ["LB Nagar", "Nagole", "Dilsukhnagar", "Vanasthalipuram", "Hayathnagar"],
+   "Dilsukhnagar": ["Dilsukhnagar", "LB Nagar", "Malakpet", "Saidabad", "Nagole"],
+   "Madhapur": ["Madhapur", "Kondapur", "Gachibowli", "Hitech City", "Hafeezpet"],
+   "Gachibowli": ["Gachibowli", "Madhapur", "Kondapur", "Hitech City", "Kokapet"]
+ };
+
  allJobs.forEach(j => {
    let isNewJob = (j.isNew === true || j.isNew === "Yes");
 
@@ -1535,7 +1555,16 @@ window.renderJobs = function() {
 
    let matchesSearch = !search || j.title.toLowerCase().includes(search) || j.company.toLowerCase().includes(search);
    let matchesCat = !catFilter || j.category === catFilter;
-   let matchesLoc = !locFilter || j.location === locFilter;
+   
+   // Advanced Proximity Area Mapping Engine Implementation
+   let targetLocation = locFilter || (registeredCandidate ? (registeredCandidate.candidateArea || registeredCandidate.area) : '');
+   let allowedAreas = [targetLocation];
+   if (targetLocation && nearByAreasMap[targetLocation]) {
+     allowedAreas = nearByAreasMap[targetLocation];
+   }
+   let matchesLoc = !targetLocation || allowedAreas.includes(j.location);
+   
+   // Strict Matching Logic against structural value (Male/Female/Both) bypassing presentation language
    let matchesGen = !genFilter || j.jobGender === "Both" || j.jobGender === genFilter;
 
    let isMismatch = false;
@@ -1545,12 +1574,15 @@ window.renderJobs = function() {
    let distanceString = j.location || (currentLang === 'TE' ? "హైదరాబాద్" : "Hyd Location");
 
    if(registeredCandidate) {
-      if(registeredCandidate.jobCategory !== 'Any' && j.category !== registeredCandidate.jobCategory) {
+      if(j.category !== registeredCandidate.jobCategory) {
          isMismatch = true;
          mismatchReason = d.textFilterLock;
       }
       
-      if(!isMismatch && j.jobGender && j.jobGender !== "Both" && registeredCandidate.gender !== j.jobGender) { isMismatch = true; mismatchReason = (currentLang === 'TE') ? `${j.jobGender} మాత్రమే` : `${j.jobGender} Only`; }
+      if(!isMismatch && j.jobGender && j.jobGender !== "Both" && registeredCandidate.gender !== j.jobGender) { 
+         isMismatch = true; 
+         mismatchReason = (currentLang === 'TE') ? `${j.jobGender === "Male" ? "పురుషులు" : "మహిళలు"} మాత్రమే` : `${j.jobGender} Only`; 
+      }
       if(!isMismatch && j.minQualification && j.minQualification !== "Any") {
          let cRank = qualOrder.indexOf(registeredCandidate.qualification);
          let jRank = qualOrder.indexOf(j.minQualification);
@@ -1581,13 +1613,21 @@ window.renderJobs = function() {
  });
 
  if(registeredCandidate) {
+   const candHomeArea = registeredCandidate.candidateArea || registeredCandidate.area;
    const sortWithLocationContext = (a, b) => {
       if (a.isMismatch && !b.isMismatch) return 1;
       if (!a.isMismatch && b.isMismatch) return -1;
       
-      const aSameArea = a.data.location === registeredCandidate.candidateArea ? 1 : 0;
-      const bSameArea = b.data.location === registeredCandidate.candidateArea ? 1 : 0;
+      const aSameArea = a.data.location === candHomeArea ? 1 : 0;
+      const bSameArea = b.data.location === candHomeArea ? 1 : 0;
       if (aSameArea !== bSameArea) return bSameArea - aSameArea;
+      
+      // Proximity sorting logic for near-by cluster items preference matrix mapping
+      if (candHomeArea && nearByAreasMap[candHomeArea]) {
+         const aNear = nearByAreasMap[candHomeArea].includes(a.data.location) ? 1 : 0;
+         const bNear = nearByAreasMap[candHomeArea].includes(b.data.location) ? 1 : 0;
+         if (aNear !== bNear) return bNear - aNear;
+      }
       
       return b.matchPercentage - a.matchPercentage;
    };
@@ -1685,7 +1725,7 @@ window.renderJobs = function() {
       finalHTMLOutput = `<p style='text-align:center; color:var(--text-muted); padding:40px; font-weight:500;'>No new jobs found currently.</p>`;
    }
 
- } else {
+  } else {
    if(directMatchesArray.length > 0) {
       finalHTMLOutput = `<div>${directMatchesArray.map(item => buildJobCardHtml(item)).join('')}</div>`;
    } else {
@@ -1792,7 +1832,7 @@ Here are my details below:
 • *Education:* ${registeredCandidate.qualification}
 • *Experience Level:* ${expString}
 • *Key Skills:* ${registeredCandidate.skills}
-• *Current Area:* ${registeredCandidate.area}
+• *Current Area:* ${registeredCandidate.candidateArea || registeredCandidate.area}
 ------------------------------------------
 Looking forward to hearing from you. Thank you!`;
 
@@ -1817,6 +1857,7 @@ document.getElementById('candidateForm').addEventListener('submit', async (e) =>
    lastCtc: document.getElementById('lastCtc').value.trim() || "N/A",
    jobCategory: document.getElementById('jobCategory').value,
    skills: candidateSkills.join(", "),
+   candidateArea: document.getElementById('candidateArea').value,
    area: document.getElementById('candidateArea').value,
    address: document.getElementById('address').value.trim(),
    formType: "quick_onboard"
@@ -1828,8 +1869,8 @@ document.getElementById('candidateForm').addEventListener('submit', async (e) =>
  document.getElementById('modalOverlay').style.display = "none";
  document.getElementById('dynamicJobsOutput').className = "";
  
- document.getElementById('filterCategory').value = (registeredCandidate.jobCategory === 'Any') ? "" : registeredCandidate.jobCategory;
- document.getElementById('filterLocation').value = (registeredCandidate.area === 'Other') ? "" : registeredCandidate.area;
+ document.getElementById('filterCategory').value = registeredCandidate.jobCategory || "";
+ document.getElementById('filterLocation').value = (registeredCandidate.candidateArea === 'Other') ? "" : registeredCandidate.candidateArea;
  document.getElementById('filterGender').value = registeredCandidate.gender;
 
  renderJobs();

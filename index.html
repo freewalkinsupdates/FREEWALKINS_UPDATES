@@ -162,6 +162,40 @@ body {
   font-weight: 800;
   line-height: 1;
   box-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
+  transition: transform 0.2s ease;
+}
+
+/* 🪄 MAGIC FLYING TOAST ALERT STYLE */
+.magic-toast {
+  position: fixed;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%) scale(0.8);
+  background: #3b82f6;
+  color: #fff;
+  padding: 10px 20px;
+  border-radius: 30px;
+  font-size: 14px;
+  font-weight: 800;
+  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+  z-index: 99999;
+  opacity: 0;
+  pointer-events: none;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@keyframes magicFlyIn {
+  0% { top: 80px; left: 50%; transform: translateX(-50%) scale(0.8); opacity: 0; }
+  20% { top: 120px; left: 50%; transform: translateX(-50%) scale(1.1); opacity: 1; }
+  40% { top: 120px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
+  70% { top: 120px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
+  100% { top: 25px; left: 83px; transform: scale(0.2); opacity: 0; }
+}
+
+.magic-toast.fly-effect {
+  animation: magicFlyIn 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
 /* Edit Profile Button Style */
@@ -875,6 +909,13 @@ mark {
     top: 12px;
     right: 12px;
   }
+  @keyframes magicFlyIn {
+    0% { top: 60px; left: 50%; transform: translateX(-50%) scale(0.8); opacity: 0; }
+    20% { top: 100px; left: 50%; transform: translateX(-50%) scale(1.1); opacity: 1; }
+    40% { top: 100px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
+    70% { top: 100px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
+    100% { top: 12px; left: 69px; transform: scale(0.1); opacity: 0; }
+  }
 }
 
 @media (max-width: 360px) {
@@ -888,6 +929,9 @@ mark {
 <body>
 <div class="modal-overlay" id="modalOverlay"></div>
 <div class="wrapper">
+
+  <!-- 🪄 Magic Flying Toast Trigger Element -->
+  <div class="magic-toast" id="magicToastAlert">🚀 New Jobs Added! 🔔</div>
 
   <div class="header">
     <button class="theme-toggle" onclick="toggleThemeMode()">🌓</button>
@@ -1069,12 +1113,6 @@ let candidateSkills = [];
 let filterNewJobsActive = false;
 let readNewJobsArray = [];
 
-window.toggleThemeMode = function() {
-  const currentTheme = document.documentElement.getAttribute('data-theme');
-  const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
-  document.documentElement.setAttribute('data-theme', targetTheme);
-}
-
 const langDictionary = {
   EN: {
     optAllCat: "All Categories", optAllLoc: "All Areas",
@@ -1095,12 +1133,12 @@ const langDictionary = {
     lblNoJobsFoundSubtitle: "But here are some recommended openings for you below:",
     lblRecommendedSec: "⭐ Recommended Jobs For You", textFilterLock: "🔒 Category Lock", 
     textSkillsCategoryLabel: "SKILLS MATCH SUITE", textGlobalCategoryLabel: "GLOBAL SKILLS", textPopularCategoryLabel: "POPULAR SYSTEM TOKENS",
-    textImportantLabel: "Core Tag", alertMaxSkills: "⚠️ Maximum 4 skills only allowed.", btnEditTxt: "✏️ Edit Profile"
+    textImportantLabel: "Core Tag", alertMaxSkills: "⚠️ Maximum 4 skills only allowed.", btnEditTxt: "✏️ Edit Profile", txtMagicAlert: "🚀 New Jobs Added! 🔔"
   },
   TE: {
     lblMainSec: "💼 అందుబాటులో ఉన్న ఉద్యోగాలు", lblMainSecNew: "🔔 మీ అర్హతకు తగ్గ కొత్త ఉద్యోగాలు (Recommended)", lblOtherNewSec: "📣 ఇతర కొత్త ఉద్యోగాలు (Other New Jobs)", lblFormTitle: "📋 Register Details to View Site", lblFormSub: "జాబ్స్ మరియు స్కిల్స్ మ్యాచ్ అవ్వడానికి సరైన వివరాలు ఇవ్వండి.",
     lblStrength: "ప్రۆఫైల్ పూర్తి శాతం:", strengthWeak: "డేటా తక్కువగా ఉంది", strengthStable: "స్థిరమైన ప్రొఫైల్", strengthOpt: "ప్రొఫైల్ పూర్తయింది",
-    lblDob: "పుట్టిన తేదీ (Date of Birth)", optFormGen: "లింగము ఎంచుకోండి (Gender)", optFormQual: "చదువు (Highest Qualification)", optFormExp: "అనుభవం ఉందా? (Experience Status)",
+    lblDob: "పుట్టిన తేదీ (Date of Birth)", optFormGen: "లింగము ఎంచుకోండి (Gender)", optFormQual: "చదువు (Highest Qualification)", optFormExp: "అनुభవం ఉందా? (Experience Status)",
     optFresher: "లేదు, నేను ఫ్రెషర్ ని (Fresher)", optExp: "అవును, నాకు అనుభవం ఉంది (Experienced)", optTargetCat: "మీరు ఏ కేటగరీ జాబ్ కోసం చూస్తున్నారు?",
     optAnyCat: "ఏ జాబ్ అయినా పర్లేదు", lblSkillsHead: "మీకున్న స్కిల్స్ ఇక్కడ సెలెక్ట్ చేయండి (గరిష్టంగా 4 మాత్రమే):", hintSkills: "ఎంచుకున్న స్కిల్స్:",
     optFormArea: "హైదరాబాద్ లో మీరు ఉండే ఏరియా", btnSubmit: "🚀 వివరాలు సేవ్ చేసి జాబ్స్ చూడండి", txtSearch: "🔍 ఇక్కడ కంపెనీ లేదా రోల్ పేరు టైప్ చేయండి...",
@@ -1113,8 +1151,8 @@ const langDictionary = {
     lblNoJobsFound: "❌ మీరు వెతికిన ఫిల్టర్స్ కి సరిపోయే జాబ్స్ ఏవీ ప్రస్తుతానికి అందుబాటులో లేవు.",
     lblNoJobsFoundSubtitle: "కానీ మీ కోసం కింద కొన్ని రికమండెడ్ జాబ్స్ చూపించబడ్డాయి:",
     lblRecommendedSec: "⭐ మీ కోసం ప్రత్యేక సిఫార్సు చేయబడిన ఉద్యోగాలు", textFilterLock: "🔒 కేటగిరీ లాక్", 
-    textSkillsCategoryLabel: "కేటగిరీ స్కిల్స్", textGlobalCategoryLabel: "ఇתר స్కిల్స్ లిస్ట్", textPopularCategoryLabel: "పాపులర్ స్కిల్స్ లిస్ట్",
-    textImportantLabel: "ముఖ్యమైనవి", alertMaxSkills: "⚠️ గరిష్టంగా 4 స్కిల్స్ మాత్రమే ఎంచుకోవడానికి వీలవుతుంది.", btnEditTxt: "✏️ ప్రొఫైల్ మార్చండి"
+    textSkillsCategoryLabel: "కేటగిరీ స్కిల్స్", textGlobalCategoryLabel: "ఇਤਰ స్కిల్స్ లిస్ట్", textPopularCategoryLabel: "పాపులర్ స్కిల్స్ లిస్ట్",
+    textImportantLabel: "ముఖ్యమైనవి", alertMaxSkills: "⚠️ గరిష్టంగా 4 స్కిల్స్ మాత్రమే ఎంచుకోవడానికి వీలవుతుంది.", btnEditTxt: "✏️ ప్రొఫైల్ మార్చండి", txtMagicAlert: "🚀 కొత్త ఉద్యోగాలు వచ్చాయి! 🔔"
   }
 };
 
@@ -1202,6 +1240,7 @@ window.switchUIVectorLanguage = function() {
   document.getElementById('optFormAreaSelect').innerText = d.optFormArea;
   document.getElementById('searchInput').placeholder = d.txtSearch;
   document.getElementById('editProfileBtn').innerText = d.btnEditTxt;
+  document.getElementById('magicToastAlert').innerText = d.txtMagicAlert;
   
   document.getElementById('name').placeholder = d.txtName;
   document.getElementById('mobile').placeholder = d.txtMob;
@@ -1389,15 +1428,26 @@ chipsDiv.addEventListener('click', (e) => {
   }
 });
 
+/* 🔔 NOTIFICATION ENGINE & MAGIC FLY EFFECT */
 function updateNotificationBadge() {
   const badge = document.getElementById('newJobsBadge');
   
-  /* 🔔 ALL NEW JOBS ARE counted for badge now, ignoring category locks */
+  // If user is currently looking at the new jobs filter, don't show or increment numbers
+  if (filterNewJobsActive) {
+    badge.style.display = 'none';
+    return;
+  }
+
   const unseenNewJobs = allJobs.filter(j => {
     return (j.isNew === true || j.isNew === "Yes") && !readNewJobsArray.includes(j.company);
   });
   
   if (unseenNewJobs.length > 0) {
+    // Check if count increased to trigger magic animation
+    const previousCount = parseInt(badge.innerText) || 0;
+    if (unseenNewJobs.length > previousCount) {
+      triggerMagicFlyingToast();
+    }
     badge.innerText = unseenNewJobs.length;
     badge.style.display = 'block';
   } else {
@@ -1405,13 +1455,40 @@ function updateNotificationBadge() {
   }
 }
 
+function triggerMagicFlyingToast() {
+  const toast = document.getElementById('magicToastAlert');
+  toast.classList.remove('fly-effect');
+  // force reflow
+  void toast.offsetWidth;
+  toast.classList.add('fly-effect');
+  
+  // Clean up class after animation ends
+  setTimeout(() => {
+    toast.classList.remove('fly-effect');
+  }, 2600);
+}
+
 window.filterNewJobsOnly = function() {
   filterNewJobsActive = !filterNewJobsActive;
   
   const container = document.querySelector('.notification-bell');
+  const badge = document.getElementById('newJobsBadge');
+
   if (filterNewJobsActive) {
     container.style.background = 'var(--primary-light)';
     container.style.borderColor = 'var(--primary)';
+    
+    // 🪄 MAGIC TRICK: Hide the badge count instantly as user views them!
+    badge.style.transform = 'scale(0)';
+    setTimeout(() => { badge.style.display = 'none'; badge.style.transform = 'scale(1)'; }, 200);
+
+    // Mark all currently visible new jobs as read so they won't trigger badge numbers next time
+    allJobs.forEach(j => {
+      if ((j.isNew === true || j.isNew === "Yes") && !readNewJobsArray.includes(j.company)) {
+        readNewJobsArray.push(j.company);
+      }
+    });
+    localStorage.setItem("readNewJobsArray", JSON.stringify(readNewJobsArray));
   } else {
     container.style.background = 'var(--bg-main)';
     container.style.borderColor = 'var(--border)';
@@ -1518,7 +1595,6 @@ window.renderJobs = function() {
  allJobs.forEach(j => {
    let isNewJob = (j.isNew === true || j.isNew === "Yes");
 
-   // If the notification filter is active, skip any job that isn't new.
    if (filterNewJobsActive && !isNewJob) {
      return;
    }
@@ -1535,7 +1611,6 @@ window.renderJobs = function() {
    let distanceString = j.location || (currentLang === 'TE' ? "హైదరాబాద్" : "Hyd Location");
 
    if(registeredCandidate) {
-      /* 🔒 CATEGORY LOCK LOGIC */
       if(registeredCandidate.jobCategory !== 'Any' && j.category !== registeredCandidate.jobCategory) {
          isMismatch = true;
          mismatchReason = d.textFilterLock;
@@ -1564,7 +1639,6 @@ window.renderJobs = function() {
 
    let packageObject = {data: j, isMismatch, mismatchReason, matchPercentage, distanceString};
 
-   // Separate into arrays based on configuration
    if(matchesSearch && matchesCat && matchesLoc && matchesGen) { 
       directMatchesArray.push(packageObject); 
    } else { 
@@ -1660,10 +1734,7 @@ window.renderJobs = function() {
  let finalHTMLOutput = '';
 
  if (filterNewJobsActive) {
-   /* 🔔 FIX: Category Lock ఉన్నప్పటికీ, "Recommended New Jobs" లో Matching Jobs వస్తాయి */
    let recommendedNewJobs = directMatchesArray.filter(item => (item.data.isNew === true || item.data.isNew === "Yes"));
-
-   /* 🔔 FIX: Category mismatch ఉన్న మిగిలిన అన్ని న్యూ జాబ్స్ "Other New Jobs" లో కనిపిస్తాయి */
    let otherNewJobs = recommendationFallbackArray.filter(item => (item.data.isNew === true || item.data.isNew === "Yes"));
 
    if(recommendedNewJobs.length > 0) {

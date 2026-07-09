@@ -24,28 +24,28 @@
   --text-main: #0f172a;
   --text-muted: #64748b;
   --border: #e2e8f0;
-  --radius-lg: 16px;
-  --radius-md: 12px;
-  --radius-sm: 8px;
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
   --highlight: #fef08a;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.01);
-  --shadow-lg: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.01);
+  --shadow-sm: 0 2px 4px 0 rgba(15, 23, 42, 0.04);
+  --shadow-md: 0 8px 24px -4px rgba(15, 23, 42, 0.06), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
+  --shadow-lg: 0 20px 32px -8px rgba(15, 23, 42, 0.08), 0 12px 20px -6px rgba(15, 23, 42, 0.04);
 }
 
 /* 🌙 DARK THEME VARIABLES */
 [data-theme="dark"] {
-  --bg-main: #0b0f19;
-  --bg-card: #151f32;
-  --text-main: #f8fafc;
+  --bg-main: #090d16;
+  --bg-card: #121b2d;
+  --text-main: #f1f5f9;
   --text-muted: #94a3b8;
-  --border: #222f45;
+  --border: #1e293b;
   --primary-light: rgba(16, 185, 129, 0.12);
   --primary-light-hover: rgba(16, 185, 129, 0.22);
   --highlight: #451a03;
-  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.5);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.3);
-  --shadow-lg: 0 20px 30px rgba(0, 0, 0, 0.4);
+  --shadow-sm: 0 2px 4px 0 rgba(0, 0, 0, 0.4);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.3);
+  --shadow-lg: 0 20px 40px rgba(0, 0, 0, 0.4);
 }
 
 * {
@@ -59,125 +59,128 @@ body {
   font-family: 'Plus Jakarta Sans', sans-serif;
   background: var(--bg-main);
   color: var(--text-main);
-  padding: 24px 16px;
-  line-height: 1.5;
+  padding: 32px 20px;
+  line-height: 1.6;
   overflow-x: hidden;
   transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .wrapper {
   width: 100%;
-  max-width: 580px;
+  max-width: 640px;
   margin: 0 auto;
 }
 
-/* FIXED HEADER */
+/* MODAL OVERLAY */
+.modal-overlay {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.4);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 999;
+}
+
+/* PREMIUM HEADER */
 .header {
   background: var(--bg-card);
-  color: var(--text-main);
-  padding: 24px;
+  padding: 32px 24px;
   border-radius: var(--radius-lg);
   text-align: center;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   border: 1px solid var(--border);
   position: relative;
   box-shadow: var(--shadow-md);
 }
 
 .header h1 {
-  font-size: 28px;
+  font-size: 32px;
   font-weight: 800;
-  color: var(--primary);
-  letter-spacing: -0.75px;
-  margin-bottom: 4px;
+  background: linear-gradient(135deg, var(--primary), #3b82f6);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  letter-spacing: -1px;
+  margin-bottom: 6px;
 }
 
 .header p {
-  font-size: 13px;
+  font-size: 11px;
   color: var(--text-muted);
-  font-weight: 700;
-  letter-spacing: 0.5px;
+  font-weight: 800;
+  letter-spacing: 1px;
   text-transform: uppercase;
 }
 
-/* 🌓 DARK MODE TOGGLE BUTTON */
-.theme-toggle {
+/* UTILITY BUTTON COMPONENT GROUP */
+.utility-actions-group {
+  display: flex;
+  gap: 10px;
   position: absolute;
-  top: 20px;
-  left: 20px;
+  top: 24px;
+  left: 24px;
+}
+
+/* THEME & NOTIFICATION TOGGLE COMPONENT */
+.theme-toggle, .notification-bell {
   background: var(--bg-main);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  font-size: 18px;
+  font-size: 16px;
   cursor: pointer;
-  width: 36px;
-  height: 36px;
+  width: 40px;
+  height: 40px;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s ease;
-}
-.theme-toggle:hover {
-  transform: translateY(-1px);
-  border-color: var(--primary);
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* 🔔 NOTIFICATION BELL STYLE */
+.theme-toggle:hover, .notification-bell:hover {
+  transform: translateY(-2px);
+  border-color: var(--primary);
+  box-shadow: var(--shadow-sm);
+}
+
 .notification-container {
-  position: absolute;
-  top: 20px;
-  left: 65px;
+  position: relative;
   cursor: pointer;
   display: inline-block;
   z-index: 10;
 }
-.notification-bell {
-  background: var(--bg-main);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  font-size: 18px;
-  cursor: pointer;
-  width: 36px;
-  height: 36px;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: all 0.2s ease;
-}
-.notification-bell:hover {
-  transform: translateY(-1px);
-  border-color: var(--primary);
-}
+
 .notification-badge {
   position: absolute;
-  top: -5px;
-  right: -5px;
+  top: -4px;
+  right: -4px;
   background-color: var(--danger);
   color: white;
   border-radius: 50%;
-  padding: 2px 6px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
   font-size: 10px;
   font-weight: 800;
-  line-height: 1;
-  box-shadow: 0 0 5px rgba(239, 68, 68, 0.5);
-  transition: transform 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
 }
 
-/* 🪄 MAGIC FLYING TOAST ALERT STYLE */
+/* MAGIC FLYING TOAST ALERT STYLE */
 .magic-toast {
   position: fixed;
-  top: 80px;
+  top: 40px;
   left: 50%;
-  transform: translateX(-50%) scale(0.8);
-  background: #3b82f6;
+  transform: translateX(-50%) scale(0.9);
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
   color: #fff;
-  padding: 10px 20px;
-  border-radius: 30px;
+  padding: 12px 24px;
+  border-radius: 50px;
   font-size: 14px;
-  font-weight: 800;
-  box-shadow: 0 10px 25px rgba(59, 130, 246, 0.4);
+  font-weight: 700;
+  box-shadow: 0 12px 30px rgba(59, 130, 246, 0.3);
   z-index: 99999;
   opacity: 0;
   pointer-events: none;
@@ -187,11 +190,11 @@ body {
 }
 
 @keyframes magicFlyIn {
-  0% { top: 80px; left: 50%; transform: translateX(-50%) scale(0.8); opacity: 0; }
-  20% { top: 120px; left: 50%; transform: translateX(-50%) scale(1.1); opacity: 1; }
-  40% { top: 120px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
-  70% { top: 120px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
-  100% { top: 25px; left: 83px; transform: scale(0.2); opacity: 0; }
+  0% { top: 40px; left: 50%; transform: translateX(-50%) scale(0.9); opacity: 0; }
+  20% { top: 100px; left: 50%; transform: translateX(-50%) scale(1.05); opacity: 1; }
+  40% { top: 100px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
+  70% { top: 100px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
+  100% { top: 24px; left: 84px; transform: scale(0.1); opacity: 0; }
 }
 
 .magic-toast.fly-effect {
@@ -201,15 +204,15 @@ body {
 /* Edit Profile Button Style */
 .btn-edit-profile {
   position: absolute;
-  top: 20px;
-  right: 20px;
+  top: 24px;
+  right: 24px;
   display: none;
   background: var(--primary-light);
   color: var(--primary);
-  border: 1px solid rgba(16, 185, 129, 0.3);
+  border: 1px solid rgba(16, 185, 129, 0.2);
   font-size: 12px;
-  padding: 8px 14px;
-  border-radius: 30px;
+  padding: 10px 18px;
+  border-radius: 50px;
   font-weight: 700;
   width: auto;
   min-height: auto;
@@ -218,14 +221,14 @@ body {
 .btn-edit-profile:hover {
   background: var(--primary-light-hover);
   border-color: var(--primary);
-  transform: translateY(-1px);
+  transform: translateY(-2px);
 }
 
-/* 🌟 BLINK ANIMATION FOR EDIT BUTTON */
+/* BLINK ANIMATION FOR EDIT BUTTON */
 @keyframes blinkBtn {
-  0% { transform: scale(1); background: var(--primary-light); }
-  50% { transform: scale(1.05); background: #f59e0b; color: #fff; border-color: #f59e0b; box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
-  100% { transform: scale(1); background: var(--primary-light); }
+  0% { transform: scale(1); }
+  50% { transform: scale(1.05); background: #f59e0b; color: #fff; border-color: #f59e0b; box-shadow: 0 0 20px rgba(245, 158, 11, 0.3); }
+  100% { transform: scale(1); }
 }
 .blink-active {
   animation: blinkBtn 0.8s ease-in-out 5;
@@ -233,48 +236,47 @@ body {
 }
 
 .lang-selector-container {
-  margin-top: 16px;
+  margin-top: 20px;
   display: block;
   text-align: center;
 }
 
 .lang-select {
   width: auto;
-  min-width: 140px;
+  min-width: 150px;
   display: inline-block;
   padding: 8px 16px;
-  font-size: 12px;
+  font-size: 13px;
   font-weight: 700;
-  border-radius: 30px;
+  border-radius: 50px;
   border: 1px solid var(--border);
   background: var(--bg-main);
   cursor: pointer;
   color: var(--text-main);
-  text-align: center;
 }
 
-/* FILTERS */
+/* FILTERS BOX */
 .filter-box {
   background: var(--bg-card);
-  padding: 20px;
+  padding: 24px;
   border-radius: var(--radius-lg);
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   border: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
   box-shadow: var(--shadow-md);
 }
 
 .filter-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
+  gap: 14px;
 }
 
 input, select, textarea {
   width: 100%;
-  padding: 12px 16px;
+  padding: 14px 18px;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   font-family: inherit;
@@ -283,7 +285,7 @@ input, select, textarea {
   color: var(--text-main);
   background-color: var(--bg-main);
   outline: none;
-  min-height: 46px;
+  min-height: 50px;
   transition: all 0.2s ease;
 }
 input:focus, select:focus, textarea:focus {
@@ -301,29 +303,29 @@ input:focus, select:focus, textarea:focus {
 }
 
 .section-title {
-  font-size: 18px;
+  font-size: 20px;
   font-weight: 800;
-  margin: 24px 0 14px 0;
+  margin: 32px 0 16px 0;
   color: var(--text-main);
-  letter-spacing: -0.3px;
+  letter-spacing: -0.5px;
 }
 
 .recommended-title {
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 800;
-  margin: 28px 0 14px 0;
+  margin: 36px 0 16px 0;
   color: #3b82f6;
   border-left: 4px solid #3b82f6;
-  padding-left: 10px;
-  letter-spacing: -0.3px;
+  padding-left: 12px;
+  letter-spacing: -0.5px;
 }
 
-/* PROFILE MATRIX STRENGTH */
+/* STRENGTH METER ENGINE */
 .strength-meter-container {
   background: var(--bg-main);
-  padding: 16px;
+  padding: 18px;
   border-radius: var(--radius-md);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   border: 1px solid var(--border);
 }
 
@@ -332,13 +334,13 @@ input:focus, select:focus, textarea:focus {
   justify-content: space-between;
   font-size: 13px;
   font-weight: 700;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
 
 .strength-bar-bg {
   background: var(--border);
   height: 8px;
-  border-radius: 10px;
+  border-radius: 50px;
   overflow: hidden;
 }
 
@@ -346,25 +348,25 @@ input:focus, select:focus, textarea:focus {
   background: var(--danger);
   width: 0%;
   height: 100%;
-  border-radius: 10px;
-  transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 50px;
+  transition: width 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .profile-summary-badge {
-  background: rgba(59, 130, 246, 0.08);
-  border: 1px solid rgba(59, 130, 246, 0.2);
-  padding: 14px 16px;
+  background: rgba(59, 130, 246, 0.06);
+  border: 1px solid rgba(59, 130, 246, 0.15);
+  padding: 16px 18px;
   color: #2563eb;
   border-radius: var(--radius-md);
   font-size: 13px;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 24px;
   display: none;
-  line-height: 1.5;
+  line-height: 1.6;
 }
 [data-theme="dark"] .profile-summary-badge {
-  background: rgba(37, 99, 235, 0.15);
-  border-color: rgba(37, 99, 235, 0.3);
+  background: rgba(37, 99, 235, 0.12);
+  border-color: rgba(37, 99, 235, 0.25);
   color: #60a5fa;
 }
 
@@ -376,13 +378,13 @@ input:focus, select:focus, textarea:focus {
 
 .suggestions-box {
   position: absolute;
-  top: calc(100% + 4px);
+  top: calc(100% + 6px);
   left: 0;
   right: 0;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  max-height: 220px;
+  max-height: 240px;
   overflow-y: auto;
   z-index: 2000;
   display: none;
@@ -390,7 +392,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 .suggestion-item {
-  padding: 12px 16px;
+  padding: 14px 18px;
   font-size: 14px;
   font-weight: 500;
   cursor: pointer;
@@ -399,7 +401,7 @@ input:focus, select:focus, textarea:focus {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--border);
-  transition: background 0.15s;
+  transition: background 0.2s ease;
 }
 .suggestion-item:hover {
   background: var(--primary-light);
@@ -411,7 +413,7 @@ input:focus, select:focus, textarea:focus {
   font-size: 11px;
   font-weight: 800;
   color: var(--text-muted);
-  padding: 8px 16px;
+  padding: 10px 18px;
   pointer-events: none;
   border-bottom: 1px solid var(--border);
   letter-spacing: 0.5px;
@@ -422,20 +424,20 @@ input:focus, select:focus, textarea:focus {
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
-  margin-top: 10px;
+  margin-top: 12px;
 }
 
 .skill-chip {
   background: var(--primary-light);
   color: var(--primary);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  padding: 6px 14px;
-  border-radius: 30px;
+  border: 1px solid rgba(16, 185, 129, 0.2);
+  padding: 8px 16px;
+  border-radius: 50px;
   font-size: 13px;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
 }
 .skill-chip span {
   cursor: pointer;
@@ -445,66 +447,54 @@ input:focus, select:focus, textarea:focus {
   line-height: 1;
 }
 
-/* JOB CARDS STYLE */
+/* JOB CARDS */
 .job-card {
   background: var(--bg-card);
   border-radius: var(--radius-lg);
-  padding: 20px;
-  margin-bottom: 16px;
+  padding: 24px;
+  margin-bottom: 20px;
   border: 1px solid var(--border);
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 .job-card:hover {
-  transform: translateY(-2px);
+  transform: translateY(-4px);
   box-shadow: var(--shadow-lg);
-  border-color: rgba(16, 185, 129, 0.2);
+  border-color: rgba(16, 185, 129, 0.25);
 }
 .job-card.mismatch {
-  opacity: 0.65;
+  opacity: 0.7;
   border-left: 4px solid var(--danger);
   background: var(--bg-main);
 }
-.mismatch-tag {
-  background: #475569;
-  color: white;
-  font-size: 11px;
-  padding: 5px 12px;
-  position: absolute;
-  top: 0;
-  right: 0;
-  border-bottom-left-radius: var(--radius-sm);
-  font-weight: 700;
-  letter-spacing: 0.3px;
-}
 
-.score-tag-100, .score-tag-80, .score-tag-60, .score-tag-low {
+.mismatch-tag, .score-tag-100, .score-tag-80, .score-tag-60, .score-tag-low {
   font-size: 11px;
-  padding: 5px 12px;
+  padding: 6px 14px;
   position: absolute;
   top: 0;
   right: 0;
   border-bottom-left-radius: var(--radius-sm);
-  font-weight: 700;
+  font-weight: 800;
   letter-spacing: 0.3px;
   color: white;
 }
+.mismatch-tag { background: #475569; }
 .score-tag-100 { background: #10b981; }
 .score-tag-80 { background: #3b82f6; }
 .score-tag-60 { background: #f59e0b; }
 .score-tag-low { background: #64748b; }
 
-/* 🆕 NEW JOB LIVE LABEL STYLE */
 .new-job-badge-tag {
   background: #ef4444;
   color: white;
   font-size: 10px;
   font-weight: 800;
-  padding: 2px 6px;
-  border-radius: 4px;
-  margin-left: 6px;
+  padding: 3px 8px;
+  border-radius: 6px;
+  margin-left: 8px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   display: inline-block;
@@ -513,95 +503,91 @@ input:focus, select:focus, textarea:focus {
 }
 
 @keyframes pulseNewTag {
-  0% { opacity: 1; }
+  0%, 100% { opacity: 1; }
   50% { opacity: 0.6; }
-  100% { opacity: 1; }
 }
 
 .blurred-jobs .job-card h3, 
 .blurred-jobs .job-card .company-name, 
 .blurred-jobs .job-card .job-details-grid {
-  filter: blur(6px);
+  filter: blur(8px);
   pointer-events: none;
   user-select: none;
 }
 
 .job-card h3 {
-  font-size: 19px;
+  font-size: 20px;
   font-weight: 800;
-  margin-bottom: 6px;
+  margin-bottom: 8px;
   color: var(--text-main);
-  line-height: 1.3;
-  padding-right: 80px;
+  line-height: 1.4;
+  padding-right: 90px;
 }
 
 .company-name {
   font-size: 14px;
   color: var(--primary);
   font-weight: 700;
-  margin-bottom: 16px;
+  margin-bottom: 20px;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 6px;
+  gap: 8px;
 }
 
 .job-details-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px;
-  margin-bottom: 18px;
+  gap: 12px;
+  margin-bottom: 20px;
 }
 
 .detail-badge {
   background: var(--bg-main);
-  padding: 10px 12px;
+  padding: 12px 14px;
   border-radius: var(--radius-sm);
   font-size: 13px;
   font-weight: 600;
   color: var(--text-muted);
   display: flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   border: 1px solid var(--border);
-  white-space: normal;
-  word-break: break-word;
-  overflow: visible;
 }
 
 .proximity-badge {
   color: #2563eb !important;
   font-weight: 700;
-  background: rgba(59, 130, 246, 0.06) !important;
-  border: 1px solid rgba(59, 130, 246, 0.15) !important;
+  background: rgba(59, 130, 246, 0.04) !important;
+  border-color: rgba(59, 130, 246, 0.12) !important;
 }
 [data-theme="dark"] .proximity-badge {
   color: #60a5fa !important;
-  background: rgba(37, 99, 235, 0.15) !important;
-  border-color: rgba(37, 99, 235, 0.25) !important;
+  background: rgba(37, 99, 235, 0.12) !important;
+  border-color: rgba(37, 99, 235, 0.2) !important;
 }
 
 .job-skills-list {
-  font-size: 12px;
-  margin-bottom: 12px;
+  font-size: 13px;
+  margin-bottom: 14px;
   color: var(--text-muted);
 }
 .job-expiry-alert {
   font-size: 13px;
   font-weight: 700;
   color: #ef4444;
-  background: #fef2f2;
-  border: 1px dashed #fca5a5;
-  padding: 8px;
+  background: rgba(239, 68, 68, 0.04);
+  border: 1px dashed rgba(239, 68, 68, 0.3);
+  padding: 10px;
   border-radius: var(--radius-sm);
-  margin-bottom: 14px;
+  margin-bottom: 16px;
   text-align: center;
 }
 
-/* INTERACTIVE ACTIONS */
+/* INTERACTIVE ACTION BUTTONS */
 .actions-flex {
   display: flex;
-  gap: 10px;
+  gap: 12px;
   width: 100%;
 }
 
@@ -615,49 +601,53 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 20px;
-  gap: 8px;
+  padding: 14px 24px;
+  gap: 10px;
   flex: 1;
-  min-height: 46px;
+  min-height: 50px;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 button:active {
-  transform: scale(0.98);
+  transform: scale(0.97);
 }
 
 .btn-primary {
-  background: var(--primary);
+  background: linear-gradient(135deg, var(--primary), #059669);
   color: #fff;
-  box-shadow: 0 2px 4px rgba(16, 185, 129, 0.2);
+  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
 }
 .btn-primary:hover:not(:disabled) {
-  background: var(--primary-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
 }
 .btn-primary:disabled {
-  background: var(--border);
-  color: var(--text-muted);
+  background: var(--border) !important;
+  color: var(--text-muted) !important;
   cursor: not-allowed;
   opacity: 0.6;
-  box-shadow: none;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
 .btn-whatsapp {
-  background: var(--whatsapp);
+  background: linear-gradient(135deg, var(--whatsapp), #16a34a);
   color: #fff;
-  box-shadow: 0 2px 4px rgba(34, 197, 94, 0.2);
+  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.25);
 }
 .btn-whatsapp:hover:not(:disabled) {
-  background: var(--whatsapp-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.35);
 }
 .btn-whatsapp:disabled {
-  background: var(--border);
-  color: var(--text-muted);
+  background: var(--border) !important;
+  color: var(--text-muted) !important;
   cursor: not-allowed;
   opacity: 0.6;
-  box-shadow: none;
+  box-shadow: none !important;
+  transform: none !important;
 }
 
-/* REGISTRATION CONTAINER MODAL */
+/* MODAL REGISTRATION PANEL */
 .container {
   display: none;
   position: fixed;
@@ -665,33 +655,28 @@ button:active {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 92%;
-  max-width: 480px;
-  max-height: 85vh;
+  max-width: 520px;
+  max-height: 88vh;
   overflow-y: auto;
   background: var(--bg-card);
   border-radius: var(--radius-lg);
-  padding: 28px;
+  padding: 36px 32px;
   z-index: 1000;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-lg);
 }
 
-/* ❌ RED CROSS BUTTON IN FORM TOP RIGHT CORNER */
 .modal-close-btn {
   position: absolute;
-  top: 16px;
-  right: 20px;
-  font-size: 28px;
-  font-weight: 400;
+  top: 20px;
+  right: 24px;
+  font-size: 32px;
   color: var(--danger);
   cursor: pointer;
   border: none;
   background: none;
   display: none;
   line-height: 1;
-  width: 36px;
-  height: 36px;
-  text-align: center;
   transition: color 0.2s;
 }
 .modal-close-btn:hover {
@@ -701,38 +686,35 @@ button:active {
 .conditional-exp-block {
   display: none;
   flex-direction: column;
-  gap: 12px;
+  gap: 14px;
   border-left: 3px solid var(--primary);
-  padding-left: 14px;
-  margin: 4px 0;
+  padding-left: 16px;
+  margin: 6px 0;
 }
 
-/* =======================================================
-   ✨ PREMIUM ATTRACTIVE POPUP & LOADER DESIGN 
-   ======================================================= */
+/* POPUP MODULE */
 .popup {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.3);
+  background: rgba(15, 23, 42, 0.4);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  padding: 16px;
-  transition: all 0.3s ease;
+  padding: 20px;
 }
 
 .popup-content {
   background: var(--bg-card);
-  padding: 32px 24px;
+  padding: 40px 32px;
   border-radius: 24px;
   text-align: center;
   width: 100%;
-  max-width: 360px;
-  border: 1px solid rgba(255, 255, 255, 0.2);
-  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  max-width: 380px;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow-lg);
   transform: scale(0.9);
   animation: popupReveal 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
 }
@@ -741,13 +723,12 @@ button:active {
   to { transform: scale(1); }
 }
 
-/* Stunning Smooth Progress Bar */
 .premium-loader-container {
   width: 100%;
   background: var(--border);
   height: 6px;
-  border-radius: 10px;
-  margin: 20px 0;
+  border-radius: 50px;
+  margin: 24px 0;
   overflow: hidden;
   position: relative;
 }
@@ -755,144 +736,111 @@ button:active {
 .premium-loader-bar {
   width: 0%;
   height: 100%;
-  background: linear-gradient(90deg, #10b981, #3b82f6);
-  border-radius: 10px;
+  background: linear-gradient(90deg, var(--primary), #3b82f6);
+  border-radius: 50px;
   transition: width 1.5s linear;
 }
 
-/* Glowing Success Animated Icon */
 .success-checkmark-glow {
-  width: 72px;
-  height: 72px;
-  background: radial-gradient(circle, rgba(16, 185, 129, 0.2) 0%, rgba(16, 185, 129, 0) 70%);
+  width: 80px;
+  height: 80px;
+  background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0) 70%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 16px auto;
+  margin: 0 auto 20px auto;
   animation: pulseGlow 1.5s infinite;
 }
-
-.success-checkmark-glow span {
-  font-size: 36px;
-  animation: scalePop 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
-}
+.success-checkmark-glow span { font-size: 40px; }
 
 @keyframes pulseGlow {
-  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.3); }
-  70% { transform: scale(1); box-shadow: 0 0 0 15px rgba(16, 185, 129, 0); }
-  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+  0%, 100% { transform: scale(0.95); }
+  50% { transform: scale(1); }
 }
 
-@keyframes scalePop {
-  0% { transform: scale(0); }
-  100% { transform: scale(1); }
-}
-
-/* 🔍 SEARCH TEXT HIGHLIGHT STYLE */
 mark {
   background: var(--highlight);
-  color: var(--text-main);
+  color: #000;
   border-radius: 4px;
-  padding: 1px 4px;
-  font-weight: inherit;
+  padding: 2px 4px;
 }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
 /* =======================================================
-   📱 ADVANCED MOBILE RESPONSIVE ENGINE (ALL OVERRIDES)
+   📱 ADVANCED MOBILE RESPONSIVE ADAPTATION ENGINE
    ======================================================= */
 @media (max-width: 768px) {
   body {
-    padding: 12px 8px;
-  }
-  .wrapper {
-    max-width: 100%;
-    width: 100%;
+    padding: 16px 12px;
   }
   .header {
-    padding: 45px 12px 20px 12px;
+    padding: 64px 16px 24px 16px;
     border-radius: var(--radius-md);
+    margin-bottom: 16px;
   }
   .header h1 {
-    font-size: 24px;
+    font-size: 26px;
   }
-  .theme-toggle {
-    top: 10px;
-    left: 10px;
-    width: 34px;
-    height: 34px;
-    font-size: 16px;
+  .utility-actions-group {
+    top: 14px;
+    left: 16px;
   }
-  .notification-container {
-    top: 10px;
-    left: 52px;
-  }
-  .notification-bell {
-    width: 34px;
-    height: 34px;
-    font-size: 16px;
+  .theme-toggle, .notification-bell {
+    width: 38px;
+    height: 38px;
   }
   .btn-edit-profile {
-    display: none;
-    top: 10px;
-    right: 10px;
+    top: 14px;
+    right: 16px;
     font-size: 11px;
-    padding: 6px 12px;
+    padding: 8px 14px;
   }
   .filter-box {
-    padding: 14px;
+    padding: 18px;
     border-radius: var(--radius-md);
-    gap: 10px;
+    margin-bottom: 16px;
+    gap: 12px;
   }
   .filter-grid {
     grid-template-columns: 1fr;
-    gap: 10px;
+    gap: 12px;
   }
   input, select, textarea {
-    font-size: 16px;
-    padding: 10px 14px;
-    min-height: 44px;
+    font-size: 16px; /* Dynamic injection preventing iOS form zoom-in mechanics */
+    padding: 12px 16px;
+    min-height: 48px;
   }
   .job-card {
-    padding: 16px;
+    padding: 20px 16px;
     border-radius: var(--radius-md);
+    margin-bottom: 16px;
   }
   .job-card h3 {
     font-size: 18px;
     padding-right: 0;
-    margin-top: 16px;
+    margin-top: 14px;
   }
   .mismatch-tag, .score-tag-100, .score-tag-80, .score-tag-60, .score-tag-low {
-    position: absolute;
-    top: 0;
     left: 0;
     right: 0;
     border-bottom-left-radius: 0;
     text-align: center;
-    padding: 4px 8px;
-    font-size: 11px;
+    padding: 6px;
   }
   .job-details-grid {
     grid-template-columns: 1fr;
-    gap: 6px;
-  }
-  .detail-badge {
-    font-size: 13px;
-    padding: 8px 10px;
-    width: 100%;
+    gap: 8px;
   }
   .actions-flex {
     flex-direction: column;
-    gap: 8px;
+    gap: 10px;
   }
   button {
     width: 100%;
-    min-height: 44px;
-    font-size: 14px;
+    min-height: 48px;
   }
-  
   .container {
     width: 100% !important;
     max-width: 100% !important;
@@ -902,26 +850,20 @@ mark {
     left: 0 !important;
     transform: none !important;
     border-radius: 0 !important;
-    padding: 20px 14px !important;
+    padding: 24px 16px !important;
     position: fixed !important;
   }
   .modal-close-btn {
-    top: 12px;
-    right: 12px;
+    top: 16px;
+    right: 16px;
   }
   @keyframes magicFlyIn {
-    0% { top: 60px; left: 50%; transform: translateX(-50%) scale(0.8); opacity: 0; }
-    20% { top: 100px; left: 50%; transform: translateX(-50%) scale(1.1); opacity: 1; }
-    40% { top: 100px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
-    70% { top: 100px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
-    100% { top: 12px; left: 69px; transform: scale(0.1); opacity: 0; }
+    0% { top: 40px; left: 50%; transform: translateX(-50%) scale(0.9); opacity: 0; }
+    20% { top: 80px; left: 50%; transform: translateX(-50%) scale(1.05); opacity: 1; }
+    40% { top: 80px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
+    70% { top: 80px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
+    100% { top: 14px; left: 74px; transform: scale(0.1); opacity: 0; }
   }
-}
-
-@media (max-width: 360px) {
-  .header h1 { font-size: 20px; }
-  .job-card h3 { font-size: 16px; }
-  .detail-badge { font-size: 12px; }
 }
 </style>
 </head>
@@ -930,16 +872,15 @@ mark {
 <div class="modal-overlay" id="modalOverlay"></div>
 <div class="wrapper">
 
-  <!-- 🪄 Magic Flying Toast Trigger Element -->
   <div class="magic-toast" id="magicToastAlert">🚀 New Jobs Added! 🔔</div>
 
   <div class="header">
-    <button class="theme-toggle" onclick="toggleThemeMode()">🌓</button>
-    
-    <!-- 🔔 Notification Container -->
-    <div class="notification-container" onclick="filterNewJobsOnly()">
-      <button class="notification-bell">🔔</button>
-      <span class="notification-badge" id="newJobsBadge" style="display: none;">0</span>
+    <div class="utility-actions-group">
+      <button class="theme-toggle" onclick="toggleThemeMode()">🌓</button>
+      <div class="notification-container" onclick="filterNewJobsOnly()">
+        <button class="notification-bell">🔔</button>
+        <span class="notification-badge" id="newJobsBadge" style="display: none;">0</span>
+      </div>
     </div>
     
     <h1>FreeWalkins</h1>
@@ -981,14 +922,14 @@ mark {
   <div id="dynamicJobsOutput" class="blurred-jobs">
      <div class="section-title" id="lblMainSectionTitle">💼 Available Jobs</div>
      <div id="jobsContainer">
-       <div style="text-align:center; padding:30px;"><div style="width: 28px; height: 28px; border: 3px solid var(--border); border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div></div>
+       <div style="text-align:center; padding:40px;"><div style="width: 32px; height: 32px; border: 3px solid var(--border); border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div></div>
      </div>
   </div>
 
   <div class="container" id="formContainer">
     <span class="modal-close-btn" id="modalCloseBtn" onclick="closeFormModalBack()">&times;</span>
-    <h2 style="text-align:center; color:var(--primary); font-size:20px; margin-top:10px;" id="lblFormTitle">📋 Register Details to View Site</h2>
-    <p style="text-align:center; font-size:12px; color:var(--text-muted); margin-bottom:15px;" id="lblFormSubtitle">Please provide accurate info to match relevant jobs.</p>
+    <h2 style="text-align:center; color:var(--primary); font-size:22px; margin-top:10px; font-weight: 800;" id="lblFormTitle">📋 Register Details to View Site</h2>
+    <p style="text-align:center; font-size:13px; color:var(--text-muted); margin-bottom:20px; font-weight: 500;" id="lblFormSubtitle">Please provide accurate info to match relevant jobs.</p>
 
     <div class="strength-meter-container">
       <div class="strength-header">
@@ -1001,14 +942,14 @@ mark {
     </div>
 
     <form id="candidateForm">
-      <div style="display:flex; flex-direction:column; gap:12px;">
+      <div style="display:flex; flex-direction:column; gap:14px;">
         
         <div><input type="text" id="name" placeholder="Full Name" required style="text-transform: capitalize;"></div>
         <div><input type="tel" id="mobile" placeholder="WhatsApp Number" required maxlength="10" pattern="[6-9][0-9]{9}"></div>
         <div><input type="email" id="email" placeholder="Email Address" required></div>
 
         <div>
-          <label style="font-size:12px; font-weight:600; color:var(--text-muted); display:block; margin-bottom:2px;" id="lblDob">Date of Birth</label>
+          <label style="font-size:12px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px; text-transform: uppercase; letter-spacing: 0.5px;" id="lblDob">Date of Birth</label>
           <input type="date" id="dob" required>
         </div>
 
@@ -1048,7 +989,7 @@ mark {
         </div>
 
         <div>
-          <label style="font-size:12px; font-weight:600; color:var(--text-muted); display:block; margin-bottom:4px;" id="lblSkillsHeader">Select your skills here (Max 4 Only):</label>
+          <label style="font-size:12px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:6px; text-transform: uppercase; letter-spacing: 0.5px;" id="lblSkillsHeader">Select your skills here (Max 4 Only):</label>
           <div class="suggestions-wrapper">
             <input type="text" id="skillsSearchInput" placeholder="Type or click suggestions from list..." autocomplete="off" onfocus="handleSkillsInputFocus()">
             <div class="suggestions-box" id="suggestionsBox"></div>
@@ -1066,8 +1007,8 @@ mark {
         <div><textarea id="address" placeholder="Full Home Address" rows="2" required></textarea></div>
       </div>
       
-      <div style="display: flex; margin-top: 20px;">
-        <button type="submit" class="btn-primary" style="padding:14px; width: 100%; flex: initial;" id="btnFormSubmit">🚀 Save Details & View Jobs</button>
+      <div style="display: flex; margin-top: 24px;">
+        <button type="submit" class="btn-primary" style="padding:16px; width: 100%; flex: initial;" id="btnFormSubmit">🚀 Save Details & View Jobs</button>
       </div>
     </form>
   </div>
@@ -1084,8 +1025,8 @@ mark {
       </div>
     </div>
     
-    <p id="popupMessage" style="margin: 14px 0 20px 0; font-size: 14px; color: var(--text-muted); font-weight: 500; line-height: 1.5;"></p>
-    <button class="btn-primary" id="popupBtn" style="width: 100%; display: none; border-radius: 12px; font-weight: 700;" onclick="document.getElementById('successPopup').style.display='none'">Awesome, Got it!</button>
+    <p id="popupMessage" style="margin: 14px 0 24px 0; font-size: 14px; color: var(--text-muted); font-weight: 500; line-height: 1.6;"></p>
+    <button class="btn-primary" id="popupBtn" style="width: 100%; display: none; border-radius: 14px; font-weight: 700;" onclick="document.getElementById('successPopup').style.display='none'">Awesome, Got it!</button>
   </div>
 </div>
 
@@ -1145,7 +1086,7 @@ const langDictionary = {
     txtPrevComp: "పాత కంపెనీ పేరు", txtPrevRole: "పాత జాబ్ రోల్ (ఉదా: Recruiter)", txtLastCtc: "చివరి జీతం (సంవత్సరానికి ఎంత)", txtAddress: "ఇంటి పూర్తి అడ్రస్",
     txtName: "పూర్తి పేరు (Full Name)", txtMob: "వాట్సాప్ నెంబర్ (WhatsApp Number)", txtEmail: "ఈమెయిల్ ఐడి (Email Address)", alertSkill: "కనీసం ఒక స్కిల్ అయినా సెలెక్ట్ చేయండి.",
     badgeActive: "🎯 మీ స్కిల్స్ మరియు ప్రొఫైల్ ki సరిపోయే జాబ్స్ క్రమ పద్ధతిలో చూపించబద్ధాయి.",
-    popApply: "అప్లై అవుతోంది...", popMsg: "మీ ప్రొఫైల్ వివరాలు కంపెనీ సర్వర్ కి భద్రంగా పంపిస్తున్నాము...", popSuccess: "అప్లికేషన్ విజయవంతమైంది!",
+    popApply: "అప్లై అవుతోంది...", popMsg: "మీ ప్రొఫైల్ వివరాలు కంపెనీ సర్వర్ ki భద్రంగా పంపిస్తున్నాము...", popSuccess: "అప్లికేషన్ విజయవంతమైంది!",
     popSuccessMsg: "మీ ప్రొఫైల్ విజయవంతంగా సేవ్ అయింది. నేరుగా హెచ్ఆర్ ని కాంటాక్ట్ చేయడానికి గ్రీన్ కలర్ <b>వాట్సాప్ HR</b> బటన్ క్లిక్ చేయండి.", badgeLocation: "హైదరాబాద్ ఏరియా",
     lblEducation: "చదువు:", lblExp: "ఎక్స్పీరియన్స్:", lblSalary: "జీతం:", btnApplied: "✓ అప్లై చేసావు", btnApply: "⚡ అప్లై చేయండి", btnHr: "💬 వాట్సాప్ HR",
     lblNoJobsFound: "❌ మీరు వెతికిన ఫిల్టర్స్ కి సరిపోయే జాబ్స్ ఏవీ ప్రస్తుతానికి అందుబాటులో లేవు.",
@@ -1306,9 +1247,9 @@ function calculateLiveStrengthScore() {
   const d = langDictionary[currentLang];
   
   fill.style.width = score + "%";
-  if(score < 40) { fill.style.backgroundColor = "#ef4444"; lbl.innerText = `${score}% (${d.strengthWeak})`; }
+  if(score < 40) { fill.style.backgroundColor = "var(--danger)"; lbl.innerText = `${score}% (${d.strengthWeak})`; }
   else if(score < 80) { fill.style.backgroundColor = "#f59e0b"; lbl.innerText = `${score}% (${d.strengthStable})`; }
-  else { fill.style.backgroundColor = "#10b981"; lbl.innerText = `${score}% (${d.strengthOpt})`; }
+  else { fill.style.backgroundColor = "var(--primary)"; lbl.innerText = `${score}% (${d.strengthOpt})`; }
 }
 
 document.getElementById('candidateForm').addEventListener('input', calculateLiveStrengthScore);
@@ -1428,11 +1369,9 @@ chipsDiv.addEventListener('click', (e) => {
   }
 });
 
-/* 🔔 NOTIFICATION ENGINE & MAGIC FLY EFFECT */
 function updateNotificationBadge() {
   const badge = document.getElementById('newJobsBadge');
   
-  // If user is currently looking at the new jobs filter, don't show or increment numbers
   if (filterNewJobsActive) {
     badge.style.display = 'none';
     return;
@@ -1443,13 +1382,12 @@ function updateNotificationBadge() {
   });
   
   if (unseenNewJobs.length > 0) {
-    // Check if count increased to trigger magic animation
     const previousCount = parseInt(badge.innerText) || 0;
     if (unseenNewJobs.length > previousCount) {
       triggerMagicFlyingToast();
     }
     badge.innerText = unseenNewJobs.length;
-    badge.style.display = 'block';
+    badge.style.display = 'flex';
   } else {
     badge.style.display = 'none';
   }
@@ -1458,11 +1396,9 @@ function updateNotificationBadge() {
 function triggerMagicFlyingToast() {
   const toast = document.getElementById('magicToastAlert');
   toast.classList.remove('fly-effect');
-  // force reflow
   void toast.offsetWidth;
   toast.classList.add('fly-effect');
   
-  // Clean up class after animation ends
   setTimeout(() => {
     toast.classList.remove('fly-effect');
   }, 2600);
@@ -1478,11 +1414,9 @@ window.filterNewJobsOnly = function() {
     container.style.background = 'var(--primary-light)';
     container.style.borderColor = 'var(--primary)';
     
-    // 🪄 MAGIC TRICK: Hide the badge count instantly as user views them!
     badge.style.transform = 'scale(0)';
     setTimeout(() => { badge.style.display = 'none'; badge.style.transform = 'scale(1)'; }, 200);
 
-    // Mark all currently visible new jobs as read so they won't trigger badge numbers next time
     allJobs.forEach(j => {
       if ((j.isNew === true || j.isNew === "Yes") && !readNewJobsArray.includes(j.company)) {
         readNewJobsArray.push(j.company);
@@ -1525,7 +1459,7 @@ async function loadJobs(){
 
   renderJobs();
  } catch(e) {
-  document.getElementById('jobsContainer').innerHTML = "<p style='color:red; text-align:center;'>Database Connection Error.</p>";
+  document.getElementById('jobsContainer').innerHTML = "<p style='color:var(--danger); text-align:center; font-weight: 600;'>Database Connection Error.</p>";
  }
 }
 
@@ -1695,7 +1629,7 @@ window.renderJobs = function() {
 
    let expiryHTML = '';
    if(j.expiryDate) {
-      expiryHTML = `<div class="job-expiry-alert">⏱️ This job freewalkins ends on date: <b>${j.expiryDate}</b></div>`;
+      expiryHTML = `<div class="job-expiry-alert">⏱️ This job ends on date: <b>${j.expiryDate}</b></div>`;
    }
 
    let skillsHTML = '';
@@ -1709,8 +1643,8 @@ window.renderJobs = function() {
      ${item.isMismatch ? `<div class="mismatch-tag">${item.mismatchReason}</div>` : scoreBadgeHTML}
      <h3>${processedHighlightTitle} ${liveNewTagHTML}</h3>
      <div class="company-name">🏢 ${processedHighlightCompany} 
-        ${j.category ? `<span style="font-size:11px; background:var(--primary-light); padding:2px 8px; border-radius:4px; margin-left:6px; color:var(--primary);">${j.category}</span>` : ''}
-        <span style="font-size:11px; background:#e0f2fe; padding:2px 8px; border-radius:4px; margin-left:6px; color:#0369a1; font-weight:800;">${jobTypeLabel}</span>
+        ${j.category ? `<span style="font-size:11px; background:var(--primary-light); padding:2px 8px; border-radius:4px; margin-left:6px; color:var(--primary); font-weight:700;">${j.category}</span>` : ''}
+        <span style="font-size:11px; background:rgba(59,130,246,0.1); padding:2px 8px; border-radius:4px; margin-left:6px; color:#2563eb; font-weight:800;">${jobTypeLabel}</span>
      </div>
      <div class="job-details-grid">
        <div class="detail-badge ${registeredCandidate ? 'proximity-badge' : ''}">📍 ${item.distanceString}</div>
@@ -1748,14 +1682,14 @@ window.renderJobs = function() {
    }
 
    if(recommendedNewJobs.length === 0 && otherNewJobs.length === 0) {
-      finalHTMLOutput = `<p style='text-align:center; color:var(--text-muted); padding:30px;'>No new jobs found currently.</p>`;
+      finalHTMLOutput = `<p style='text-align:center; color:var(--text-muted); padding:40px; font-weight:500;'>No new jobs found currently.</p>`;
    }
 
  } else {
    if(directMatchesArray.length > 0) {
       finalHTMLOutput = `<div>${directMatchesArray.map(item => buildJobCardHtml(item)).join('')}</div>`;
    } else {
-      finalHTMLOutput = `<p style='text-align:center; color:#e11d48; font-weight:600; padding:16px; background:#fff1f2; border:1px dashed #fecdd3; border-radius:12px; font-size:13px;'>${d.lblNoJobsFound}<br><span style='font-size:11px; font-weight:normal; color:var(--text-muted);'>${d.lblNoJobsFoundSubtitle}</span></p>`;
+      finalHTMLOutput = `<p style='text-align:center; color:#e11d48; font-weight:600; padding:20px; background:rgba(225,29,72,0.05); border:1px dashed rgba(225,29,72,0.2); border-radius:14px; font-size:14px; line-height:1.6;'>${d.lblNoJobsFound}<br><span style='font-size:12px; font-weight:500; color:var(--text-muted);'>${d.lblNoJobsFoundSubtitle}</span></p>`;
       
       let recommendedSubset = recommendationFallbackArray.slice(0, 5);
       if(recommendedSubset.length > 0) {

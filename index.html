@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -25,13 +24,13 @@
   --text-main: #0f172a;
   --text-muted: #64748b;
   --border: #e2e8f0;
-  --radius-lg: 20px;
-  --radius-md: 14px;
-  --radius-sm: 10px;
+  --radius-lg: 16px;
+  --radius-md: 12px;
+  --radius-sm: 8px;
   --highlight: #fef08a;
-  --shadow-sm: 0 2px 4px 0 rgba(15, 23, 42, 0.04);
-  --shadow-md: 0 8px 24px -4px rgba(15, 23, 42, 0.06), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
-  --shadow-lg: 0 20px 32px -8px rgba(15, 23, 42, 0.08), 0 12px 20px -6px rgba(15, 23, 42, 0.04);
+  --shadow-sm: 0 1px 3px 0 rgba(15, 23, 42, 0.03);
+  --shadow-md: 0 4px 12px -2px rgba(15, 23, 42, 0.05), 0 2px 6px -1px rgba(15, 23, 42, 0.02);
+  --shadow-lg: 0 12px 24px -4px rgba(15, 23, 42, 0.06), 0 4px 12px -2px rgba(15, 23, 42, 0.03);
 }
 
 /* 🌙 DARK THEME VARIABLES */
@@ -60,15 +59,15 @@ body {
   font-family: 'Plus Jakarta Sans', sans-serif;
   background: var(--bg-main);
   color: var(--text-main);
-  padding: 32px 20px;
-  line-height: 1.6;
+  padding: 24px 16px;
+  line-height: 1.5;
   overflow-x: hidden;
-  transition: background 0.3s cubic-bezier(0.4, 0, 0.2, 1), color 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: background 0.3s ease, color 0.3s ease;
 }
 
 .wrapper {
   width: 100%;
-  max-width: 640px;
+  max-width: 540px;
   margin: 0 auto;
 }
 
@@ -77,36 +76,37 @@ body {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.4);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
+  background: rgba(15, 23, 42, 0.6);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
   z-index: 999;
 }
 
 /* PREMIUM HEADER */
 .header {
   background: var(--bg-card);
-  padding: 32px 24px;
+  padding: 24px 20px;
   border-radius: var(--radius-lg);
   text-align: center;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   border: 1px solid var(--border);
   position: relative;
   box-shadow: var(--shadow-md);
 }
 
 .header h1 {
-  font-size: 32px;
+  font-size: 26px;
   font-weight: 800;
   background: linear-gradient(135deg, var(--primary), #3b82f6);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
-  letter-spacing: -1px;
-  margin-bottom: 6px;
+  letter-spacing: -0.5px;
+  margin-bottom: 4px;
+  margin-top: 36px;
 }
 
 .header p {
-  font-size: 11px;
+  font-size: 10px;
   color: var(--text-muted);
   font-weight: 800;
   letter-spacing: 1px;
@@ -116,10 +116,10 @@ body {
 /* UTILITY BUTTON COMPONENT GROUP */
 .utility-actions-group {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   position: absolute;
-  top: 24px;
-  left: 24px;
+  top: 16px;
+  left: 16px;
 }
 
 /* THEME & NOTIFICATION TOGGLE COMPONENT */
@@ -127,21 +127,19 @@ body {
   background: var(--bg-main);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
-  font-size: 16px;
+  font-size: 14px;
   cursor: pointer;
-  width: 40px;
-  height: 40px;
+  width: 36px;
+  height: 36px;
   padding: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
 }
 
 .theme-toggle:hover, .notification-bell:hover {
-  transform: translateY(-2px);
   border-color: var(--primary);
-  box-shadow: var(--shadow-sm);
 }
 
 .notification-container {
@@ -153,49 +151,41 @@ body {
 
 .notification-badge {
   position: absolute;
-  top: -4px;
-  right: -4px;
+  top: -2px;
+  right: -2px;
   background-color: var(--danger);
   color: white;
   border-radius: 50%;
-  min-width: 18px;
-  height: 18px;
+  min-width: 16px;
+  height: 16px;
   padding: 0 4px;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 0 10px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 0 8px rgba(239, 68, 68, 0.4);
 }
 
 /* MAGIC FLYING TOAST ALERT STYLE */
 .magic-toast {
   position: fixed;
-  top: 40px;
+  top: 24px;
   left: 50%;
   transform: translateX(-50%) scale(0.9);
   background: linear-gradient(135deg, #3b82f6, #1d4ed8);
   color: #fff;
-  padding: 12px 24px;
+  padding: 10px 20px;
   border-radius: 50px;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
-  box-shadow: 0 12px 30px rgba(59, 130, 246, 0.3);
+  box-shadow: 0 8px 24px rgba(59, 130, 246, 0.3);
   z-index: 99999;
   opacity: 0;
   pointer-events: none;
   display: flex;
   align-items: center;
-  gap: 8px;
-}
-
-@keyframes magicFlyIn {
-  0% { top: 40px; left: 50%; transform: translateX(-50%) scale(0.9); opacity: 0; }
-  20% { top: 100px; left: 50%; transform: translateX(-50%) scale(1.05); opacity: 1; }
-  40% { top: 100px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
-  70% { top: 100px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
-  100% { top: 24px; left: 84px; transform: scale(0.1); opacity: 0; }
+  gap: 6px;
 }
 
 .magic-toast.fly-effect {
@@ -205,30 +195,25 @@ body {
 /* Edit Profile Button Style */
 .btn-edit-profile {
   position: absolute;
-  top: 24px;
-  right: 24px;
+  top: 16px;
+  right: 16px;
   display: none;
   background: var(--primary-light);
   color: var(--primary);
   border: 1px solid rgba(16, 185, 129, 0.2);
-  font-size: 12px;
-  padding: 10px 18px;
+  font-size: 11px;
+  padding: 8px 14px;
   border-radius: 50px;
   font-weight: 700;
   width: auto;
   min-height: auto;
   transition: all 0.2s ease;
 }
-.btn-edit-profile:hover {
-  background: var(--primary-light-hover);
-  border-color: var(--primary);
-  transform: translateY(-2px);
-}
 
 /* BLINK ANIMATION FOR EDIT BUTTON */
 @keyframes blinkBtn {
   0% { transform: scale(1); }
-  50% { transform: scale(1.05); background: #f59e0b; color: #fff; border-color: #f59e0b; box-shadow: 0 0 20px rgba(245, 158, 11, 0.3); }
+  50% { transform: scale(1.05); background: #f59e0b; color: #fff; border-color: #f59e0b; }
   100% { transform: scale(1); }
 }
 .blink-active {
@@ -237,47 +222,48 @@ body {
 }
 
 .lang-selector-container {
-  margin-top: 20px;
+  margin-top: 14px;
   display: block;
   text-align: center;
 }
 
 .lang-select {
   width: auto;
-  min-width: 150px;
+  min-width: 130px;
   display: inline-block;
-  padding: 8px 16px;
-  font-size: 13px;
+  padding: 6px 12px;
+  font-size: 12px;
   font-weight: 700;
   border-radius: 50px;
   border: 1px solid var(--border);
   background: var(--bg-main);
   cursor: pointer;
   color: var(--text-main);
+  min-height: auto;
 }
 
 /* FILTERS BOX */
 .filter-box {
   background: var(--bg-card);
-  padding: 24px;
+  padding: 16px;
   border-radius: var(--radius-lg);
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   border: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
   box-shadow: var(--shadow-md);
 }
 
 .filter-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 14px;
+  gap: 10px;
 }
 
 input, select, textarea {
   width: 100%;
-  padding: 14px 18px;
+  padding: 10px 14px;
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
   font-family: inherit;
@@ -286,61 +272,61 @@ input, select, textarea {
   color: var(--text-main);
   background-color: var(--bg-main);
   outline: none;
-  min-height: 50px;
+  min-height: 44px;
   transition: all 0.2s ease;
 }
 input:focus, select:focus, textarea:focus {
   border-color: var(--primary);
-  box-shadow: 0 0 0 4px var(--primary-light);
+  box-shadow: 0 0 0 3px var(--primary-light);
   background-color: var(--bg-card);
 }
 
 .hint-text {
-  font-size: 12px;
+  font-size: 11px;
   color: #d97706;
   display: block;
-  margin-top: 6px;
+  margin-top: 4px;
   font-weight: 600;
 }
 
 .section-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 800;
-  margin: 32px 0 16px 0;
+  margin: 24px 0 12px 0;
   color: var(--text-main);
   letter-spacing: -0.5px;
 }
 
 .recommended-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 800;
-  margin: 36px 0 16px 0;
+  margin: 24px 0 12px 0;
   color: #3b82f6;
   border-left: 4px solid #3b82f6;
-  padding-left: 12px;
+  padding-left: 10px;
   letter-spacing: -0.5px;
 }
 
 /* STRENGTH METER ENGINE */
 .strength-meter-container {
   background: var(--bg-main);
-  padding: 18px;
+  padding: 12px;
   border-radius: var(--radius-md);
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   border: 1px solid var(--border);
 }
 
 .strength-header {
   display: flex;
   justify-content: space-between;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
-  margin-bottom: 10px;
+  margin-bottom: 6px;
 }
 
 .strength-bar-bg {
   background: var(--border);
-  height: 8px;
+  height: 6px;
   border-radius: 50px;
   overflow: hidden;
 }
@@ -356,14 +342,14 @@ input:focus, select:focus, textarea:focus {
 .profile-summary-badge {
   background: rgba(59, 130, 246, 0.06);
   border: 1px solid rgba(59, 130, 246, 0.15);
-  padding: 16px 18px;
+  padding: 12px 14px;
   color: #2563eb;
   border-radius: var(--radius-md);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   display: none;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 [data-theme="dark"] .profile-summary-badge {
   background: rgba(37, 99, 235, 0.12);
@@ -379,13 +365,13 @@ input:focus, select:focus, textarea:focus {
 
 .suggestions-box {
   position: absolute;
-  top: calc(100% + 6px);
+  top: calc(100% + 4px);
   left: 0;
   right: 0;
   background: var(--bg-card);
   border: 1px solid var(--border);
   border-radius: var(--radius-md);
-  max-height: 240px;
+  max-height: 200px;
   overflow-y: auto;
   z-index: 2000;
   display: none;
@@ -393,8 +379,8 @@ input:focus, select:focus, textarea:focus {
 }
 
 .suggestion-item {
-  padding: 14px 18px;
-  font-size: 14px;
+  padding: 10px 14px;
+  font-size: 13px;
   font-weight: 500;
   cursor: pointer;
   color: var(--text-main);
@@ -402,7 +388,6 @@ input:focus, select:focus, textarea:focus {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--border);
-  transition: background 0.2s ease;
 }
 .suggestion-item:hover {
   background: var(--primary-light);
@@ -411,10 +396,10 @@ input:focus, select:focus, textarea:focus {
 
 .suggestion-header-label {
   background: var(--bg-main);
-  font-size: 11px;
+  font-size: 10px;
   font-weight: 800;
   color: var(--text-muted);
-  padding: 10px 18px;
+  padding: 8px 14px;
   pointer-events: none;
   border-bottom: 1px solid var(--border);
   letter-spacing: 0.5px;
@@ -424,45 +409,42 @@ input:focus, select:focus, textarea:focus {
 .chips-output-container {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
-  margin-top: 12px;
+  gap: 6px;
+  margin-top: 10px;
 }
 
 .skill-chip {
   background: var(--primary-light);
   color: var(--primary);
   border: 1px solid rgba(16, 185, 129, 0.2);
-  padding: 8px 16px;
+  padding: 6px 12px;
   border-radius: 50px;
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 700;
   display: inline-flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
 }
 .skill-chip span {
   cursor: pointer;
   color: var(--danger);
   font-weight: 800;
-  font-size: 16px;
-  line-height: 1;
+  font-size: 14px;
 }
 
 /* JOB CARDS */
 .job-card {
   background: var(--bg-card);
   border-radius: var(--radius-lg);
-  padding: 24px;
-  margin-bottom: 20px;
+  padding: 18px;
+  margin-bottom: 14px;
   border: 1px solid var(--border);
   position: relative;
   overflow: hidden;
   box-shadow: var(--shadow-sm);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.2s ease;
 }
 .job-card:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-lg);
   border-color: rgba(16, 185, 129, 0.25);
 }
 .job-card.mismatch {
@@ -472,14 +454,13 @@ input:focus, select:focus, textarea:focus {
 }
 
 .mismatch-tag, .score-tag-100, .score-tag-80, .score-tag-60, .score-tag-low {
-  font-size: 11px;
-  padding: 6px 14px;
+  font-size: 10px;
+  padding: 4px 10px;
   position: absolute;
   top: 0;
   right: 0;
   border-bottom-left-radius: var(--radius-sm);
   font-weight: 800;
-  letter-spacing: 0.3px;
   color: white;
 }
 .mismatch-tag { background: #475569; }
@@ -491,21 +472,14 @@ input:focus, select:focus, textarea:focus {
 .new-job-badge-tag {
   background: #ef4444;
   color: white;
-  font-size: 10px;
+  font-size: 9px;
   font-weight: 800;
-  padding: 3px 8px;
-  border-radius: 6px;
-  margin-left: 8px;
+  padding: 2px 6px;
+  border-radius: 4px;
+  margin-left: 6px;
   text-transform: uppercase;
-  letter-spacing: 0.5px;
   display: inline-block;
   vertical-align: middle;
-  animation: pulseNewTag 1.5s infinite;
-}
-
-@keyframes pulseNewTag {
-  0%, 100% { opacity: 1; }
-  50% { opacity: 0.6; }
 }
 
 .blurred-jobs .job-card h3, 
@@ -517,43 +491,46 @@ input:focus, select:focus, textarea:focus {
 }
 
 .job-card h3 {
-  font-size: 20px;
+  font-size: 16px;
   font-weight: 800;
-  margin-bottom: 8px;
+  margin-bottom: 6px;
   color: var(--text-main);
-  line-height: 1.4;
-  padding-right: 90px;
+  line-height: 1.3;
+  padding-right: 85px;
 }
 
 .company-name {
-  font-size: 14px;
+  font-size: 13px;
   color: var(--primary);
   font-weight: 700;
-  margin-bottom: 20px;
+  margin-bottom: 12px;
   display: flex;
   align-items: center;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 6px;
 }
 
 .job-details-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-bottom: 20px;
+  gap: 8px;
+  margin-bottom: 12px;
 }
 
 .detail-badge {
   background: var(--bg-main);
-  padding: 12px 14px;
+  padding: 8px 10px;
   border-radius: var(--radius-sm);
-  font-size: 13px;
+  font-size: 12px;
   font-weight: 600;
   color: var(--text-muted);
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 6px;
   border: 1px solid var(--border);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .proximity-badge {
@@ -562,39 +539,34 @@ input:focus, select:focus, textarea:focus {
   background: rgba(59, 130, 246, 0.04) !important;
   border-color: rgba(59, 130, 246, 0.12) !important;
 }
-[data-theme="dark"] .proximity-badge {
-  color: #60a5fa !important;
-  background: rgba(37, 99, 235, 0.12) !important;
-  border-color: rgba(37, 99, 235, 0.2) !important;
-}
 
 .job-skills-list {
-  font-size: 13px;
-  margin-bottom: 14px;
+  font-size: 12px;
+  margin-bottom: 10px;
   color: var(--text-muted);
 }
 .job-expiry-alert {
-  font-size: 13px;
+  font-size: 11px;
   font-weight: 700;
   color: #ef4444;
   background: rgba(239, 68, 68, 0.04);
-  border: 1px dashed rgba(239, 68, 68, 0.3);
-  padding: 10px;
+  border: 1px dashed rgba(239, 68, 68, 0.2);
+  padding: 8px;
   border-radius: var(--radius-sm);
-  margin-bottom: 16px;
+  margin-bottom: 12px;
   text-align: center;
 }
 
 /* INTERACTIVE ACTION BUTTONS */
 .actions-flex {
   display: flex;
-  gap: 12px;
+  gap: 8px;
   width: 100%;
 }
 
 button {
   font-family: inherit;
-  font-size: 14px;
+  font-size: 13px;
   font-weight: 700;
   border: none;
   border-radius: var(--radius-md);
@@ -602,50 +574,36 @@ button {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 14px 24px;
-  gap: 10px;
+  padding: 10px 16px;
+  gap: 6px;
   flex: 1;
-  min-height: 50px;
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  min-height: 42px;
+  transition: all 0.2s ease;
 }
 button:active {
-  transform: scale(0.97);
+  transform: scale(0.98);
 }
 
 .btn-primary {
   background: linear-gradient(135deg, var(--primary), #059669);
   color: #fff;
-  box-shadow: 0 4px 14px rgba(16, 185, 129, 0.25);
-}
-.btn-primary:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(16, 185, 129, 0.35);
 }
 .btn-primary:disabled {
   background: var(--border) !important;
   color: var(--text-muted) !important;
   cursor: not-allowed;
   opacity: 0.6;
-  box-shadow: none !important;
-  transform: none !important;
 }
 
 .btn-whatsapp {
   background: linear-gradient(135deg, var(--whatsapp), #16a34a);
   color: #fff;
-  box-shadow: 0 4px 14px rgba(34, 197, 94, 0.25);
-}
-.btn-whatsapp:hover:not(:disabled) {
-  transform: translateY(-2px);
-  box-shadow: 0 6px 20px rgba(34, 197, 94, 0.35);
 }
 .btn-whatsapp:disabled {
   background: var(--border) !important;
   color: var(--text-muted) !important;
   cursor: not-allowed;
   opacity: 0.6;
-  box-shadow: none !important;
-  transform: none !important;
 }
 
 /* MODAL REGISTRATION PANEL */
@@ -656,12 +614,12 @@ button:active {
   left: 50%;
   transform: translate(-50%, -50%);
   width: 92%;
-  max-width: 520px;
-  max-height: 88vh;
+  max-width: 440px;
+  max-height: 85vh;
   overflow-y: auto;
   background: var(--bg-card);
   border-radius: var(--radius-lg);
-  padding: 36px 32px;
+  padding: 24px 20px;
   z-index: 1000;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-lg);
@@ -669,28 +627,24 @@ button:active {
 
 .modal-close-btn {
   position: absolute;
-  top: 20px;
-  right: 24px;
-  font-size: 32px;
+  top: 14px;
+  right: 16px;
+  font-size: 24px;
   color: var(--danger);
   cursor: pointer;
   border: none;
   background: none;
   display: none;
   line-height: 1;
-  transition: color 0.2s;
-}
-.modal-close-btn:hover {
-  color: var(--danger-hover);
 }
 
 .conditional-exp-block {
   display: none;
   flex-direction: column;
-  gap: 14px;
+  gap: 10px;
   border-left: 3px solid var(--primary);
-  padding-left: 16px;
-  margin: 6px 0;
+  padding-left: 12px;
+  margin: 4px 0;
 }
 
 /* POPUP MODULE */
@@ -699,37 +653,31 @@ button:active {
   position: fixed;
   inset: 0;
   background: rgba(15, 23, 42, 0.4);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   justify-content: center;
   align-items: center;
   z-index: 9999;
-  padding: 20px;
+  padding: 16px;
 }
 
 .popup-content {
   background: var(--bg-card);
-  padding: 40px 32px;
-  border-radius: 24px;
+  padding: 24px 20px;
+  border-radius: var(--radius-lg);
   text-align: center;
   width: 100%;
-  max-width: 380px;
+  max-width: 340px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-lg);
-  transform: scale(0.9);
-  animation: popupReveal 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
-}
-
-@keyframes popupReveal {
-  to { transform: scale(1); }
 }
 
 .premium-loader-container {
   width: 100%;
   background: var(--border);
-  height: 6px;
+  height: 4px;
   border-radius: 50px;
-  margin: 24px 0;
+  margin: 16px 0;
   overflow: hidden;
   position: relative;
 }
@@ -743,29 +691,16 @@ button:active {
 }
 
 .success-checkmark-glow {
-  width: 80px;
-  height: 80px;
+  width: 60px;
+  height: 60px;
   background: radial-gradient(circle, rgba(16, 185, 129, 0.15) 0%, rgba(16, 185, 129, 0) 70%);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin: 0 auto 20px auto;
-  animation: pulseGlow 1.5s infinite;
+  margin: 0 auto 14px auto;
 }
-.success-checkmark-glow span { font-size: 40px; }
-
-@keyframes pulseGlow {
-  0%, 100% { transform: scale(0.95); }
-  50% { transform: scale(1); }
-}
-
-mark {
-  background: var(--highlight);
-  color: #000;
-  border-radius: 4px;
-  padding: 2px 4px;
-}
+.success-checkmark-glow span { font-size: 30px; }
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -774,96 +709,102 @@ mark {
    ======================================================= */
 @media (max-width: 768px) {
   body {
-    padding: 16px 12px;
+    padding: 12px 10px;
   }
   .header {
-    padding: 64px 16px 24px 16px;
+    padding: 54px 14px 16px 14px;
     border-radius: var(--radius-md);
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
   .header h1 {
-    font-size: 26px;
+    font-size: 22px;
   }
   .utility-actions-group {
-    top: 14px;
-    left: 16px;
+    top: 12px;
+    left: 12px;
   }
   .theme-toggle, .notification-bell {
-    width: 38px;
-    height: 38px;
+    width: 34px;
+    height: 34px;
   }
   .btn-edit-profile {
-    top: 14px;
-    right: 16px;
-    font-size: 11px;
-    padding: 8px 14px;
+    top: 12px;
+    right: 12px;
+    font-size: 10px;
+    padding: 6px 12px;
   }
   .filter-box {
-    padding: 18px;
+    padding: 12px;
     border-radius: var(--radius-md);
-    margin-bottom: 16px;
-    gap: 12px;
+    margin-bottom: 12px;
+    gap: 8px;
   }
   .filter-grid {
-    grid-template-columns: 1fr;
-    gap: 12px;
+    grid-template-columns: 1fr 1fr; /* 2 columns mapping to save high structural height */
+    gap: 8px;
   }
   input, select, textarea {
-    font-size: 16px; /* Dynamic injection preventing iOS form zoom-in mechanics */
-    padding: 12px 16px;
-    min-height: 48px;
+    font-size: 14px; 
+    padding: 8px 12px;
+    min-height: 40px;
   }
   .job-card {
-    padding: 20px 16px;
+    padding: 14px;
     border-radius: var(--radius-md);
-    margin-bottom: 16px;
+    margin-bottom: 12px;
   }
   .job-card h3 {
-    font-size: 18px;
+    font-size: 15px;
     padding-right: 0;
-    margin-top: 14px;
+    margin-top: 16px;
   }
   .mismatch-tag, .score-tag-100, .score-tag-80, .score-tag-60, .score-tag-low {
     left: 0;
     right: 0;
     border-bottom-left-radius: 0;
     text-align: center;
-    padding: 6px;
+    padding: 4px;
+    font-size: 9px;
   }
   .job-details-grid {
-    grid-template-columns: 1fr;
-    gap: 8px;
+    grid-template-columns: 1fr 1fr; /* Fixed 1 column stack issue to prevent oversized vertical grids */
+    gap: 6px;
+  }
+  .detail-badge {
+    padding: 6px 8px;
+    font-size: 11px;
   }
   .actions-flex {
-    flex-direction: column;
-    gap: 10px;
+    flex-direction: row; /* Flex row to align both primary actions parallel */
+    gap: 8px;
   }
   button {
-    width: 100%;
-    min-height: 48px;
+    min-height: 40px;
+    font-size: 12px;
+    padding: 8px 12px;
   }
   .container {
-    width: 100% !important;
-    max-width: 100% !important;
-    height: 100dvh !important;
-    max-height: 100dvh !important;
-    top: 0 !important;
-    left: 0 !important;
-    transform: none !important;
-    border-radius: 0 !important;
-    padding: 24px 16px !important;
+    width: 94% !important;
+    max-width: 380px !important;
+    height: auto !important;
+    max-height: 90vh !important;
+    top: 50% !important;
+    left: 50% !important;
+    transform: translate(-50%, -50%) !important;
+    border-radius: var(--radius-lg) !important;
+    padding: 20px 16px !important;
     position: fixed !important;
   }
   .modal-close-btn {
-    top: 16px;
-    right: 16px;
+    top: 12px;
+    right: 14px;
   }
   @keyframes magicFlyIn {
-    0% { top: 40px; left: 50%; transform: translateX(-50%) scale(0.9); opacity: 0; }
-    20% { top: 80px; left: 50%; transform: translateX(-50%) scale(1.05); opacity: 1; }
-    40% { top: 80px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
-    70% { top: 80px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
-    100% { top: 14px; left: 74px; transform: scale(0.1); opacity: 0; }
+    0% { top: 24px; left: 50%; transform: translateX(-50%) scale(0.9); opacity: 0; }
+    20% { top: 60px; left: 50%; transform: translateX(-50%) scale(1.02); opacity: 1; }
+    40% { top: 60px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
+    70% { top: 60px; left: 50%; transform: translateX(-50%) scale(1); opacity: 1; }
+    100% { top: 12px; left: 64px; transform: scale(0.1); opacity: 0; }
   }
 }
 </style>
@@ -923,14 +864,14 @@ mark {
   <div id="dynamicJobsOutput" class="blurred-jobs">
      <div class="section-title" id="lblMainSectionTitle">💼 Available Jobs</div>
      <div id="jobsContainer">
-       <div style="text-align:center; padding:40px;"><div style="width: 32px; height: 32px; border: 3px solid var(--border); border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div></div>
+       <div style="text-align:center; padding:40px;"><div style="width: 28px; height: 28px; border: 3px solid var(--border); border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div></div>
      </div>
   </div>
 
   <div class="container" id="formContainer">
     <span class="modal-close-btn" id="modalCloseBtn" onclick="closeFormModalBack()">&times;</span>
-    <h2 style="text-align:center; color:var(--primary); font-size:22px; margin-top:10px; font-weight: 800;" id="lblFormTitle">📋 Register Details to View Site</h2>
-    <p style="text-align:center; font-size:13px; color:var(--text-muted); margin-bottom:20px; font-weight: 500;" id="lblFormSubtitle">Please provide accurate info to match relevant jobs.</p>
+    <h2 style="text-align:center; color:var(--primary); font-size:18px; margin-top:4px; font-weight: 800;" id="lblFormTitle">📋 Register Details to View Site</h2>
+    <p style="text-align:center; font-size:12px; color:var(--text-muted); margin-bottom:14px; font-weight: 500;" id="lblFormSubtitle">Please provide accurate info to match relevant jobs.</p>
 
     <div class="strength-meter-container">
       <div class="strength-header">
@@ -943,14 +884,14 @@ mark {
     </div>
 
     <form id="candidateForm">
-      <div style="display:flex; flex-direction:column; gap:14px;">
+      <div style="display:flex; flex-direction:column; gap:10px;">
         
         <div><input type="text" id="name" placeholder="Full Name" required style="text-transform: capitalize;"></div>
         <div><input type="tel" id="mobile" placeholder="WhatsApp Number" required maxlength="10" pattern="[6-9][0-9]{9}"></div>
         <div><input type="email" id="email" placeholder="Email Address" required></div>
 
         <div>
-          <label style="font-size:12px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px; text-transform: uppercase; letter-spacing: 0.5px;" id="lblDob">Date of Birth</label>
+          <label style="font-size:11px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:2px; text-transform: uppercase; letter-spacing: 0.5px;" id="lblDob">Date of Birth</label>
           <input type="date" id="dob" required>
         </div>
 
@@ -990,7 +931,7 @@ mark {
         </div>
 
         <div>
-          <label style="font-size:12px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:6px; text-transform: uppercase; letter-spacing: 0.5px;" id="lblSkillsHeader">Select your skills here (Max 4 Only):</label>
+          <label style="font-size:11px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px; text-transform: uppercase; letter-spacing: 0.5px;" id="lblSkillsHeader">Select your skills here (Max 4 Only):</label>
           <div class="suggestions-wrapper">
             <input type="text" id="skillsSearchInput" placeholder="Type or click suggestions from list..." autocomplete="off" onfocus="handleSkillsInputFocus()">
             <div class="suggestions-box" id="suggestionsBox"></div>
@@ -1008,8 +949,8 @@ mark {
         <div><textarea id="address" placeholder="Full Home Address" rows="2" required></textarea></div>
       </div>
       
-      <div style="display: flex; margin-top: 24px;">
-        <button type="submit" class="btn-primary" style="padding:16px; width: 100%; flex: initial;" id="btnFormSubmit">🚀 Save Details & View Jobs</button>
+      <div style="display: flex; margin-top: 16px;">
+        <button type="submit" class="btn-primary" style="padding:12px; width: 100%; flex: initial;" id="btnFormSubmit">🚀 Save Details & View Jobs</button>
       </div>
     </form>
   </div>
@@ -1018,7 +959,7 @@ mark {
 <div class="popup" id="successPopup">
   <div class="popup-content">
     <div id="popupAnimationIcon"></div>
-    <h3 id="popupTitle" style="font-size: 22px; font-weight: 800; color: var(--text-main);">Processing</h3>
+    <h3 id="popupTitle" style="font-size: 18px; font-weight: 800; color: var(--text-main);">Processing</h3>
     
     <div id="popupLoaderWrapper">
       <div class="premium-loader-container">
@@ -1026,8 +967,8 @@ mark {
       </div>
     </div>
     
-    <p id="popupMessage" style="margin: 14px 0 24px 0; font-size: 14px; color: var(--text-muted); font-weight: 500; line-height: 1.6;"></p>
-    <button class="btn-primary" id="popupBtn" style="width: 100%; display: none; border-radius: 14px; font-weight: 700;" onclick="document.getElementById('successPopup').style.display='none'">Awesome, Got it!</button>
+    <p id="popupMessage" style="margin: 10px 0 16px 0; font-size: 13px; color: var(--text-muted); font-weight: 500; line-height: 1.5;"></p>
+    <button class="btn-primary" id="popupBtn" style="width: 100%; display: none; border-radius: 10px; font-weight: 700;" onclick="document.getElementById('successPopup').style.display='none'">Awesome, Got it!</button>
   </div>
 </div>
 

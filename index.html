@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en" data-theme="light">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
@@ -19,24 +19,6 @@
   --whatsapp-hover: #16a34a;
   --danger: #ef4444;
   --danger-hover: #dc2626;
-  --bg-main: #0b0f19;
-  --bg-card: #131a2e;
-  --bg-input: #1b243f;
-  --text-main: #f8fafc;
-  --text-muted: #94a3b8;
-  --border: rgba(255, 255, 255, 0.06);
-  --border-focus: rgba(16, 185, 129, 0.4);
-  --radius-lg: 20px;
-  --radius-md: 14px;
-  --radius-sm: 10px;
-  --highlight: #451a03;
-  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
-  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
-  --shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.5);
-  --premium-grad: linear-gradient(135deg, #10b981, #3b82f6);
-}
-
-[data-theme="light"] {
   --bg-main: #f8fafc;
   --bg-card: #ffffff;
   --bg-input: #f1f5f9;
@@ -44,12 +26,30 @@
   --text-muted: #64748b;
   --border: rgba(15, 23, 42, 0.08);
   --border-focus: rgba(16, 185, 129, 0.5);
-  --primary-light: rgba(16, 185, 129, 0.08);
-  --primary-light-hover: rgba(16, 185, 129, 0.15);
+  --radius-lg: 20px;
+  --radius-md: 14px;
+  --radius-sm: 10px;
   --highlight: #fef08a;
   --shadow-sm: 0 2px 4px rgba(15, 23, 42, 0.02);
   --shadow-md: 0 10px 25px -5px rgba(15, 23, 42, 0.05);
   --shadow-lg: 0 20px 40px -10px rgba(15, 23, 42, 0.1);
+  --premium-grad: linear-gradient(135deg, #10b981, #3b82f6);
+}
+
+[data-theme="dark"] {
+  --bg-main: #0b0f19;
+  --bg-card: #131a2e;
+  --bg-input: #1b243f;
+  --text-main: #f8fafc;
+  --text-muted: #94a3b8;
+  --border: rgba(255, 255, 255, 0.06);
+  --border-focus: rgba(16, 185, 129, 0.4);
+  --primary-light: rgba(16, 185, 129, 0.06);
+  --primary-light-hover: rgba(16, 185, 129, 0.12);
+  --highlight: #451a03;
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.2);
+  --shadow-md: 0 8px 24px rgba(0, 0, 0, 0.35);
+  --shadow-lg: 0 24px 48px rgba(0, 0, 0, 0.5);
 }
 
 * {
@@ -127,7 +127,7 @@ body {
 }
 
 /* THEME & NOTIFICATION TOGGLE */
-.theme-toggle, .notification-bell {
+.theme-toggle, .notification-bell, .notification-back-btn {
   background: var(--bg-input);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -142,7 +142,7 @@ body {
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.theme-toggle:hover, .notification-bell:hover {
+.theme-toggle:hover, .notification-bell:hover, .notification-back-btn:hover {
   border-color: var(--primary);
   transform: translateY(-1px);
 }
@@ -505,7 +505,7 @@ input:focus, select:focus, textarea:focus {
   text-transform: uppercase;
   display: inline-block;
   vertical-align: middle;
-  box-shadow: 0 2px 8px rgba(23ef, 68, 68, 0.3);
+  box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
 }
 
 .blurred-jobs .job-card h3, 
@@ -767,7 +767,7 @@ button:active {
     top: 16px;
     left: 16px;
   }
-  .theme-toggle, .notification-bell {
+  .theme-toggle, .notification-bell, .notification-back-btn {
     width: 38px;
     height: 38px;
   }
@@ -867,11 +867,12 @@ button:active {
 
   <div class="header">
     <div class="utility-actions-group">
-      <button class="theme-toggle" onclick="toggleThemeMode()">🌓</button>
-      <div class="notification-container" onclick="filterNewJobsOnly()">
+      <button class="theme-toggle" id="themeToggleBtn" onclick="toggleThemeMode()">🌓</button>
+      <div class="notification-container" id="bellContainer" onclick="filterNewJobsOnly()">
         <button class="notification-bell">🔔</button>
         <span class="notification-badge" id="newJobsBadge" style="display: none;">0</span>
       </div>
+      <button class="notification-back-btn" id="notificationBackBtn" style="display: none; color: var(--danger); font-weight: 800;" onclick="filterNewJobsOnly()">✕</button>
     </div>
     
     <h1>FreeWalkins</h1>
@@ -887,32 +888,34 @@ button:active {
     </div>
   </div>
 
-  <marquee behavior="scroll" direction="left" scrollamount="5" class="premium-marquee">
-  🚀 Daily New Jobs Updated | Create Profile → Apply Jobs → Contact HR | కొత్త ఉద్యోగాలు ప్రతిరోజు అప్డేట్ అవుతున్నాయి | ముందుగా Profile Create చేయండి → తర్వాత Apply చేయండి → HR ని Contact చేయండి
-  </marquee>
+  <div id="mainPageContentGroup">
+    <marquee behavior="scroll" direction="left" scrollamount="5" class="premium-marquee">
+    🚀 Daily New Jobs Updated | Create Profile → Apply Jobs → Contact HR | కొత్త ఉద్యోగాలు ప్రతిరోజు అప్డేట్ అవుతున్నాయి | ముందుగా Profile Create చేయండి → తర్వాత Apply చేయండి → HR ని Contact చేయండి
+    </marquee>
 
-  <div class="filter-box">
-    <input id="searchInput" placeholder="🔍 Search company name or job role..." oninput="renderJobs()">
-    
-    <div class="filter-grid">
-      <select id="filterCategory" onchange="renderJobs()">
-        <option value="" id="optAllCategories">All Categories</option>
-      </select>
+    <div class="filter-box">
+      <input id="searchInput" placeholder="🔍 Search company name or job role..." oninput="renderJobs()">
+      
+      <div class="filter-grid">
+        <select id="filterCategory" onchange="renderJobs()">
+          <option value="" id="optAllCategories">All Categories</option>
+        </select>
 
-      <select id="filterLocation" onchange="renderJobs()">
-        <option value="" id="optAllLocations">All Areas</option>
+        <select id="filterLocation" onchange="renderJobs()">
+          <option value="" id="optAllLocations">All Areas</option>
+        </select>
+      </div>
+      
+      <select id="filterGender" onchange="renderJobs()">
+        <option value="" id="optAllGenders">Gender (All List)</option>
+        <option value="Male" id="optMaleOnly">Male Candidates Only</option>
+        <option value="Female" id="optFemaleOnly">Female Candidates Only</option>
+        <option value="Both" id="optBothGenders">Open to Both</option>
       </select>
     </div>
-    
-    <select id="filterGender" onchange="renderJobs()">
-      <option value="" id="optAllGenders">Gender (All List)</option>
-      <option value="Male" id="optMaleOnly">Male Candidates Only</option>
-      <option value="Female" id="optFemaleOnly">Female Candidates Only</option>
-      <option value="Both" id="optBothGenders">Open to Both</option>
-    </select>
-  </div>
 
-  <div class="profile-summary-badge" id="profileBadge"></div>
+    <div class="profile-summary-badge" id="profileBadge"></div>
+  </div>
 
   <div id="dynamicJobsOutput" class="blurred-jobs">
      <div class="section-title" id="lblMainSectionTitle">💼 Available Jobs</div>
@@ -1402,12 +1405,15 @@ function triggerMagicFlyingToast() {
 window.filterNewJobsOnly = function() {
   filterNewJobsActive = !filterNewJobsActive;
   
-  const container = document.querySelector('.notification-bell');
+  const bellContainer = document.getElementById('bellContainer');
   const badge = document.getElementById('newJobsBadge');
+  const backBtn = document.getElementById('notificationBackBtn');
+  const mainContent = document.getElementById('mainPageContentGroup');
 
   if (filterNewJobsActive) {
-    container.style.background = 'var(--primary-light)';
-    container.style.borderColor = 'var(--primary)';
+    bellContainer.style.display = 'none';
+    backBtn.style.display = 'flex';
+    mainContent.style.display = 'none';
     
     badge.style.transform = 'scale(0)';
     setTimeout(() => { badge.style.display = 'none'; badge.style.transform = 'scale(1)'; }, 200);
@@ -1419,8 +1425,9 @@ window.filterNewJobsOnly = function() {
     });
     localStorage.setItem("readNewJobsArray", JSON.stringify(readNewJobsArray));
   } else {
-    container.style.background = 'var(--bg-main)';
-    container.style.borderColor = 'var(--border)';
+    bellContainer.style.display = 'inline-block';
+    backBtn.style.display = 'none';
+    mainContent.style.display = 'block';
   }
   
   const currentLang = document.getElementById('languageToggle').value;
@@ -1524,10 +1531,6 @@ window.renderJobs = function() {
  allJobs.forEach(j => {
    let isNewJob = (j.isNew === true || j.isNew === "Yes");
 
-   if (filterNewJobsActive && !isNewJob) {
-     return;
-   }
-
    let matchesSearch = !search || j.title.toLowerCase().includes(search) || j.company.toLowerCase().includes(search);
    let matchesCat = !catFilter || j.category === catFilter;
    let matchesLoc = !locFilter || j.location === locFilter;
@@ -1568,10 +1571,20 @@ window.renderJobs = function() {
 
    let packageObject = {data: j, isMismatch, mismatchReason, matchPercentage, distanceString};
 
-   if(matchesSearch && matchesCat && matchesLoc && matchesGen) { 
-      directMatchesArray.push(packageObject); 
-   } else { 
-      recommendationFallbackArray.push(packageObject); 
+   if (filterNewJobsActive) {
+     if (isNewJob) {
+       if (!isMismatch) {
+         directMatchesArray.push(packageObject);
+       } else {
+         recommendationFallbackArray.push(packageObject);
+       }
+     }
+   } else {
+     if(matchesSearch && matchesCat && matchesLoc && matchesGen) { 
+        directMatchesArray.push(packageObject); 
+     } else { 
+        recommendationFallbackArray.push(packageObject); 
+     }
    }
  });
 
@@ -1663,20 +1676,17 @@ window.renderJobs = function() {
  let finalHTMLOutput = '';
 
  if (filterNewJobsActive) {
-   let recommendedNewJobs = directMatchesArray.filter(item => (item.data.isNew === true || item.data.isNew === "Yes"));
-   let otherNewJobs = recommendationFallbackArray.filter(item => (item.data.isNew === true || item.data.isNew === "Yes"));
-
-   if(recommendedNewJobs.length > 0) {
-      finalHTMLOutput += `<div class="section-title" style="color: var(--primary); border-left: 4px solid var(--primary); padding-left: 10px;">${d.lblMainSecNew}</div>` + 
-                         `<div>${recommendedNewJobs.map(item => buildJobCardHtml(item)).join('')}</div>`;
+   if(directMatchesArray.length > 0) {
+      finalHTMLOutput += `<div class="section-title" style="color: var(--primary); border-left: 4px solid var(--primary); padding-left: 10px; margin-top: 10px;">New Jobs Added 🔔</div>` + 
+                         `<div>${directMatchesArray.map(item => buildJobCardHtml(item)).join('')}</div>`;
    }
    
-   if(otherNewJobs.length > 0) {
-      finalHTMLOutput += `<div class="section-title" style="color: #f59e0b; border-left: 4px solid #f59e0b; padding-left: 10px; margin-top: 30px;">${d.lblOtherNewSec}</div>` + 
-                         `<div>${otherNewJobs.map(item => buildJobCardHtml(item)).join('')}</div>`;
+   if(recommendationFallbackArray.length > 0) {
+      finalHTMLOutput += `<div class="recommended-title" style="margin-top: 30px;">Recommended New Jobs For You ⭐</div>` + 
+                         `<div>${recommendationFallbackArray.map(item => buildJobCardHtml(item)).join('')}</div>`;
    }
 
-   if(recommendedNewJobs.length === 0 && otherNewJobs.length === 0) {
+   if(directMatchesArray.length === 0 && recommendationFallbackArray.length === 0) {
       finalHTMLOutput = `<p style='text-align:center; color:var(--text-muted); padding:40px; font-weight:500;'>No new jobs found currently.</p>`;
    }
 
@@ -1697,7 +1707,7 @@ window.renderJobs = function() {
  
  if(registeredCandidate) {
    const badge = document.getElementById('profileBadge');
-   badge.style.display = "block";
+   badge.style.display = filterNewJobsActive ? "none" : "block";
    badge.innerHTML = d.badgeActive;
    
    document.getElementById('editProfileBtn').style.display = "block";

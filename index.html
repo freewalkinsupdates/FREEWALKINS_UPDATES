@@ -75,7 +75,6 @@ body {
   margin: 0 auto;
 }
 
-/* MODAL OVERLAY */
 .modal-overlay {
   display: none;
   position: fixed;
@@ -86,7 +85,6 @@ body {
   z-index: 999;
 }
 
-/* PREMIUM HEADER */
 .header {
   background: var(--bg-card);
   padding: 32px 24px;
@@ -117,7 +115,6 @@ body {
   text-transform: uppercase;
 }
 
-/* UTILITY BUTTON COMPONENT GROUP */
 .utility-actions-group {
   display: flex;
   gap: 10px;
@@ -126,7 +123,6 @@ body {
   left: 20px;
 }
 
-/* THEME & NOTIFICATION TOGGLE */
 .theme-toggle, .notification-bell, .notification-back-btn {
   background: var(--bg-input);
   border: 1px solid var(--border);
@@ -172,7 +168,6 @@ body {
   box-shadow: 0 0 12px rgba(239, 68, 68, 0.5);
 }
 
-/* MAGIC FLYING TOAST ALERT STYLE */
 .magic-toast {
   position: fixed;
   top: 24px;
@@ -197,7 +192,6 @@ body {
   animation: magicFlyIn 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
 }
 
-/* Edit Profile Button Style */
 .btn-edit-profile {
   position: absolute;
   top: 20px;
@@ -219,7 +213,6 @@ body {
   color: #fff;
 }
 
-/* BLINK ANIMATION FOR EDIT BUTTON */
 @keyframes blinkBtn {
   0% { transform: scale(1); }
   50% { transform: scale(1.05); background: #f59e0b; color: #fff; border-color: #f59e0b; box-shadow: 0 0 15px rgba(245, 158, 11, 0.4); }
@@ -251,7 +244,6 @@ body {
   min-height: auto;
 }
 
-/* MARQUEE BANNER REIMAGINED */
 .premium-marquee {
   background: linear-gradient(90deg, #059669, #10b981, #059669);
   color: #fff;
@@ -263,7 +255,6 @@ body {
   box-shadow: var(--shadow-sm);
 }
 
-/* FILTERS BOX */
 .filter-box {
   background: var(--bg-card);
   padding: 20px;
@@ -328,7 +319,6 @@ input:focus, select:focus, textarea:focus {
   letter-spacing: -0.5px;
 }
 
-/* STRENGTH METER ENGINE */
 .strength-meter-container {
   background: var(--bg-input);
   padding: 16px;
@@ -378,7 +368,6 @@ input:focus, select:focus, textarea:focus {
   color: #60a5fa;
 }
 
-/* SUGGESTIONS ENGINE */
 .suggestions-wrapper {
   position: relative;
   width: 100%;
@@ -454,7 +443,6 @@ input:focus, select:focus, textarea:focus {
   font-size: 16px;
 }
 
-/* JOB CARDS & METRICS */
 .job-card {
   background: var(--bg-card);
   border-radius: var(--radius-lg);
@@ -587,14 +575,13 @@ input:focus, select:focus, textarea:focus {
   text-align: center;
 }
 
-/* INTERACTIVE ACTION BUTTONS */
 .actions-flex {
   display: flex;
   gap: 10px;
   width: 100%;
 }
 
-button {
+button, .btn-link-view-site {
   font-family: inherit;
   font-size: 14px;
   font-weight: 700;
@@ -609,6 +596,7 @@ button {
   flex: 1;
   min-height: 46px;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-decoration: none;
 }
 button:active {
   transform: scale(0.97);
@@ -646,7 +634,32 @@ button:active {
   opacity: 0.4;
 }
 
-/* MODAL REGISTRATION PANEL */
+.btn-view-details {
+  background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(59, 130, 246, 0.2);
+}
+.btn-view-details:hover:not(:disabled) {
+  box-shadow: 0 6px 16px rgba(59, 130, 246, 0.35);
+}
+
+.btn-view-details:disabled {
+  background: var(--border) !important;
+  color: var(--text-muted) !important;
+  box-shadow: none !important;
+  cursor: not-allowed;
+  opacity: 0.4;
+}
+
+.btn-link-view-site {
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: #fff;
+  box-shadow: 0 4px 12px rgba(16, 185, 129, 0.2);
+}
+.btn-link-view-site:hover {
+  box-shadow: 0 6px 16px rgba(16, 185, 129, 0.35);
+}
+
 .container {
   display: none;
   position: fixed;
@@ -691,7 +704,6 @@ button:active {
   margin: 6px 0;
 }
 
-/* POPUP MODULE */
 .popup {
   display: none;
   position: fixed;
@@ -748,9 +760,6 @@ button:active {
 
 @keyframes spin { to { transform: rotate(360deg); } }
 
-/* =======================================================
-   📱 ADVANCED MOBILE RESPONSIVE ADAPTATION ENGINE
-   ======================================================= */
 @media (max-width: 768px) {
   body {
     padding: 16px 12px;
@@ -822,10 +831,10 @@ button:active {
     flex-direction: row;
     gap: 10px;
   }
-  button {
+  button, .btn-link-view-site {
     min-height: 44px;
     font-size: 13px;
-    padding: 10px 14px;
+    padding: 10px 8px;
   }
   .container {
     width: 94% !important;
@@ -846,14 +855,14 @@ button:active {
   }
 }
 
-.job-card h3,.company-name,.detail-badge,button,input,select,textarea{
+.job-card h3,.company-name,.detail-badge,button,input,select,textarea,.btn-link-view-site{
   white-space:normal!important;
   word-break:break-word;
   overflow-wrap:break-word;
 }
-.actions-flex button{flex:1;min-width:0;}
+.actions-flex button, .actions-flex .btn-link-view-site{flex:1;min-width:0;}
 @media(max-width:768px){
-  button{font-size:13px;padding:10px 8px;}
+  button, .btn-link-view-site{font-size:13px;padding:10px 8px;}
   .job-card h3{font-size:16px;line-height:1.4;}
 }
 </style>
@@ -890,7 +899,7 @@ button:active {
 
   <div id="mainPageContentGroup">
     <marquee behavior="scroll" direction="left" scrollamount="5" class="premium-marquee">
-    🚀 Daily New Jobs Updated | Create Profile → Apply Jobs → Contact HR | కొత్త ఉద్యోగాలు ప్రతిరోజు అప్డేట్ అవుతున్నాయి | ముందుగా Profile Create చేయండి → తర్వాత Apply చేయండి → HR ని Contact చేయండి
+    🚀 Daily New Jobs Updated | Create Profile → Apply Jobs → Contact HR | కొత్త ఉద్యోగాలు ప్రతిరోజు అప్డేట్ అవుతున్నాయి | ముందుగా Profile Create చేయండి → తర్వాత Apply చేయండి → HR ni Contact చేయండి
     </marquee>
 
     <div class="filter-box">
@@ -1025,6 +1034,7 @@ button:active {
     
     <p id="popupMessage" style="margin: 12px 0 20px 0; font-size: 14px; color: var(--text-muted); font-weight: 500; line-height: 1.6;"></p>
     <button class="btn-primary" id="popupBtn" style="width: 100%; display: none; border-radius: 12px; font-weight: 700;" onclick="document.getElementById('successPopup').style.display='none'">Awesome, Got it!</button>
+    <a id="popupWebsiteBtn" href="#" target="_blank" class="btn-primary" style="width: 100%; display: none; border-radius: 12px; font-weight: 700; text-decoration: none; margin-top: 10px;">🌐 View Site</a>
   </div>
 </div>
 
@@ -1066,13 +1076,15 @@ const langDictionary = {
     txtName: "Full Name", txtMob: "WhatsApp Number", txtEmail: "Email Address", alertSkill: "Please select at least 1 skill token.",
     badgeActive: "🎯 Custom sorting engine matching jobs base matrix configuration mapping.",
     popApply: "Submitting Profile...", popMsg: "Encrypting and sending profile routing parameters safely to server...", popSuccess: "Application Successful!",
-    popSuccessMsg: "Your application is saved successfully on cloud logs. Tap the green <b>WhatsApp HR</b> button to finalize alignment.", badgeLocation: "Hyd Location",
-    lblEducation: "Education:", lblExp: "Experience:", lblSalary: "Salary:", btnApplied: "✓ Applied", btnApply: "⚡ Apply | అప్లై చేయండి", btnHr: "💬 WhatsApp HR",
+    popSuccessMsg: "Your application is saved successfully on cloud logs. Tap the green <b>WhatsApp HR</b> button to finalize alignment.", 
+    popSuccessMsgWeb: "Your application is saved successfully. Click <b>View Site</b> below to proceed to company portal.", badgeLocation: "Hyd Location",
+    lblEducation: "Education:", lblExp: "Experience:", lblSalary: "Salary:", btnApplied: "✓ Applied", btnApply: "⚡ Apply | అప్లై చేయండి", btnHr: "💬 WhatsApp HR", btnViewDetails: "👁️ View Details",
     lblNoJobsFound: "❌ No specific match criteria found for this configuration.",
     lblNoJobsFoundSubtitle: "But here are some recommended openings for you below:",
     lblRecommendedSec: "⭐ Recommended Jobs For You", textFilterLock: "🔒 Category Lock", 
     textSkillsCategoryLabel: "SKILLS MATCH SUITE", textGlobalCategoryLabel: "GLOBAL SKILLS", textPopularCategoryLabel: "POPULAR SYSTEM TOKENS",
-    textImportantLabel: "Core Tag", alertMaxSkills: "⚠️ Maximum 4 skills only allowed.", btnEditTxt: "✏️ Edit Profile", txtMagicAlert: "🚀 New Jobs Added! 🔔"
+    textImportantLabel: "Core Tag", alertMaxSkills: "⚠️ Maximum 4 skills only allowed.", btnEditTxt: "✏️ Edit Profile", txtMagicAlert: "🚀 New Jobs Added! 🔔",
+    btnViewSite: "🌐 View Site"
   },
   TE: {
     lblMainSec: "💼 అందుబాటులో ఉన్న ఉద్యోగాలు", lblMainSecNew: "🔔 మీ అర్హతకు తగ్గ కొత్త ఉద్యోగాలు (Recommended)", lblOtherNewSec: "📣 ఇతర కొత్త ఉద్యోగాలు (Other New Jobs)", lblFormTitle: "📋 Register Details to View Site", lblFormSub: "జాబ్స్ మరియు స్కిల్స్ మ్యాచ్ అవ్వడానికి సరైన వివరాలు ఇవ్వండి.",
@@ -1085,13 +1097,15 @@ const langDictionary = {
     txtName: "పూర్తి పేరు (Full Name)", txtMob: "వాట్సాప్ నెంబర్ (WhatsApp Number)", txtEmail: "ఈమెయిల్ ఐడి (Email Address)", alertSkill: "కనీసం ఒక స్కిల్ అయినా సెలెక్ట్ చేయండి.",
     badgeActive: "🎯 మీ స్కిల్స్ మరియు ప్రొఫైల్ ki సరిపోయే జాబ్స్ క్రమ పద్ధతిలో చూపించబద్ధాయి.",
     popApply: "అప్లై అవుతోంది...", popMsg: "మీ ప్రొఫైల్ వివరాలు కంపెనీ సర్వర్ ki భద్రంగా పంపిస్తున్నాము...", popSuccess: "అప్లికేషన్ విజయవంతమైంది!",
-    popSuccessMsg: "మీ ప్రొఫైల్ విజయవంతంగా సేవ్ అయింది. నేరుగా హెచ్ఆర్ ని కాంటాక్ట్ చేయడానికి గ్రీన్ కలర్ <b>వాట్సాప్ HR</b> బటన్ క్లిక్ చేయండి.", badgeLocation: "హైదరాబాద్ ఏరియా",
-    lblEducation: "చదువు:", lblExp: "ఎక్స్పీరియన్స్:", lblSalary: "జీతం:", btnApplied: "✓ అప్లై చేసావు", btnApply: "⚡ అప్లై చేయండి", btnHr: "💬 వాట్సాప్ HR",
+    popSuccessMsg: "మీ ప్రొఫైల్ విజయవంతంగా సేవ్ అయింది. నేరుగా హెచ్ఆర్ ని కాంటాక్ట్ చేయడానికి గ్రీన్ కలర్ <b>వాట్సాప్ HR</b> బటన్ క్లిక్ చేయండి.",
+    popSuccessMsgWeb: "మీ ప్రొఫైల్ వివరాలు సేవ్ అయ్యాయి. కంపెనీ వెబ్‌సైట్ చూడటానికి కింద ఉన్న <b>View Site</b> బటన్ క్లిక్ చేయండి.", badgeLocation: "హైదరాబాద్ ఏరియా",
+    lblEducation: "చదువు:", lblExp: "ఎక్స్పీరియన్స్:", lblSalary: "జీతం:", btnApplied: "✓ అప్లై చేసావు", btnApply: "⚡ అప్లై చేయండి", btnHr: "💬 వాట్సాప్ HR", btnViewDetails: "👁️ వివరాలు చూడండి",
     lblNoJobsFound: "❌ మీరు వెతికిన ఫిల్టర్స్ కి సరిపోయే జాబ్స్ ఏవీ ప్రస్తుతానికి అందుబాటులో లేవు.",
     lblNoJobsFoundSubtitle: "కానీ మీ కోసం కింద కొన్ని రికమండెడ్ జాబ్స్ చూపించబడ్డాయి:",
     lblRecommendedSec: "⭐ మీ కోసం ప్రత్యేక సిఫార్సు చేయబడిన ఉద్యోగాలు", textFilterLock: "🔒 కేటగిరీ లాక్", 
     textSkillsCategoryLabel: "కేటగిరీ స్కిల్స్", textGlobalCategoryLabel: "ఇਤਰ స్కిల్స్ లిస్ట్", textPopularCategoryLabel: "పాపులర్ స్కిల్స్ లిస్ట్",
-    textImportantLabel: "ముఖ్యమైనవి", alertMaxSkills: "⚠️ గరిష్టంగా 4 స్కిల్స్ మాత్రమే ఎంచుకోవడానికి వీలవుతుంది.", btnEditTxt: "✏️ ప్రొఫైల్ మార్చండి", txtMagicAlert: "🚀 కొత్త ఉద్యోగాలు వచ్చాయి! 🔔"
+    textImportantLabel: "ముఖ్యమైనవి", alertMaxSkills: "⚠️ గరిష్టంగా 4 స్కిల్స్ మాత్రమే ఎంచుకోవడానికి వీలవుతుంది.", btnEditTxt: "✏️ ప్రొఫైల్ మార్చండి", txtMagicAlert: "🚀 కొత్త ఉద్యోగాలు వచ్చాయి! 🔔",
+    btnViewSite: "🌐 వెబ్‌సైట్ చూడండి"
   }
 };
 
@@ -1609,6 +1623,7 @@ window.renderJobs = function() {
    const escTitle = String(j.title||'').replace(/'/g,"\\'");
    const escCompany = String(j.company||'').replace(/'/g,"\\'");
    const escWhatsApp = String(j.whatsappNumber || '').replace(/'/g,"\\'");
+   const escWebsite = String(j.companyWebsite || '').replace(/'/g,"\\'");
    const alreadyApplied = appliedCompanies.includes(j.company);
 
    let scoreBadgeHTML = '';
@@ -1647,6 +1662,35 @@ window.renderJobs = function() {
 
    let jobTypeLabel = j.jobType ? j.jobType : "Full-time";
 
+   let dynamicActionButtonHTML = '';
+   if(j.companyWebsite && j.companyWebsite.trim() !== '') {
+     if(alreadyApplied) {
+       dynamicActionButtonHTML = `
+         <button class="btn-view-details" disabled>
+            ${d.btnApplied}
+         </button>
+         <a href="${escWebsite}" target="_blank" class="btn-link-view-site">
+            ${d.btnViewSite}
+         </a>
+       `;
+     } else {
+       dynamicActionButtonHTML = `
+         <button class="btn-view-details" ${item.isMismatch ? 'disabled' : ''} onclick="event.stopPropagation(); handleJobApplyAction('${escTitle}','${escCompany}','${escWebsite}')">
+            ${d.btnViewDetails}
+         </button>
+       `;
+     }
+   } else {
+     dynamicActionButtonHTML = `
+       <button class="btn-primary" ${isButtonDisabled ? 'disabled' : ''} onclick="event.stopPropagation(); handleJobApplyAction('${escTitle}','${escCompany}','')">
+         ${alreadyApplied ? d.btnApplied : d.btnApply}
+       </button>
+       <button class="btn-whatsapp" ${isWhatsAppDisabled ? 'disabled' : ''} onclick="event.stopPropagation(); sendWhatsappResume('${escTitle}','${escCompany}','${escWhatsApp}')">
+         ${d.btnHr}
+       </button>
+     `;
+   }
+
    return `<div class="job-card ${item.isMismatch ? 'mismatch' : ''}" onclick="markNewJobAsRead('${escCompany}')">
      ${item.isMismatch ? `<div class="mismatch-tag">${item.mismatchReason}</div>` : scoreBadgeHTML}
      <h3>${processedHighlightTitle} ${liveNewTagHTML}</h3>
@@ -1663,12 +1707,7 @@ window.renderJobs = function() {
      ${skillsHTML}
      ${expiryHTML}
      <div class="actions-flex">
-       <button class="btn-primary" ${isButtonDisabled ? 'disabled' : ''} onclick="event.stopPropagation(); handleJobApplyAction('${escTitle}','${escCompany}')">
-         ${alreadyApplied ? d.btnApplied : d.btnApply}
-       </button>
-       <button class="btn-whatsapp" ${isWhatsAppDisabled ? 'disabled' : ''} onclick="event.stopPropagation(); sendWhatsappResume('${escTitle}','${escCompany}','${escWhatsApp}')">
-         ${d.btnHr}
-       </button>
+       ${dynamicActionButtonHTML}
      </div>
    </div>`;
  }
@@ -1714,15 +1753,15 @@ window.renderJobs = function() {
  }
 }
 
-window.handleJobApplyAction = function(title, company) {
+window.handleJobApplyAction = function(title, company, websiteUrl) {
   if(!registeredCandidate) openFormModal(false);
   else {
     markNewJobAsRead(company);
-    executeCloudJobSubmission(title, company);
+    executeCloudJobSubmission(title, company, websiteUrl);
   }
 }
 
-window.executeCloudJobSubmission = async function(title, company) {
+window.executeCloudJobSubmission = async function(title, company, websiteUrl) {
  if(appliedCompanies.includes(company)) return;
 
  appliedCompanies.push(company);
@@ -1736,9 +1775,11 @@ window.executeCloudJobSubmission = async function(title, company) {
  const premiumBar = document.getElementById('premiumBar');
  const animIcon = document.getElementById('popupAnimationIcon');
  const popupBtn = document.getElementById('popupBtn');
+ const popupWebBtn = document.getElementById('popupWebsiteBtn');
  const loaderWrapper = document.getElementById('popupLoaderWrapper');
  
  popupBtn.style.display = "none";
+ popupWebBtn.style.display = "none";
  loaderWrapper.style.display = "block";
  premiumBar.style.width = "0%";
  animIcon.innerHTML = `<div style="width: 44px; height: 44px; border: 4px solid var(--border); border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px auto;"></div>`;
@@ -1763,8 +1804,15 @@ window.executeCloudJobSubmission = async function(title, company) {
    loaderWrapper.style.display = "none";
    animIcon.innerHTML = `<div class="success-checkmark-glow"><span>🎉</span></div>`;
    document.getElementById('popupTitle').innerText = d.popSuccess;
-   document.getElementById('popupMessage').innerHTML = d.popSuccessMsg;
-   popupBtn.style.display = "block";
+   
+   if(websiteUrl && websiteUrl.trim() !== '') {
+     document.getElementById('popupMessage').innerHTML = d.popSuccessMsgWeb;
+     popupWebBtn.href = websiteUrl;
+     popupWebBtn.style.display = "block";
+   } else {
+     document.getElementById('popupMessage').innerHTML = d.popSuccessMsg;
+     popupBtn.style.display = "block";
+   }
    
    renderJobs();
  } catch(e) {

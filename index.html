@@ -541,7 +541,6 @@ input:focus, select:focus, textarea:focus {
   display: flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid var(--border);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -726,6 +725,7 @@ button:active {
   max-width: 360px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow-lg);
+  position: relative;
 }
 
 .premium-loader-container {
@@ -1023,6 +1023,7 @@ button:active {
 
 <div class="popup" id="successPopup">
   <div class="popup-content">
+    <span class="modal-close-btn" style="display: block; top: 12px; right: 16px;" onclick="document.getElementById('successPopup').style.display='none'">&times;</span>
     <div id="popupAnimationIcon"></div>
     <h3 id="popupTitle" style="font-size: 20px; font-weight: 800; color: var(--text-main);">Processing</h3>
     
@@ -1568,7 +1569,7 @@ window.renderJobs = function() {
          let jRank = qualOrder.indexOf(j.minQualification);
          if(cRank < jRank) { isMismatch = true; mismatchReason = (currentLang === 'TE') ? `${j.minQualification} చదివి ఉండాలి` : `${j.minQualification} Req`; }
       }
-      if(!isMismatch && j.experienceRequired === "Experience Only" && registeredCandidate.experience === "Fresher") { isMismatch = true; mismatchReason = (currentLang === 'TE') ? "అనుభవం అడిగారు" : "Experience Req"; }
+      if(!isMismatch && j.experienceRequired === "Experience Only" && registeredCandidate.experience === "Fresher") { isMismatch = true; mismatchReason = (currentLang === 'TE') ? "అनुభవం అడిగారు" : "Experience Req"; }
       if(!isMismatch && j.experienceRequired === "Freshers Only" && registeredCandidate.experience === "Experienced") { isMismatch = true; mismatchReason = (currentLang === 'TE') ? "ఫ్రెషర్స్ మాత్రమే" : "Freshers Only"; }
 
       if(!isMismatch) {
@@ -1602,21 +1603,27 @@ window.renderJobs = function() {
    }
  });
 
- if(registeredCandidate) {
-   const sortWithLocationContext = (a, b) => {
-      if (a.isMismatch && !b.isMismatch) return 1;
-      if (!a.isMismatch && b.isMismatch) return -1;
-      
-      const aSameArea = a.data.location === registeredCandidate.candidateArea ? 1 : 0;
-      const bSameArea = b.data.location === registeredCandidate.candidateArea ? 1 : 0;
-      if (aSameArea !== bSameArea) return bSameArea - aSameArea;
-      
-      return b.matchPercentage - a.matchPercentage;
-   };
+ const sortWithLocationContext = (a, b) => {
+    // Latest/New jobs always stay on top
+    const aNew = (a.data.isNew === true || a.data.isNew === "Yes") ? 1 : 0;
+    const bNew = (b.data.isNew === true || b.data.isNew === "Yes") ? 1 : 0;
+    if (aNew !== bNew) return bNew - aNew;
 
-   directMatchesArray.sort(sortWithLocationContext);
-   recommendationFallbackArray.sort(sortWithLocationContext);
- }
+    if (registeredCandidate) {
+       if (a.isMismatch && !b.isMismatch) return 1;
+       if (!a.isMismatch && b.isMismatch) return -1;
+       
+       const aSameArea = a.data.location === registeredCandidate.candidateArea ? 1 : 0;
+       const bSameArea = b.data.location === registeredCandidate.candidateArea ? 1 : 0;
+       if (aSameArea !== bSameArea) return bSameArea - aSameArea;
+       
+       return b.matchPercentage - a.matchPercentage;
+    }
+    return 0;
+ };
+
+ directMatchesArray.sort(sortWithLocationContext);
+ recommendationFallbackArray.sort(sortWithLocationContext);
 
  function buildJobCardHtml(item) {
    const j = item.data;

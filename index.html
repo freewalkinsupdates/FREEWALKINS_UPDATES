@@ -143,16 +143,6 @@ body {
   transform: translateY(-1px);
 }
 
-@keyframes bellBlinkAnim {
-  0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-  50% { transform: scale(1.15); box-shadow: 0 0 15px 5px rgba(16, 185, 129, 0.5); background: var(--primary-light); }
-  100% { transform: scale(1); box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-}
-.blink-notification-bell {
-  animation: bellBlinkAnim 1s infinite ease-in-out;
-  border-color: var(--primary) !important;
-}
-
 .notification-container {
   position: relative;
   cursor: pointer;
@@ -328,10 +318,10 @@ input:focus, select:focus, textarea:focus {
   border: 1px dashed var(--primary);
   font-weight: 700;
   font-size: 13px;
-  padding: 12px;
+  padding: 10px;
   border-radius: var(--radius-md);
   width: 100%;
-  margin: 10px 0 24px 0;
+  margin-bottom: 20px;
   cursor: pointer;
   transition: all 0.2s ease;
 }
@@ -497,12 +487,6 @@ input:focus, select:focus, textarea:focus {
 .score-tag-60 { background: linear-gradient(135deg, #f59e0b, #d97706); }
 .score-tag-low { background: #64748b; }
 
-@keyframes blinkNewBadgeTag {
-  0% { transform: scale(1); opacity: 1; }
-  50% { transform: scale(1.1); opacity: 0.6; box-shadow: 0 0 10px rgba(239, 68, 68, 0.8); }
-  100% { transform: scale(1); opacity: 1; }
-}
-
 .new-job-badge-tag {
   background: #ef4444;
   color: white;
@@ -514,7 +498,6 @@ input:focus, select:focus, textarea:focus {
   text-transform: uppercase;
   display: inline-block;
   vertical-align: middle;
-  animation: blinkNewBadgeTag 1s infinite ease-in-out;
   box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
 }
 
@@ -792,7 +775,7 @@ button:active {
     gap: 10px;
   }
   .filter-grid {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     gap: 10px;
   }
   input, select, textarea {
@@ -862,7 +845,7 @@ button:active {
     <div class="utility-actions-group">
       <button class="theme-toggle" id="themeToggleBtn" onclick="toggleThemeMode()">🌓</button>
       <div class="notification-container" id="bellContainer" onclick="filterNewJobsOnly()">
-        <button class="notification-bell" id="mainBellIconBtn">🔔</button>
+        <button class="notification-bell">🔔</button>
         <span class="notification-badge" id="newJobsBadge" style="display: none;">0</span>
       </div>
       <button class="notification-back-btn" id="notificationBackBtn" style="display: none; color: var(--danger); font-weight: 800;" onclick="filterNewJobsOnly()">✕</button>
@@ -871,22 +854,28 @@ button:active {
     <h1>FreeWalkins</h1>
     <p id="lblAppSubtitle">by VenuHR</p>
     
-    <button id="editProfileBtn" class="btn-edit-profile" onclick="openFormModal(true)">👤 Profile</button>
+    <button id="editProfileBtn" class="btn-edit-profile" onclick="openFormModal(true)">✏️ Edit Profile</button>
   </div>
 
   <div id="mainPageContentGroup">
     <marquee behavior="scroll" direction="left" scrollamount="5" class="premium-marquee">
-    🚀 Daily New Jobs Updated | Select your Category → Fill Profile → Apply Jobs → Chat with HR directly on WhatsApp
+    🚀 Daily New Jobs Updated | Create Profile → Apply Jobs → Contact HR
     </marquee>
 
     <div class="filter-box">
-      <input id="searchInput" placeholder="🔍 Search company name, role, or location..." oninput="renderJobs()">
+      <input id="searchInput" placeholder="🔍 Search company name or job role..." oninput="renderJobs()">
       
       <div class="filter-grid">
         <select id="filterCategory" onchange="renderJobs()">
           <option value="" id="optAllCategories">All Categories</option>
         </select>
-        <input id="filterLocation" placeholder="📍 Type location (e.g. Ameerpet)..." oninput="renderJobs()">
+
+        <!-- Searchable Location Dropdown Replaced Here -->
+        <div class="suggestions-wrapper">
+          <input type="text" id="filterLocationSearch" placeholder="📍 All Areas / Search Area..." autocomplete="off" onfocus="handleLocationInputFocus()" oninput="handleLocationInputTyped()">
+          <div class="suggestions-box" id="locationSuggestionsBox"></div>
+          <input type="hidden" id="filterLocation" value="" onchange="renderJobs()">
+        </div>
       </div>
     </div>
 
@@ -972,7 +961,9 @@ button:active {
         </div>
 
         <div>
-          <input type="text" id="candidateArea" placeholder="Type your Area or City (e.g. Gachibowli, Kukatpally)" required>
+          <select id="candidateArea" class="dynamic-location-select" required>
+            <option value="">Your Area in Hyderabad</option>
+          </select>
         </div>
 
         <div><textarea id="address" placeholder="Full Home Address" rows="2" required></textarea></div>
@@ -1025,7 +1016,8 @@ let appliedCompanies = [];
 let candidateSkills = []; 
 let filterNewJobsActive = false;
 let readNewJobsArray = [];
-let maxVisibleJobsCount = 6; // Initial display limit set to 6 jobs
+let categoryLimits = {}; // Track expanded state per category
+let uniqueAndSortedAreas = [];
 
 const multiTierSkillsMapping = {
   "IT / Software": ["Java", "Python", "HTML/CSS", "JavaScript", "React JS", "Node.js", "SQL Database", "C++", "PHP", "Android UI", "Software Testing", "AWS Cloud", "UI/UX Design", "Git Control", "Data Structures", "TypeScript", "Angular", "Vue.js", "Docker", "Kubernetes", "Cyber Security", "DevOps Ops", "Django", "Machine Learning", "Data Analysis"],
@@ -1047,6 +1039,22 @@ const multiTierSkillsMapping = {
 
 const masterAllSkills = Array.from(new Set(Object.values(multiTierSkillsMapping).flat())).sort();
 const jobCategories = Object.keys(multiTierSkillsMapping);
+
+const hyderabadAreas = [
+  "Ameerpet", "Gachibowli", "Madhapur", "Kondapur", "Hitech City", "Jubilee Hills", "Banjara Hills", 
+  "Kukatpally", "K P H B", "Secunderabad", "Begumpet", "Dilsukhnagar", "LB Nagar", "Uppal", 
+  "Nagole", "Mehdipatnam", "Miyapur", "Chanda Nagar", "Hafeezpet", "Nizampet", "Bachupally", 
+  "Pragathi Nagar", "JNTU", "Moosapet", "Sanathnagar", "Khairatabad", "Panjagutta", "Somajiguda", 
+  "Koti", "Abids", "Nampally", "Charminar", "Santoshnagar", "Malakpet", "Saidabad", "Vanasthalipuram", 
+  "Hayathnagar", "Tarnaka", "Habsiguda", "Ramanthapur", "Malkajgiri", "Alwal", "Kompally", 
+  "Jeedimetla", "Balanagar", "Bowenpally", "Trimulgherry", "Shaikpet", "Tolichowki", "Manikonda", 
+  "Kokapet", "Attapur", "Rajendra Nagar", "Langor Houz", "Karwan", "Asif Nagar", 
+  "Narayanguda", "Himayatnagar", "Barkatpura", "Kachiguda", "Vidyanagar", "Osmania University", 
+  "ECIL", "AS Rao Nagar", "Sainikpuri", "Moula Ali", "Nacharam", "Mallapur", "Boduppal", "Peerzadiguda", 
+  "Chengicherla", "Ghatkesar", "Medchal", "Gundlapochampally", "Patancheru", "Ramachandrapuram", 
+  "RC Puram", "Lingampally", "BHEL", "Tellapur", "Narsingi", "Puppalguda", "Bandlaguda Jagir", "Other"
+];
+
 const qualOrder = ["Any", "SSC", "Intermediate", "ITI", "Diploma", "Degree", "B.Com", "B.Sc", "BA", "BBA", "BCA", "B.Tech", "B.Pharmacy", "MBA", "MCA", "M.Tech"];
 
 const savedUser = localStorage.getItem("registeredCandidate");
@@ -1072,15 +1080,85 @@ window.toggleThemeMode = function() {
 function setupDropdownUI() {
   const fCat = document.getElementById('filterCategory');
   const formCat = document.getElementById('jobCategory');
+  const formLoc = document.getElementById('candidateArea');
+
+  const currentFormLocValue = formLoc.value;
 
   fCat.innerHTML = '<option value="">All Categories</option>';
   formCat.innerHTML = '<option value="">Which job category are you looking for?</option><option value="Any">Any Category / Open to All</option>';
+  formLoc.innerHTML = '<option value="">Your Area in Hyderabad</option>';
 
   jobCategories.sort().forEach(c => {
     fCat.innerHTML += `<option value="${c}">${c}</option>`;
     formCat.innerHTML += `<option value="${c}">${c}</option>`;
   });
+
+  const liveJobLocations = allJobs.map(j => j.location).filter(Boolean);
+  const totalCombinedAreas = Array.from(new Set([...hyderabadAreas, ...liveJobLocations]));
+  
+  uniqueAndSortedAreas = totalCombinedAreas.sort((a,b) => a === 'Other' ? 1 : b === 'Other' ? -1 : a.localeCompare(b));
+  
+  uniqueAndSortedAreas.forEach(l => {
+    formLoc.innerHTML += `<option value="${l}">${l}</option>`;
+  });
+
+  if (currentFormLocValue) formLoc.value = currentFormLocValue;
 }
+
+// Location Searchable Input Engine for Filter
+const locSearchInput = document.getElementById('filterLocationSearch');
+const locSugBox = document.getElementById('locationSuggestionsBox');
+const hiddenLocInput = document.getElementById('filterLocation');
+
+window.handleLocationInputFocus = function() {
+  renderLocationSuggestions();
+};
+
+window.handleLocationInputTyped = function() {
+  const query = locSearchInput.value.trim();
+  if (query === '') {
+    hiddenLocInput.value = '';
+    renderJobs();
+  }
+  renderLocationSuggestions();
+};
+
+function renderLocationSuggestions() {
+  const query = locSearchInput.value.toLowerCase().trim();
+  let filteredAreas = uniqueAndSortedAreas;
+  
+  if (query !== '') {
+    filteredAreas = uniqueAndSortedAreas.filter(a => a.toLowerCase().includes(query));
+  }
+
+  let htmlContent = `<div class="suggestion-item" data-value=""><span>📍 All Areas</span></div>`;
+  
+  if (filteredAreas.length > 0) {
+    htmlContent += filteredAreas.map(area => `<div class="suggestion-item" data-value="${area}"><span>📍 ${area}</span></div>`).join('');
+  } else {
+    htmlContent += `<div class="suggestion-item" data-value="" style="color:var(--text-muted);"><span>No matching areas found</span></div>`;
+  }
+
+  locSugBox.innerHTML = htmlContent;
+  locSugBox.style.display = 'block';
+}
+
+document.addEventListener('click', (e) => {
+  if(!locSearchInput.contains(e.target) && !locSugBox.contains(e.target)) {
+    locSugBox.style.display = 'none';
+  }
+});
+
+locSugBox.addEventListener('click', (e) => {
+  const matchingItem = e.target.closest('.suggestion-item');
+  if(matchingItem) {
+    const val = matchingItem.getAttribute('data-value');
+    hiddenLocInput.value = val;
+    locSearchInput.value = val ? val : '';
+    locSugBox.style.display = 'none';
+    renderJobs();
+  }
+});
 
 function calculateLiveStrengthScore() {
   let score = 0;
@@ -1092,7 +1170,7 @@ function calculateLiveStrengthScore() {
   if(document.getElementById('qualification').value) score += 10;
   if(document.getElementById('candidateExperience').value) score += 10;
   if(document.getElementById('jobCategory').value) score += 10;
-  if(document.getElementById('candidateArea').value.trim().length > 1) score += 10;
+  if(document.getElementById('candidateArea').value) score += 10;
   score += Math.min(candidateSkills.length * 2, 10); 
 
   const fill = document.getElementById('strengthBar');
@@ -1219,17 +1297,14 @@ chipsDiv.addEventListener('click', (e) => {
 
 function updateNotificationBadge() {
   const badge = document.getElementById('newJobsBadge');
-  const mainBellBtn = document.getElementById('mainBellIconBtn');
   
   if (filterNewJobsActive) {
     badge.style.display = 'none';
-    mainBellBtn.classList.remove('blink-notification-bell');
     return;
   }
 
   const unseenNewJobs = allJobs.filter(j => {
-    const jobKey = j.id || (j.company + "_" + j.title);
-    return (j.isNew === true || j.isNew === "Yes") && !readNewJobsArray.includes(jobKey);
+    return (j.isNew === true || j.isNew === "Yes") && !readNewJobsArray.includes(j.company);
   });
   
   if (unseenNewJobs.length > 0) {
@@ -1239,10 +1314,8 @@ function updateNotificationBadge() {
     }
     badge.innerText = unseenNewJobs.length;
     badge.style.display = 'flex';
-    mainBellBtn.classList.add('blink-notification-bell'); // Blinks when unread new jobs exist
   } else {
     badge.style.display = 'none';
-    mainBellBtn.classList.remove('blink-notification-bell'); // Stops blinking once read/opened
   }
 }
 
@@ -1273,15 +1346,12 @@ window.filterNewJobsOnly = function() {
     badge.style.transform = 'scale(0)';
     setTimeout(() => { badge.style.display = 'none'; badge.style.transform = 'scale(1)'; }, 200);
 
-    // Marking all new jobs as read when bell is clicked
     allJobs.forEach(j => {
-      const jobKey = j.id || (j.company + "_" + j.title);
-      if ((j.isNew === true || j.isNew === "Yes") && !readNewJobsArray.includes(jobKey)) {
-        readNewJobsArray.push(jobKey);
+      if ((j.isNew === true || j.isNew === "Yes") && !readNewJobsArray.includes(j.company)) {
+        readNewJobsArray.push(j.company);
       }
     });
     localStorage.setItem("readNewJobsArray", JSON.stringify(readNewJobsArray));
-    updateNotificationBadge();
   } else {
     bellContainer.style.display = 'inline-block';
     backBtn.style.display = 'none';
@@ -1307,6 +1377,10 @@ async function loadJobs(){
   
   if(registeredCandidate) {
     document.getElementById('filterCategory').value = (registeredCandidate.jobCategory === 'Any') ? "" : registeredCandidate.jobCategory;
+    if(registeredCandidate.area && registeredCandidate.area !== 'Other') {
+      hiddenLocInput.value = registeredCandidate.area;
+      locSearchInput.value = registeredCandidate.area;
+    }
     
     if(registeredCandidate.skills) {
       candidateSkills = registeredCandidate.skills.split(", ").filter(x => x);
@@ -1361,41 +1435,32 @@ window.closeFormModalBack = function() {
   }, 4000);
 }
 
-// Marks individual job card as read on click, stopping its individual NEW tag blink permanently
-window.markNewJobAsRead = function(jobKey) {
-  if(!readNewJobsArray.includes(jobKey)) {
-    readNewJobsArray.push(jobKey);
+window.markNewJobAsRead = function(companyName) {
+  if(!readNewJobsArray.includes(companyName)) {
+    readNewJobsArray.push(companyName);
     localStorage.setItem("readNewJobsArray", JSON.stringify(readNewJobsArray));
     updateNotificationBadge();
     renderJobs();
   }
 }
 
-// Loads remaining jobs when "Click for More Jobs" button is clicked after the first 6 items
-window.loadMoreJobs = function() {
-  maxVisibleJobsCount += 10;
+window.loadMoreCategoryJobs = function(catName) {
+  categoryLimits[catName] = (categoryLimits[catName] || 2) + 10;
   renderJobs();
 }
 
 window.renderJobs = function() {
  const search = (document.getElementById('searchInput').value || '').toLowerCase();
  const catFilter = document.getElementById('filterCategory').value;
- const locFilter = (document.getElementById('filterLocation').value || '').toLowerCase();
+ const locFilter = document.getElementById('filterLocation').value.toLowerCase();
  const container = document.getElementById('jobsContainer');
 
- // Latest jobs ordered at the top
- let sortedSourceJobs = [...allJobs].reverse().sort((a, b) => {
-   let aNew = (a.isNew === true || a.isNew === "Yes") ? 1 : 0;
-   let bNew = (b.isNew === true || b.isNew === "Yes") ? 1 : 0;
-   return bNew - aNew;
- });
+ let sortedSourceJobs = [...allJobs].reverse();
 
  function buildJobCardHtml(item) {
    const j = item.data;
-   const jobKey = j.id || (j.company + "_" + j.title);
    const escTitle = String(j.title||'').replace(/'/g,"\\'");
    const escCompany = String(j.company||'').replace(/'/g,"\\'");
-   const escJobKey = String(jobKey).replace(/'/g,"\\'");
    const escWhatsApp = String(j.whatsappNumber || '').replace(/'/g,"\\'");
    
    const rawWebsite = j.companyWebsite || j.applyUrl || '';
@@ -1421,7 +1486,7 @@ window.renderJobs = function() {
      return sourceText.replace(regexPattern, '<mark style="background:var(--highlight); color:inherit; border-radius:2px; padding:0 2px;">$1</mark>');
    }
 
-   let isLiveNewJob = (j.isNew === true || j.isNew === "Yes") && !readNewJobsArray.includes(jobKey);
+   let isLiveNewJob = (j.isNew === true || j.isNew === "Yes") && !readNewJobsArray.includes(j.company);
    let liveNewTagHTML = isLiveNewJob ? `<span class="new-job-badge-tag">NEW</span>` : '';
 
    let expiryHTML = j.expiryDate ? `<div class="job-expiry-alert">⏱️ Last Date: <b>${j.expiryDate}</b></div>` : '';
@@ -1429,46 +1494,26 @@ window.renderJobs = function() {
    let jobTypeLabel = j.jobType ? j.jobType : "Full-time";
 
    let dynamicActionButtonHTML = '';
-   let hasWhatsapp = j.whatsappNumber && j.whatsappNumber.trim() !== "";
-   let hasWebsite = rawWebsite && rawWebsite.trim() !== "" && rawWebsite !== "#";
-
-   let secondaryActionHtml = '';
-   
-   if(alreadyApplied) {
-     if(hasWebsite) {
-       secondaryActionHtml = `<a href="${escWebsite}" target="_blank" class="btn-link-view-site">🌐 Visit Site</a>`;
-     } else if(hasWhatsapp) {
-       secondaryActionHtml = `<button class="btn-whatsapp" onclick="event.stopPropagation(); sendWhatsappResume('${escTitle}','${escCompany}','${escWhatsApp}')">💬 WhatsApp HR</button>`;
-     } else {
-       secondaryActionHtml = `<button class="btn-whatsapp" disabled>💬 No Link</button>`;
-     }
-   } else {
-     if(hasWebsite) {
-       secondaryActionHtml = `<a href="${escWebsite}" target="_blank" class="btn-link-view-site disabled">🌐 Visit Site</a>`;
-     } else if(hasWhatsapp) {
-       secondaryActionHtml = `<button class="btn-whatsapp" disabled onclick="event.stopPropagation(); sendWhatsappResume('${escTitle}','${escCompany}','${escWhatsApp}')">💬 WhatsApp HR</button>`;
-     } else {
-       secondaryActionHtml = `<button class="btn-whatsapp" disabled>💬 No Link</button>`;
-     }
-   }
 
    if(alreadyApplied) {
      dynamicActionButtonHTML = `
        <button class="btn-primary" disabled style="background:#64748b; opacity:0.8;">
          ✓ Applied
        </button>
-       ${secondaryActionHtml}
+       ${rawWebsite ? `<a href="${escWebsite}" target="_blank" class="btn-link-view-site">🌐 Visit Site</a>` : 
+         `<button class="btn-whatsapp" onclick="event.stopPropagation(); sendWhatsappResume('${escTitle}','${escCompany}','${escWhatsApp}')">💬 WhatsApp HR</button>`}
      `;
    } else {
      dynamicActionButtonHTML = `
        <button class="btn-primary" ${item.isMismatch ? 'disabled' : ''} onclick="event.stopPropagation(); handleJobApplyAction('${escTitle}','${escCompany}','${escWebsite}')">
          ⚡ Apply
        </button>
-       ${secondaryActionHtml}
+       ${rawWebsite ? `<a class="btn-link-view-site disabled">🌐 Visit Site</a>` : 
+         `<button class="btn-whatsapp" disabled>💬 WhatsApp HR</button>`}
      `;
    }
 
-   return `<div class="job-card ${item.isMismatch ? 'mismatch' : ''}" onclick="markNewJobAsRead('${escJobKey}')">
+   return `<div class="job-card ${item.isMismatch ? 'mismatch' : ''}" onclick="markNewJobAsRead('${escCompany}')">
      ${item.isMismatch ? `<div class="mismatch-tag">${item.mismatchReason}</div>` : scoreBadgeHTML}
      <h3>${processedHighlightTitle} ${liveNewTagHTML}</h3>
      <div class="company-name">🏢 ${processedHighlightCompany} 
@@ -1497,50 +1542,43 @@ window.renderJobs = function() {
    if (newJobsList.length === 0) {
      finalHTMLOutput = `<p style='text-align:center; color:var(--text-muted); padding:40px; font-weight:500;'>No new jobs added recently.</p>`;
    } else {
-     let visibleNewJobs = newJobsList.slice(0, maxVisibleJobsCount);
      finalHTMLOutput += `<div class="section-title" style="color:var(--primary); font-size:22px; margin-top:10px;">🔥 NEW JOBS (${newJobsList.length})</div>`;
 
-     let processedList = visibleNewJobs.map(j => {
+     let categoryGroups = {};
+     newJobsList.forEach(j => {
+       let cat = j.category || 'General';
+       if (!categoryGroups[cat]) categoryGroups[cat] = [];
+       
        let isMismatch = false;
        let mismatchReason = '';
        let matchPercentage = 100;
        let distanceString = j.location || "Hyderabad";
 
-       if(registeredCandidate) {
-          if(j.minQualification && j.minQualification !== "Any") {
-             let cRank = qualOrder.indexOf(registeredCandidate.qualification);
-             let jRank = qualOrder.indexOf(j.minQualification);
-             if(cRank < jRank) { isMismatch = true; mismatchReason = `${j.minQualification} Required`; }
-          }
-          if(!isMismatch && j.jobGender && j.jobGender !== "Both") {
-             if(j.jobGender !== registeredCandidate.gender) {
-                isMismatch = true;
-                mismatchReason = `${j.jobGender} Only Lock`;
-             }
-          }
-       }
-       return {data: j, isMismatch, mismatchReason, matchPercentage, distanceString};
+       categoryGroups[cat].push({data: j, isMismatch, mismatchReason, matchPercentage, distanceString});
      });
 
-     finalHTMLOutput += processedList.map(item => buildJobCardHtml(item)).join('');
+     Object.keys(categoryGroups).forEach(catName => {
+       let jobsInCat = categoryGroups[catName];
+       let visibleLimit = categoryLimits[catName] || 2;
+       let visibleJobs = jobsInCat.slice(0, visibleLimit);
 
-     if (newJobsList.length > maxVisibleJobsCount) {
-       finalHTMLOutput += `<button class="btn-load-more" onclick="loadMoreJobs()">👇 Click for More Jobs (${newJobsList.length - maxVisibleJobsCount} more left)</button>`;
-     }
+       finalHTMLOutput += `<div class="category-group-header"><span>📁 ${catName.toUpperCase()} ADDED</span> <span>(${jobsInCat.length})</span></div>`;
+       finalHTMLOutput += visibleJobs.map(item => buildJobCardHtml(item)).join('');
+
+       if(jobsInCat.length > visibleLimit) {
+         finalHTMLOutput += `<button class="btn-load-more" onclick="loadMoreCategoryJobs('${catName.replace(/'/g,"\\'")}')">👇 Click to Load More (${jobsInCat.length - visibleLimit} Jobs Left)</button>`;
+       }
+     });
    }
 
  } else {
-   let matchedJobsList = [];
+   let directMatchesArray = [];
+   let recommendedFallbackArray = [];
 
    sortedSourceJobs.forEach(j => {
-     let matchesSearch = !search || 
-         (j.title && j.title.toLowerCase().includes(search)) || 
-         (j.company && j.company.toLowerCase().includes(search));
-
-     let matchesLoc = !locFilter || 
-         (j.location && j.location.toLowerCase().includes(locFilter));
-
+     let matchesSearch = !search || j.title.toLowerCase().includes(search) || j.company.toLowerCase().includes(search);
      let matchesCat = !catFilter || j.category === catFilter;
+     let matchesLoc = !locFilter || (j.location && j.location.toLowerCase().includes(locFilter));
 
      let isMismatch = false;
      let mismatchReason = '';
@@ -1548,27 +1586,15 @@ window.renderJobs = function() {
      let distanceString = j.location || "Hyderabad";
 
      if(registeredCandidate) {
-        if(j.minQualification && j.minQualification !== "Any") {
-           let cRank = qualOrder.indexOf(registeredCandidate.qualification);
-           let jRank = qualOrder.indexOf(j.minQualification);
-           if(cRank < jRank) { 
-              isMismatch = true; 
-              mismatchReason = `${j.minQualification} Required Lock`; 
-           }
-        }
-
-        if(!isMismatch && j.jobGender && j.jobGender !== "Both") {
-           if(j.jobGender !== registeredCandidate.gender) {
-              isMismatch = true;
-              mismatchReason = `${j.jobGender} Only Lock`;
-           }
-        }
-
-        if(!isMismatch && registeredCandidate.jobCategory !== 'Any' && j.category !== registeredCandidate.jobCategory) {
+        if(registeredCandidate.jobCategory !== 'Any' && j.category !== registeredCandidate.jobCategory) {
            isMismatch = true;
            mismatchReason = "Category Locked";
         }
-
+        if(!isMismatch && j.minQualification && j.minQualification !== "Any") {
+           let cRank = qualOrder.indexOf(registeredCandidate.qualification);
+           let jRank = qualOrder.indexOf(j.minQualification);
+           if(cRank < jRank) { isMismatch = true; mismatchReason = `${j.minQualification} Required`; }
+        }
         if(!isMismatch && j.experienceRequired === "Experience Only" && registeredCandidate.experience === "Fresher") { isMismatch = true; mismatchReason = "Experience Required"; }
         if(!isMismatch && j.experienceRequired === "Freshers Only" && registeredCandidate.experience === "Experienced") { isMismatch = true; mismatchReason = "Freshers Only"; }
 
@@ -1584,20 +1610,28 @@ window.renderJobs = function() {
         }
      }
 
+     let itemObj = {data: j, isMismatch, mismatchReason, matchPercentage, distanceString};
+
      if(matchesSearch && matchesCat && matchesLoc) { 
-        matchedJobsList.push({data: j, isMismatch, mismatchReason, matchPercentage, distanceString}); 
+        directMatchesArray.push(itemObj); 
+     } else if(!isMismatch) { 
+        recommendedFallbackArray.push(itemObj); 
      }
    });
 
-   if(matchedJobsList.length > 0) {
-      let visibleJobsBatch = matchedJobsList.slice(0, maxVisibleJobsCount);
-      finalHTMLOutput = visibleJobsBatch.map(item => buildJobCardHtml(item)).join('');
-
-      if(matchedJobsList.length > maxVisibleJobsCount) {
-         finalHTMLOutput += `<button class="btn-load-more" onclick="loadMoreJobs()">👇 Click for More Jobs (${matchedJobsList.length - maxVisibleJobsCount} more left)</button>`;
-      }
+   if(directMatchesArray.length > 0) {
+      finalHTMLOutput = directMatchesArray.map(item => buildJobCardHtml(item)).join('');
    } else {
-      finalHTMLOutput = `<p style='text-align:center; color:#e11d48; font-weight:600; padding:20px; background:rgba(225,29,72,0.05); border:1px dashed rgba(225,29,72,0.2); border-radius:14px; font-size:14px;'>❌ No exact jobs found matching your filter/search.</p>`;
+      finalHTMLOutput = `<p style='text-align:center; color:#e11d48; font-weight:600; padding:20px; background:rgba(225,29,72,0.05); border:1px dashed rgba(225,29,72,0.2); border-radius:14px; font-size:14px;'>❌ No exact jobs found matching your filter.</p>`;
+      
+      if(recommendedFallbackArray.length > 0) {
+         finalHTMLOutput += `<div class="recommended-title">⭐ Recommended Jobs For You</div>`;
+         finalHTMLOutput += recommendedFallbackArray.slice(0, 10).map(item => buildJobCardHtml(item)).join('');
+      } else {
+         let fallbackSubset = sortedSourceJobs.slice(0, 6).map(j => ({data: j, isMismatch: false, mismatchReason: '', matchPercentage: 80, distanceString: j.location || "Hyderabad"}));
+         finalHTMLOutput += `<div class="recommended-title">⭐ Suggested Jobs Based On Your Profile</div>`;
+         finalHTMLOutput += fallbackSubset.map(item => buildJobCardHtml(item)).join('');
+      }
    }
  }
 
@@ -1613,6 +1647,7 @@ window.renderJobs = function() {
 window.handleJobApplyAction = function(title, company, websiteUrl) {
   if(!registeredCandidate) openFormModal(false);
   else {
+    markNewJobAsRead(company);
     executeCloudJobSubmission(title, company, websiteUrl);
   }
 }
@@ -1713,7 +1748,7 @@ document.getElementById('candidateForm').addEventListener('submit', async (e) =>
    lastCtc: document.getElementById('lastCtc').value.trim() || "N/A",
    jobCategory: document.getElementById('jobCategory').value,
    skills: candidateSkills.join(", "),
-   area: document.getElementById('candidateArea').value.trim(),
+   area: document.getElementById('candidateArea').value,
    address: document.getElementById('address').value.trim(),
    formType: "quick_onboard"
  };
@@ -1724,6 +1759,10 @@ document.getElementById('candidateForm').addEventListener('submit', async (e) =>
  document.getElementById('modalOverlay').style.display = "none";
  
  document.getElementById('filterCategory').value = (registeredCandidate.jobCategory === 'Any') ? "" : registeredCandidate.jobCategory;
+ if(registeredCandidate.area && registeredCandidate.area !== 'Other') {
+   hiddenLocInput.value = registeredCandidate.area;
+   locSearchInput.value = registeredCandidate.area;
+ }
 
  renderJobs();
  try { fetch(API_URL, { method: "POST", body: JSON.stringify(registeredCandidate) }); } catch(err){}

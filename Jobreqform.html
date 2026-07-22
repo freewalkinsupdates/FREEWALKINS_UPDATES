@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Post a Job Request - FreeWalkins</title>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: #f1f5f9;
+      padding: 15px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    .form-container {
+      background: white;
+      padding: 24px 20px;
+      border-radius: 20px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+      max-width: 480px;
+      width: 100%;
+    }
+    .top-card {
+      background: white;
+      padding: 20px;
+      border-radius: 16px;
+      text-align: center;
+      margin-bottom: 20px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+      border: 1px solid #f1f5f9;
+    }
+    .brand-title {
+      color: #0d9488;
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.5px;
+    }
+    .brand-subtitle {
+      color: #64748b;
+      font-size: 11px;
+      margin: 4px 0 0 0;
+      letter-spacing: 2px;
+      font-weight: 700;
+    }
+    h2 { 
+      color: #0f172a; 
+      font-size: 17px; 
+      margin: 0 0 15px 0; 
+      text-align: center; 
+      font-weight: 700;
+    }
+    .form-group { 
+      margin-bottom: 14px; 
+    }
+    label { 
+      display: block; 
+      font-size: 13px; 
+      font-weight: 700; 
+      margin-bottom: 5px; 
+      color: #334155; 
+    }
+    input, select, textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid #cbd5e1;
+      border-radius: 10px;
+      font-size: 14px;
+      box-sizing: border-box;
+      outline: none;
+      background-color: #f8fafc;
+      color: #0f172a;
+    }
+    input:focus, select:focus, textarea:focus { 
+      border-color: #0d9488; 
+      background-color: #fff;
+    }
+    button {
+      background: #0d9488;
+      color: white;
+      border: none;
+      padding: 13px;
+      border-radius: 10px;
+      font-weight: 700;
+      width: 100%;
+      cursor: pointer;
+      font-size: 15px;
+      transition: background 0.2s;
+      margin-top: 5px;
+    }
+    button:hover { background: #0f766e; }
+
+    /* Custom Popup Styles */
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: all 0.3s ease;
+    }
+    .popup-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .popup-box {
+      background: white;
+      padding: 24px;
+      border-radius: 16px;
+      text-align: center;
+      max-width: 320px;
+      width: 90%;
+      box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+      transform: scale(0.9);
+      transition: transform 0.3s ease;
+    }
+    .popup-overlay.active .popup-box {
+      transform: scale(1);
+    }
+    .popup-icon {
+      font-size: 40px;
+      margin-bottom: 10px;
+    }
+    .popup-box h3 {
+      color: #0f172a;
+      font-size: 18px;
+      margin: 0 0 8px 0;
+    }
+    .popup-box p {
+      color: #64748b;
+      font-size: 14px;
+      margin: 0 0 20px 0;
+      line-height: 1.4;
+    }
+    .popup-btn {
+      background: #0d9488;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 8px;
+      font-weight: 700;
+      width: 100%;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .popup-btn:hover {
+      background: #0f766e;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="form-container">
+    <div class="top-card">
+      <h1 class="brand-title">FreeWalkins</h1>
+      <p class="brand-subtitle">BY VENUHR</p>
+    </div>
+
+    <h2>💼 Submit Job Request</h2>
+    
+    <form id="jobRequestForm">
+      <div class="form-group">
+        <label>Job Title / Role *</label>
+        <input type="text" id="reqTitle" required>
+      </div>
+      
+      <div class="form-group">
+        <label>Company Name *</label>
+        <input type="text" id="reqCompany" required>
+      </div>
+      
+      <div class="form-group">
+        <label>Category *</label>
+        <select id="reqCategory">
+          <option value="BPO / Customer Support">BPO / Customer Support</option>
+          <option value="IT / Software">IT / Software</option>
+          <option value="Banking & Finance">Banking & Finance</option>
+          <option value="Sales & Marketing">Sales & Marketing</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Location / Area *</label>
+        <input type="text" id="reqLocation" required>
+      </div>
+      
+      <div class="form-group">
+        <label>Minimum Qualification *</label>
+        <select id="reqQual">
+          <option value="Degree">Degree</option>
+          <option value="B.Tech">B.Tech</option>
+          <option value="Intermediate">Intermediate</option>
+          <option value="Any">Any</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label>Salary *</label>
+        <input type="text" id="reqSalary">
+      </div>
+      
+      <div class="form-group">
+        <label>HR WhatsApp Number *</label>
+        <input type="tel" id="reqPhone" maxlength="10" required>
+      </div>
+      
+      <button type="submit" id="submitReqBtn">🚀 Submit Job for Review</button>
+    </form>
+  </div>
+
+  <!-- Custom Popup Modal -->
+  <div id="successPopup" class="popup-overlay">
+    <div class="popup-box">
+      <div class="popup-icon">🎉</div>
+      <h3>Success!</h3>
+      <p>Posted successfully, will review details.</p>
+      <button class="popup-btn" onclick="closePopup()">OK</button>
+    </div>
+  </div>
+
+  <script>
+    const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxHUlP7pTvAxfBM6CxaI1DmR3JPzFRnCk-QDIkSomuxxdc2Upd3Ql0PQGyYNyqWXMdM/exec";
+
+    document.getElementById('jobRequestForm').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const btn = document.getElementById('submitReqBtn');
+      btn.disabled = true;
+      btn.innerText = "Submitting...";
+
+      const formData = {
+        title: document.getElementById('reqTitle').value,
+        company: document.getElementById('reqCompany').value,
+        category: document.getElementById('reqCategory').value,
+        location: document.getElementById('reqLocation').value,
+        minQualification: document.getElementById('reqQual').value,
+        salary: document.getElementById('reqSalary').value,
+        whatsappNumber: document.getElementById('reqPhone').value,
+        status: "pending"
+      };
+
+      try {
+        await fetch(GOOGLE_SCRIPT_URL, {
+          method: "POST",
+          mode: "no-cors",
+          headers: {
+            "Content-Type": "text/plain;charset=utf-8"
+          },
+          body: JSON.stringify(formData)
+        });
+
+        // Show Custom Popup
+        document.getElementById('successPopup').classList.add('active');
+        document.getElementById('jobRequestForm').reset();
+      } catch (err) {
+        alert("లోపం ఏర్పడింది: " + err.message);
+      } finally {
+        btn.disabled = false;
+        btn.innerText = "🚀 Submit Job for Review";
+      }
+    });
+
+    function closePopup() {
+      document.getElementById('successPopup').classList.remove('active');
+    }
+  </script>
+</body>
+</html>

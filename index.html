@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, shrink-to-fit=no">
-<title>FreeWalkins by VenuHR</title>
+<title>FreeWalkins by VenuHR - Advanced AI Edition</title>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -123,7 +123,7 @@ body {
   left: 20px;
 }
 
-.theme-toggle, .notification-bell, .notification-back-btn {
+.theme-toggle, .notification-bell, .notification-back-btn, .ai-assistant-btn {
   background: var(--bg-input);
   border: 1px solid var(--border);
   border-radius: var(--radius-sm);
@@ -138,7 +138,7 @@ body {
   transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.theme-toggle:hover, .notification-bell:hover, .notification-back-btn:hover {
+.theme-toggle:hover, .notification-bell:hover, .notification-back-btn:hover, .ai-assistant-btn:hover {
   border-color: var(--primary);
   transform: translateY(-1px);
 }
@@ -190,6 +190,13 @@ body {
 
 .magic-toast.fly-effect {
   animation: magicFlyIn 2.5s cubic-bezier(0.25, 1, 0.5, 1) forwards;
+}
+
+@keyframes magicFlyIn {
+  0% { opacity: 0; transform: translateX(-50%) scale(0.8) translateY(-20px); }
+  20% { opacity: 1; transform: translateX(-50%) scale(1) translateY(0); }
+  80% { opacity: 1; transform: translateX(-50%) scale(1) translateY(0); }
+  100% { opacity: 0; transform: translateX(-50%) scale(0.9) translateY(-20px); }
 }
 
 .btn-edit-profile {
@@ -310,23 +317,6 @@ input:focus, select:focus, textarea:focus {
   display: flex;
   justify-content: space-between;
   align-items: center;
-}
-
-.btn-load-more {
-  background: var(--bg-input);
-  color: var(--primary);
-  border: 1px dashed var(--primary);
-  font-weight: 700;
-  font-size: 13px;
-  padding: 10px;
-  border-radius: var(--radius-md);
-  width: 100%;
-  margin-bottom: 20px;
-  cursor: pointer;
-  transition: all 0.2s ease;
-}
-.btn-load-more:hover {
-  background: var(--primary-light);
 }
 
 .strength-meter-container {
@@ -468,6 +458,20 @@ input:focus, select:focus, textarea:focus {
   opacity: 0.6;
   border-left: 4px solid var(--danger);
   background: var(--bg-input);
+}
+
+.ai-gender-warning {
+  background: rgba(245, 158, 11, 0.1);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #d97706;
+  padding: 10px 14px;
+  border-radius: var(--radius-sm);
+  font-size: 12px;
+  font-weight: 700;
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .mismatch-tag, .score-tag-100, .score-tag-80, .score-tag-60, .score-tag-low {
@@ -743,87 +747,23 @@ button:active {
 @keyframes spin { to { transform: rotate(360deg); } }
 
 @media (max-width: 768px) {
-  body {
-    padding: 16px 12px;
-  }
-  .header {
-    padding: 64px 16px 20px 16px;
-    border-radius: var(--radius-md);
-    margin-bottom: 16px;
-  }
-  .header h1 {
-    font-size: 26px;
-  }
-  .utility-actions-group {
-    top: 16px;
-    left: 16px;
-  }
-  .theme-toggle, .notification-bell, .notification-back-btn {
-    width: 38px;
-    height: 38px;
-  }
-  .btn-edit-profile {
-    top: 16px;
-    right: 16px;
-    font-size: 11px;
-    padding: 8px 14px;
-  }
-  .filter-box {
-    padding: 16px;
-    border-radius: var(--radius-md);
-    margin-bottom: 16px;
-    gap: 10px;
-  }
-  .filter-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-  }
-  input, select, textarea {
-    font-size: 14px; 
-    padding: 10px 14px;
-    min-height: 44px;
-  }
-  .job-card {
-    padding: 20px;
-    border-radius: var(--radius-md);
-    margin-bottom: 14px;
-  }
-  .job-card h3 {
-    font-size: 16px;
-    padding-right: 0;
-    margin-top: 20px;
-  }
-  .mismatch-tag, .score-tag-100, .score-tag-80, .score-tag-60, .score-tag-low {
-    left: 0;
-    right: 0;
-    border-bottom-left-radius: 0;
-    text-align: center;
-    padding: 5px;
-    font-size: 10px;
-  }
-  .job-details-grid {
-    grid-template-columns: 1fr 1fr;
-    gap: 8px;
-  }
-  .detail-badge {
-    padding: 8px 10px;
-    font-size: 12px;
-  }
-  .actions-flex {
-    flex-direction: row;
-    gap: 10px;
-  }
-  button, .btn-link-view-site {
-    min-height: 44px;
-    font-size: 13px;
-    padding: 10px 8px;
-  }
-  .container {
-    width: 94% !important;
-    max-width: 400px !important;
-    padding: 24px 20px !important;
-    border-radius: var(--radius-lg) !important;
-  }
+  body { padding: 16px 12px; }
+  .header { padding: 64px 16px 20px 16px; border-radius: var(--radius-md); margin-bottom: 16px; }
+  .header h1 { font-size: 26px; }
+  .utility-actions-group { top: 16px; left: 16px; }
+  .theme-toggle, .notification-bell, .notification-back-btn, .ai-assistant-btn { width: 38px; height: 38px; }
+  .btn-edit-profile { top: 16px; right: 16px; font-size: 11px; padding: 8px 14px; }
+  .filter-box { padding: 16px; border-radius: var(--radius-md); margin-bottom: 16px; gap: 10px; }
+  .filter-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
+  input, select, textarea { font-size: 14px; padding: 10px 14px; min-height: 44px; }
+  .job-card { padding: 20px; border-radius: var(--radius-md); margin-bottom: 14px; }
+  .job-card h3 { font-size: 16px; padding-right: 0; margin-top: 20px; }
+  .mismatch-tag, .score-tag-100, .score-tag-80, .score-tag-60, .score-tag-low { left: 0; right: 0; border-bottom-left-radius: 0; text-align: center; padding: 5px; font-size: 10px; }
+  .job-details-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+  .detail-badge { padding: 8px 10px; font-size: 12px; }
+  .actions-flex { flex-direction: row; gap: 10px; }
+  button, .btn-link-view-site { min-height: 44px; font-size: 13px; padding: 10px 8px; }
+  .container { width: 94% !important; max-width: 400px !important; padding: 24px 20px !important; border-radius: var(--radius-lg) !important; }
 }
 
 .job-card h3,.company-name,.detail-badge,button,input,select,textarea,.btn-link-view-site{
@@ -844,6 +784,7 @@ button:active {
   <div class="header">
     <div class="utility-actions-group">
       <button class="theme-toggle" id="themeToggleBtn" onclick="toggleThemeMode()">🌓</button>
+      <button class="ai-assistant-btn" id="aiAssistantTriggerBtn" onclick="triggerMagicalAiAssistant()" title="Magical AI Job Assistant">✨</button>
       <div class="notification-container" id="bellContainer" onclick="filterNewJobsOnly()">
         <button class="notification-bell">🔔</button>
         <span class="notification-badge" id="newJobsBadge" style="display: none;">0</span>
@@ -863,14 +804,13 @@ button:active {
     </marquee>
 
     <div class="filter-box">
-      <input id="searchInput" placeholder="🔍 Search company name or job role..." oninput="renderJobs()">
+      <input id="searchInput" placeholder="🔍 Search keywords (e.g. Java, Python, HR, Sales)..." oninput="renderJobs()">
       
       <div class="filter-grid">
         <select id="filterCategory" onchange="renderJobs()">
           <option value="" id="optAllCategories">All Categories</option>
         </select>
 
-        <!-- Searchable Location Dropdown Replaced Here -->
         <div class="suggestions-wrapper">
           <input type="text" id="filterLocationSearch" placeholder="📍 All Areas / Search Area..." autocomplete="off" onfocus="handleLocationInputFocus()" oninput="handleLocationInputTyped()">
           <div class="suggestions-box" id="locationSuggestionsBox"></div>
@@ -923,10 +863,11 @@ button:active {
         </div>
 
         <div>
-          <select id="qualification" required>
-            <option value="">Highest Qualification</option>
-            <option>SSC</option><option>Intermediate</option><option>Diploma</option><option>ITI</option><option>Degree</option><option>B.Com</option><option>B.Sc</option><option>BA</option><option>BBA</option><option>BCA</option><option>B.Tech</option><option>B.Pharmacy</option><option>MBA</option><option>MCA</option><option>M.Tech</option>
-          </select>
+          <div class="suggestions-wrapper">
+            <input type="text" id="qualificationSearchInput" placeholder="Highest Qualification (Type to add custom)..." autocomplete="off" onfocus="handleQualificationInputFocus()" oninput="handleQualificationInputTyped()" required>
+            <div class="suggestions-box" id="qualificationSuggestionsBox"></div>
+          </div>
+          <input type="hidden" id="qualification" required>
         </div>
 
         <div>
@@ -961,9 +902,11 @@ button:active {
         </div>
 
         <div>
-          <select id="candidateArea" class="dynamic-location-select" required>
-            <option value="">Your Area in Hyderabad</option>
-          </select>
+          <div class="suggestions-wrapper">
+            <input type="text" id="candidateAreaSearchInput" placeholder="Your Area in Hyderabad (Type to add custom)..." autocomplete="off" onfocus="handleCandidateAreaInputFocus()" oninput="handleCandidateAreaInputTyped()" required>
+            <div class="suggestions-box" id="candidateAreaSuggestionsBox"></div>
+          </div>
+          <input type="hidden" id="candidateArea" required>
         </div>
 
         <div><textarea id="address" placeholder="Full Home Address" rows="2" required></textarea></div>
@@ -1016,7 +959,7 @@ let appliedCompanies = [];
 let candidateSkills = []; 
 let filterNewJobsActive = false;
 let readNewJobsArray = [];
-let categoryLimits = {}; // Track expanded state per category
+let categoryLimits = {};
 let uniqueAndSortedAreas = [];
 
 const multiTierSkillsMapping = {
@@ -1038,7 +981,9 @@ const multiTierSkillsMapping = {
 };
 
 const masterAllSkills = Array.from(new Set(Object.values(multiTierSkillsMapping).flat())).sort();
-const jobCategories = Object.keys(multiTierSkillsMapping);
+let dynamicJobCategories = Object.keys(multiTierSkillsMapping);
+
+const masterQualifications = ["SSC", "Intermediate", "Diploma", "ITI", "Degree", "B.Com", "B.Sc", "BA", "BBA", "BCA", "B.Tech", "B.Pharmacy", "MBA", "MCA", "M.Tech", "Ph.D", "CA", "LLB", "B.Ed", "M.Sc", "M.Com"];
 
 const hyderabadAreas = [
   "Ameerpet", "Gachibowli", "Madhapur", "Kondapur", "Hitech City", "Jubilee Hills", "Banjara Hills", 
@@ -1077,43 +1022,85 @@ window.toggleThemeMode = function() {
   document.documentElement.setAttribute('data-theme', targetTheme);
 }
 
+window.triggerMagicalAiAssistant = function() {
+  const popup = document.getElementById('successPopup');
+  const premiumBar = document.getElementById('premiumBar');
+  const animIcon = document.getElementById('popupAnimationIcon');
+  const popupBtn = document.getElementById('popupBtn');
+  const loaderWrapper = document.getElementById('popupLoaderWrapper');
+  
+  popupBtn.style.display = "none";
+  loaderWrapper.style.display = "block";
+  premiumBar.style.width = "0%";
+  animIcon.innerHTML = `<div style="width: 44px; height: 44px; border: 4px solid var(--border); border-top: 4px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 16px auto;"></div>`;
+  
+  document.getElementById('popupTitle').innerText = "✨ AI Assistant Scanning...";
+  document.getElementById('popupMessage').innerText = "Magically analyzing your qualification, skills, and manual location parameters...";
+  popup.style.display = "flex";
+
+  setTimeout(() => {
+    premiumBar.style.width = "100%";
+  }, 50);
+
+  setTimeout(() => {
+    loaderWrapper.style.display = "none";
+    animIcon.innerHTML = `<div class="success-checkmark-glow"><span>🪄</span></div>`;
+    
+    if(!registeredCandidate) {
+      document.getElementById('popupTitle').innerText = "✨ AI Profile Recommendation";
+      document.getElementById('popupMessage').innerText = "No profile found yet! Please set up your qualification, skills & location manually so the AI assistant can magically match jobs for you.";
+      popupBtn.style.display = "block";
+      popupBtn.onclick = function() {
+        popup.style.display = 'none';
+        openFormModal(false);
+      };
+      popupBtn.innerText = "Setup Profile Now";
+    } else {
+      let q = registeredCandidate.qualification;
+      let s = registeredCandidate.skills || "None";
+      let loc = registeredCandidate.area || "Hyderabad";
+      let gender = registeredCandidate.gender;
+
+      let advisoryText = `• Qualification: ${q} \n• Gender Filter: ${gender}\n• Skills: ${s}\n• Location: ${loc}`;
+
+      document.getElementById('popupTitle').innerText = "✨ Magical Advanced AI Insights";
+      document.getElementById('popupMessage').innerHTML = `Successfully evaluated based on your manual inputs!<br><br><div style="text-align:left; background:var(--bg-input); padding:10px; border-radius:8px; font-size:12px; font-weight:600;">${advisoryText.replace(/\n/g, '<br>')}</div>`;
+      
+      popupBtn.style.display = "block";
+      popupBtn.innerText = "View Magical Job Matches!";
+      popupBtn.onclick = function() {
+        popup.style.display = 'none';
+        renderJobs();
+      };
+    }
+  }, 1600);
+}
+
 function setupDropdownUI() {
   const fCat = document.getElementById('filterCategory');
   const formCat = document.getElementById('jobCategory');
-  const formLoc = document.getElementById('candidateArea');
 
-  const currentFormLocValue = formLoc.value;
+  const categoriesFromJobs = allJobs.map(j => j.category).filter(Boolean);
+  dynamicJobCategories = Array.from(new Set([...Object.keys(multiTierSkillsMapping), ...categoriesFromJobs])).sort();
 
   fCat.innerHTML = '<option value="">All Categories</option>';
   formCat.innerHTML = '<option value="">Which job category are you looking for?</option><option value="Any">Any Category / Open to All</option>';
-  formLoc.innerHTML = '<option value="">Your Area in Hyderabad</option>';
 
-  jobCategories.sort().forEach(c => {
+  dynamicJobCategories.forEach(c => {
     fCat.innerHTML += `<option value="${c}">${c}</option>`;
     formCat.innerHTML += `<option value="${c}">${c}</option>`;
   });
 
   const liveJobLocations = allJobs.map(j => j.location).filter(Boolean);
   const totalCombinedAreas = Array.from(new Set([...hyderabadAreas, ...liveJobLocations]));
-  
   uniqueAndSortedAreas = totalCombinedAreas.sort((a,b) => a === 'Other' ? 1 : b === 'Other' ? -1 : a.localeCompare(b));
-  
-  uniqueAndSortedAreas.forEach(l => {
-    formLoc.innerHTML += `<option value="${l}">${l}</option>`;
-  });
-
-  if (currentFormLocValue) formLoc.value = currentFormLocValue;
 }
 
-// Location Searchable Input Engine for Filter
 const locSearchInput = document.getElementById('filterLocationSearch');
 const locSugBox = document.getElementById('locationSuggestionsBox');
 const hiddenLocInput = document.getElementById('filterLocation');
 
-window.handleLocationInputFocus = function() {
-  renderLocationSuggestions();
-};
-
+window.handleLocationInputFocus = function() { renderLocationSuggestions(); };
 window.handleLocationInputTyped = function() {
   const query = locSearchInput.value.trim();
   if (query === '') {
@@ -1132,11 +1119,10 @@ function renderLocationSuggestions() {
   }
 
   let htmlContent = `<div class="suggestion-item" data-value=""><span>📍 All Areas</span></div>`;
-  
   if (filteredAreas.length > 0) {
     htmlContent += filteredAreas.map(area => `<div class="suggestion-item" data-value="${area}"><span>📍 ${area}</span></div>`).join('');
   } else {
-    htmlContent += `<div class="suggestion-item" data-value="" style="color:var(--text-muted);"><span>No matching areas found</span></div>`;
+    htmlContent += `<div class="suggestion-item" data-value="${query}"><span>✨ Add Custom Location: "${locSearchInput.value}"</span></div>`;
   }
 
   locSugBox.innerHTML = htmlContent;
@@ -1152,11 +1138,97 @@ document.addEventListener('click', (e) => {
 locSugBox.addEventListener('click', (e) => {
   const matchingItem = e.target.closest('.suggestion-item');
   if(matchingItem) {
-    const val = matchingItem.getAttribute('data-value');
+    const val = matchingItem.getAttribute('data-value') || '';
     hiddenLocInput.value = val;
     locSearchInput.value = val ? val : '';
     locSugBox.style.display = 'none';
     renderJobs();
+  }
+});
+
+const candAreaSearchInput = document.getElementById('candidateAreaSearchInput');
+const candAreaSugBox = document.getElementById('candidateAreaSuggestionsBox');
+const hiddenCandAreaInput = document.getElementById('candidateArea');
+
+window.handleCandidateAreaInputFocus = function() { renderCandAreaSuggestions(); };
+window.handleCandidateAreaInputTyped = function() { renderCandAreaSuggestions(); };
+
+function renderCandAreaSuggestions() {
+  const query = candAreaSearchInput.value.toLowerCase().trim();
+  let filteredAreas = uniqueAndSortedAreas;
+  if(query !== '') {
+    filteredAreas = uniqueAndSortedAreas.filter(a => a.toLowerCase().includes(query));
+  }
+
+  let htmlContent = '';
+  if(filteredAreas.length > 0) {
+    htmlContent = filteredAreas.map(area => `<div class="suggestion-item" data-value="${area}"><span>📍 ${area}</span></div>`).join('');
+  }
+  if(query !== '' && !uniqueAndSortedAreas.map(x=>x.toLowerCase()).includes(query)) {
+    htmlContent += `<div class="suggestion-item" data-value="${candAreaSearchInput.value}"><span>✨ Add Custom Area: "${candAreaSearchInput.value}"</span></div>`;
+  }
+
+  candAreaSugBox.innerHTML = htmlContent;
+  candAreaSugBox.style.display = 'block';
+}
+
+candAreaSugBox.addEventListener('click', (e) => {
+  const matchingItem = e.target.closest('.suggestion-item');
+  if(matchingItem) {
+    const val = matchingItem.getAttribute('data-value');
+    hiddenCandAreaInput.value = val;
+    candAreaSearchInput.value = val;
+    candAreaSugBox.style.display = 'none';
+    calculateLiveStrengthScore();
+  }
+});
+
+document.addEventListener('click', (e) => {
+  if(!candAreaSearchInput.contains(e.target) && !candAreaSugBox.contains(e.target)) {
+    candAreaSugBox.style.display = 'none';
+  }
+});
+
+const qualSearchInput = document.getElementById('qualificationSearchInput');
+const qualSugBox = document.getElementById('qualificationSuggestionsBox');
+const hiddenQualInput = document.getElementById('qualification');
+
+window.handleQualificationInputFocus = function() { renderQualSuggestions(); };
+window.handleQualificationInputTyped = function() { renderQualSuggestions(); };
+
+function renderQualSuggestions() {
+  const query = qualSearchInput.value.toLowerCase().trim();
+  let filteredQuals = masterQualifications;
+  if(query !== '') {
+    filteredQuals = masterQualifications.filter(q => q.toLowerCase().includes(query));
+  }
+
+  let htmlContent = '';
+  if(filteredQuals.length > 0) {
+    htmlContent = filteredQuals.map(q => `<div class="suggestion-item" data-value="${q}"><span>🎓 ${q}</span></div>`).join('');
+  }
+  if(query !== '' && !masterQualifications.map(x=>x.toLowerCase()).includes(query)) {
+    htmlContent += `<div class="suggestion-item" data-value="${qualSearchInput.value}"><span>✨ Add Custom Qualification: "${qualSearchInput.value}"</span></div>`;
+  }
+
+  qualSugBox.innerHTML = htmlContent;
+  qualSugBox.style.display = 'block';
+}
+
+qualSugBox.addEventListener('click', (e) => {
+  const matchingItem = e.target.closest('.suggestion-item');
+  if(matchingItem) {
+    const val = matchingItem.getAttribute('data-value');
+    hiddenQualInput.value = val;
+    qualSearchInput.value = val;
+    qualSugBox.style.display = 'none';
+    calculateLiveStrengthScore();
+  }
+});
+
+document.addEventListener('click', (e) => {
+  if(!qualSearchInput.contains(e.target) && !qualSugBox.contains(e.target)) {
+    qualSugBox.style.display = 'none';
   }
 });
 
@@ -1167,10 +1239,10 @@ function calculateLiveStrengthScore() {
   if(document.getElementById('email').value.trim().includes('@')) score += 10;
   if(document.getElementById('dob').value) score += 10;
   if(document.getElementById('gender').value) score += 10;
-  if(document.getElementById('qualification').value) score += 10;
+  if(hiddenQualInput.value) score += 10;
   if(document.getElementById('candidateExperience').value) score += 10;
   if(document.getElementById('jobCategory').value) score += 10;
-  if(document.getElementById('candidateArea').value) score += 10;
+  if(hiddenCandAreaInput.value) score += 10;
   score += Math.min(candidateSkills.length * 2, 10); 
 
   const fill = document.getElementById('strengthBar');
@@ -1241,7 +1313,12 @@ function renderSkillsSuggestionsEngine() {
                           defaultBatch.map(s => `<div class="suggestion-item" data-value="${s}"><span>🛠️ ${s}</span></div>`).join('');
   }
 
-  const finalOutputCombined = roleSuggestedHTML + globalSuggestedHTML;
+  let customSkillHTML = '';
+  if(query !== '' && !masterAllSkills.map(x=>x.toLowerCase()).includes(query)) {
+    customSkillHTML = `<div class="suggestion-item" data-value="${skillsInput.value.trim()}"><span>✨ Add Custom Skill: "${skillsInput.value.trim()}"</span></div>`;
+  }
+
+  const finalOutputCombined = customSkillHTML + roleSuggestedHTML + globalSuggestedHTML;
 
   if(finalOutputCombined.trim().length > 0) { sugBox.innerHTML = finalOutputCombined; sugBox.style.display = 'block'; } 
   else { sugBox.style.display = 'none'; }
@@ -1404,7 +1481,10 @@ window.openFormModal = function(isEdit = false) {
     document.getElementById('email').value = registeredCandidate.email;
     document.getElementById('dob').value = registeredCandidate.dob;
     document.getElementById('gender').value = registeredCandidate.gender;
-    document.getElementById('qualification').value = registeredCandidate.qualification;
+    
+    hiddenQualInput.value = registeredCandidate.qualification;
+    qualSearchInput.value = registeredCandidate.qualification;
+
     document.getElementById('candidateExperience').value = registeredCandidate.experience;
     
     if(registeredCandidate.experience === 'Experienced') {
@@ -1414,7 +1494,10 @@ window.openFormModal = function(isEdit = false) {
       document.getElementById('lastCtc').value = registeredCandidate.lastCtc;
     }
     document.getElementById('jobCategory').value = registeredCandidate.jobCategory;
-    document.getElementById('candidateArea').value = registeredCandidate.area;
+    
+    hiddenCandAreaInput.value = registeredCandidate.area;
+    candAreaSearchInput.value = registeredCandidate.area;
+
     document.getElementById('address').value = registeredCandidate.address;
     calculateLiveStrengthScore();
   }
@@ -1450,12 +1533,16 @@ window.loadMoreCategoryJobs = function(catName) {
 }
 
 window.renderJobs = function() {
- const search = (document.getElementById('searchInput').value || '').toLowerCase();
+ const search = (document.getElementById('searchInput').value || '').toLowerCase().trim();
  const catFilter = document.getElementById('filterCategory').value;
  const locFilter = document.getElementById('filterLocation').value.toLowerCase();
  const container = document.getElementById('jobsContainer');
 
- let sortedSourceJobs = [...allJobs].reverse();
+ let sortedSourceJobs = [...allJobs].sort((a, b) => {
+   let aNew = (a.isNew === true || a.isNew === "Yes") ? 1 : 0;
+   let bNew = (b.isNew === true || b.isNew === "Yes") ? 1 : 0;
+   return bNew - aNew;
+ });
 
  function buildJobCardHtml(item) {
    const j = item.data;
@@ -1489,13 +1576,41 @@ window.renderJobs = function() {
    let isLiveNewJob = (j.isNew === true || j.isNew === "Yes") && !readNewJobsArray.includes(j.company);
    let liveNewTagHTML = isLiveNewJob ? `<span class="new-job-badge-tag">NEW</span>` : '';
 
+   let genderWarningHTML = '';
+   let isGenderMismatch = false;
+   if (registeredCandidate) {
+     let jobGenderOpt = (j.genderOption || '').toLowerCase();
+     let jobTitleLower = (j.title || '').toLowerCase();
+     let jobDescLower = (j.description || '').toLowerCase();
+     
+     if (registeredCandidate.gender === 'Male') {
+       if (jobGenderOpt.includes('female only') || jobTitleLower.includes('female only') || jobTitleLower.includes('girls only') || jobTitleLower.includes('women only') || jobDescLower.includes('female only')) {
+         isGenderMismatch = true;
+         genderWarningHTML = `<div class="ai-gender-warning">⚠️ <b>AI Guardrail:</b> Reserved exclusively for Female candidates. Not eligible for Male profiles.</div>`;
+       }
+     } else if (registeredCandidate.gender === 'Female') {
+       if (jobGenderOpt.includes('male only') || jobTitleLower.includes('male only') || jobTitleLower.includes('boys only') || jobTitleLower.includes('men only') || jobDescLower.includes('male only')) {
+         isGenderMismatch = true;
+         genderWarningHTML = `<div class="ai-gender-warning">⚠️ <b>AI Guardrail:</b> Reserved exclusively for Male candidates. Not eligible for Female profiles.</div>`;
+       }
+     }
+   }
+
    let expiryHTML = j.expiryDate ? `<div class="job-expiry-alert">⏱️ Last Date: <b>${j.expiryDate}</b></div>` : '';
    let skillsHTML = j.skillsRequired ? `<div class="job-skills-list">💡 <b>Skills:</b> ${j.skillsRequired}</div>` : '';
    let jobTypeLabel = j.jobType ? j.jobType : "Full-time";
 
    let dynamicActionButtonHTML = '';
 
-   if(alreadyApplied) {
+   if (isGenderMismatch || item.isMismatch) {
+     let mismatchText = isGenderMismatch ? "🚫 Not Eligible (Gender Restricted)" : `🚫 ${item.mismatchReason || 'Not Eligible'}`;
+     dynamicActionButtonHTML = `
+       <button class="btn-primary" disabled style="background:#64748b; opacity:0.8;">
+         ${mismatchText}
+       </button>
+       <button class="btn-whatsapp" disabled>💬 WhatsApp HR</button>
+     `;
+   } else if(alreadyApplied) {
      dynamicActionButtonHTML = `
        <button class="btn-primary" disabled style="background:#64748b; opacity:0.8;">
          ✓ Applied
@@ -1505,7 +1620,7 @@ window.renderJobs = function() {
      `;
    } else {
      dynamicActionButtonHTML = `
-       <button class="btn-primary" ${item.isMismatch ? 'disabled' : ''} onclick="event.stopPropagation(); handleJobApplyAction('${escTitle}','${escCompany}','${escWebsite}')">
+       <button class="btn-primary" onclick="event.stopPropagation(); handleJobApplyAction('${escTitle}','${escCompany}','${escWebsite}')">
          ⚡ Apply
        </button>
        ${rawWebsite ? `<a class="btn-link-view-site disabled">🌐 Visit Site</a>` : 
@@ -1513,13 +1628,14 @@ window.renderJobs = function() {
      `;
    }
 
-   return `<div class="job-card ${item.isMismatch ? 'mismatch' : ''}" onclick="markNewJobAsRead('${escCompany}')">
+   return `<div class="job-card ${item.isMismatch || isGenderMismatch ? 'mismatch' : ''}" onclick="markNewJobAsRead('${escCompany}')">
      ${item.isMismatch ? `<div class="mismatch-tag">${item.mismatchReason}</div>` : scoreBadgeHTML}
      <h3>${processedHighlightTitle} ${liveNewTagHTML}</h3>
      <div class="company-name">🏢 ${processedHighlightCompany} 
         ${j.category ? `<span style="font-size:11px; background:var(--primary-light); padding:2px 8px; border-radius:4px; margin-left:6px; color:var(--primary); font-weight:700;">${j.category}</span>` : ''}
         <span style="font-size:11px; background:rgba(59,130,246,0.1); padding:2px 8px; border-radius:4px; margin-left:6px; color:#3b82f6; font-weight:800;">${jobTypeLabel}</span>
      </div>
+     ${genderWarningHTML}
      <div class="job-details-grid">
        <div class="detail-badge ${registeredCandidate ? 'proximity-badge' : ''}">📍 ${item.distanceString}</div>
        <div class="detail-badge">🎓 Qualification: ${j.minQualification || 'Any'}</div>
@@ -1576,7 +1692,10 @@ window.renderJobs = function() {
    let recommendedFallbackArray = [];
 
    sortedSourceJobs.forEach(j => {
-     let matchesSearch = !search || j.title.toLowerCase().includes(search) || j.company.toLowerCase().includes(search);
+     // Advanced Keyword Matching (Title, Company, Skills, Category, Location)
+     let searchableContent = `${j.title || ''} ${j.company || ''} ${j.skillsRequired || ''} ${j.category || ''} ${j.location || ''}`.toLowerCase();
+     let matchesSearch = !search || searchableContent.includes(search);
+     
      let matchesCat = !catFilter || j.category === catFilter;
      let matchesLoc = !locFilter || (j.location && j.location.toLowerCase().includes(locFilter));
 
@@ -1585,28 +1704,37 @@ window.renderJobs = function() {
      let matchPercentage = 100;
      let distanceString = j.location || "Hyderabad";
 
-     if(registeredCandidate) {
-        if(registeredCandidate.jobCategory !== 'Any' && j.category !== registeredCandidate.jobCategory) {
-           isMismatch = true;
-           mismatchReason = "Category Locked";
+     // Magical Near By Location Sorting feature check
+     if(registeredCandidate && registeredCandidate.area && j.location) {
+        if(j.location.toLowerCase().includes(registeredCandidate.area.toLowerCase())) {
+           distanceString = `📍 Near You (${j.location})`;
+           matchPercentage += 10;
         }
+     }
+
+     if(registeredCandidate) {
+        if(registeredCandidate.qualification === 'SSC' && (j.minQualification && j.minQualification.toLowerCase().includes('degree') || (j.title && j.title.toLowerCase().includes('degree')))) {
+           isMismatch = true;
+           mismatchReason = "SSC candidates restricted from Degree jobs";
+        }
+
         if(!isMismatch && j.minQualification && j.minQualification !== "Any") {
            let cRank = qualOrder.indexOf(registeredCandidate.qualification);
            let jRank = qualOrder.indexOf(j.minQualification);
-           if(cRank < jRank) { isMismatch = true; mismatchReason = `${j.minQualification} Required`; }
+           if(cRank !== -1 && jRank !== -1 && cRank < jRank) { isMismatch = true; mismatchReason = `${j.minQualification} Required`; }
         }
         if(!isMismatch && j.experienceRequired === "Experience Only" && registeredCandidate.experience === "Fresher") { isMismatch = true; mismatchReason = "Experience Required"; }
         if(!isMismatch && j.experienceRequired === "Freshers Only" && registeredCandidate.experience === "Experienced") { isMismatch = true; mismatchReason = "Freshers Only"; }
 
         if(!isMismatch) {
-           let targetJobRequiredSkills = multiTierSkillsMapping[j.category] || [];
-           if(targetJobRequiredSkills.length > 0) {
-              let overlappingSkillsCount = candidateSkills.filter(skill => targetJobRequiredSkills.includes(skill)).length;
-              if(overlappingSkillsCount >= 3) matchPercentage = 100;
-              else if(overlappingSkillsCount === 2) matchPercentage = 80;
-              else if(overlappingSkillsCount === 1) matchPercentage = 60;
-              else matchPercentage = 40;
-           }
+           let candidateSkillList = candidateSkills.map(s => s.toLowerCase());
+           let jobSkillsString = (j.skillsRequired || '').toLowerCase();
+           
+           let matchedCount = candidateSkillList.filter(skill => jobSkillsString.includes(skill)).length;
+           if(matchedCount >= 3) matchPercentage = 100;
+           else if(matchedCount === 2) matchPercentage = 85;
+           else if(matchedCount === 1) matchPercentage = 70;
+           else matchPercentage = 50;
         }
      }
 
@@ -1614,15 +1742,18 @@ window.renderJobs = function() {
 
      if(matchesSearch && matchesCat && matchesLoc) { 
         directMatchesArray.push(itemObj); 
-     } else if(!isMismatch) { 
+     } else if(!isMismatch && (matchesCat && matchesLoc)) { 
         recommendedFallbackArray.push(itemObj); 
      }
    });
 
+   // Sort by match percentage (Magical Match Sorting)
+   directMatchesArray.sort((a, b) => b.matchPercentage - a.matchPercentage);
+
    if(directMatchesArray.length > 0) {
       finalHTMLOutput = directMatchesArray.map(item => buildJobCardHtml(item)).join('');
    } else {
-      finalHTMLOutput = `<p style='text-align:center; color:#e11d48; font-weight:600; padding:20px; background:rgba(225,29,72,0.05); border:1px dashed rgba(225,29,72,0.2); border-radius:14px; font-size:14px;'>❌ No exact jobs found matching your filter.</p>`;
+      finalHTMLOutput = `<p style='text-align:center; color:#e11d48; font-weight:600; padding:20px; background:rgba(225,29,72,0.05); border:1px dashed rgba(225,29,72,0.2); border-radius:14px; font-size:14px;'>❌ No exact jobs found matching your filters/keywords.</p>`;
       
       if(recommendedFallbackArray.length > 0) {
          finalHTMLOutput += `<div class="recommended-title">⭐ Recommended Jobs For You</div>`;
@@ -1741,17 +1872,21 @@ document.getElementById('candidateForm').addEventListener('submit', async (e) =>
    email: document.getElementById('email').value.trim(),
    dob: document.getElementById('dob').value,
    gender: document.getElementById('gender').value,
-   qualification: document.getElementById('qualification').value,
+   qualification: hiddenQualInput.value,
    experience: document.getElementById('candidateExperience').value,
    prevCompany: document.getElementById('prevCompany').value.trim() || "N/A",
    prevRole: document.getElementById('prevRole').value.trim() || "N/A",
    lastCtc: document.getElementById('lastCtc').value.trim() || "N/A",
    jobCategory: document.getElementById('jobCategory').value,
    skills: candidateSkills.join(", "),
-   area: document.getElementById('candidateArea').value,
+   area: hiddenCandAreaLocationSearchInputValue() || hiddenCandAreaInput.value,
    address: document.getElementById('address').value.trim(),
    formType: "quick_onboard"
  };
+
+ function hiddenCandAreaLocationSearchInputValue() {
+   return document.getElementById('candidateAreaSearchInput').value.trim();
+ }
 
  localStorage.setItem("registeredCandidate", JSON.stringify(registeredCandidate));
 

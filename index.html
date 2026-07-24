@@ -63,7 +63,7 @@ body {
   font-family: 'Plus Jakarta Sans', sans-serif;
   background: var(--bg-main);
   color: var(--text-main);
-  padding: 32px 16px;
+  padding: 24px 16px;
   line-height: 1.6;
   overflow-x: hidden;
   transition: background 0.4s cubic-bezier(0.4, 0, 0.2, 1), color 0.4s ease;
@@ -71,8 +71,21 @@ body {
 
 .wrapper {
   width: 100%;
-  max-width: 560px;
+  max-width: 1200px;
   margin: 0 auto;
+}
+
+.main-layout-grid {
+  display: grid;
+  grid-template-columns: 280px 1fr;
+  gap: 24px;
+  align-items: start;
+}
+
+@media (max-width: 900px) {
+  .main-layout-grid {
+    grid-template-columns: 1fr;
+  }
 }
 
 .modal-overlay {
@@ -87,7 +100,7 @@ body {
 
 .header {
   background: var(--bg-card);
-  padding: 32px 24px;
+  padding: 28px 24px;
   border-radius: var(--radius-lg);
   text-align: center;
   margin-bottom: 20px;
@@ -97,14 +110,14 @@ body {
 }
 
 .header h1 {
-  font-size: 32px;
+  font-size: 30px;
   font-weight: 800;
   background: var(--premium-grad);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   letter-spacing: -1px;
-  margin-bottom: 6px;
-  margin-top: 10px;
+  margin-bottom: 4px;
+  margin-top: 8px;
 }
 
 .header p {
@@ -237,7 +250,7 @@ body {
   font-weight: 700;
   font-size: 13px;
   border-radius: var(--radius-sm);
-  margin: 16px 0;
+  margin-bottom: 20px;
   box-shadow: var(--shadow-sm);
 }
 
@@ -245,18 +258,24 @@ body {
   background: var(--bg-card);
   padding: 20px;
   border-radius: var(--radius-lg);
-  margin-bottom: 20px;
   border: 1px solid var(--border);
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 16px;
   box-shadow: var(--shadow-md);
+  position: sticky;
+  top: 20px;
 }
 
-.filter-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
+.sidebar-title {
+  font-size: 16px;
+  font-weight: 800;
+  color: var(--text-main);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
 }
 
 input, select, textarea {
@@ -270,7 +289,7 @@ input, select, textarea {
   color: var(--text-main);
   background-color: var(--bg-input);
   outline: none;
-  min-height: 48px;
+  min-height: 46px;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
 }
 input:focus, select:focus, textarea:focus {
@@ -288,15 +307,15 @@ input:focus, select:focus, textarea:focus {
 }
 
 .section-title {
-  font-size: 20px;
+  font-size: 18px;
   font-weight: 800;
-  margin: 20px 0 16px 0;
+  margin-bottom: 16px;
   color: var(--text-main);
   letter-spacing: -0.5px;
 }
 
 .recommended-title {
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 800;
   margin: 24px 0 16px 0;
   color: #3b82f6;
@@ -306,7 +325,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 .category-group-header {
-  font-size: 15px;
+  font-size: 14px;
   font-weight: 800;
   color: var(--primary);
   background: var(--primary-light);
@@ -353,14 +372,14 @@ input:focus, select:focus, textarea:focus {
 .profile-summary-badge {
   background: rgba(59, 130, 246, 0.06);
   border: 1px solid rgba(59, 130, 246, 0.15);
-  padding: 14px 16px;
+  padding: 12px 16px;
   color: #3b82f6;
   border-radius: var(--radius-md);
   font-size: 13px;
   font-weight: 600;
-  margin-bottom: 20px;
+  margin-bottom: 16px;
   display: none;
-  line-height: 1.6;
+  line-height: 1.5;
 }
 
 .suggestions-wrapper {
@@ -748,22 +767,19 @@ button:active {
 
 @media (max-width: 768px) {
   body { padding: 16px 12px; }
-  .header { padding: 64px 16px 20px 16px; border-radius: var(--radius-md); margin-bottom: 16px; }
-  .header h1 { font-size: 26px; }
-  .utility-actions-group { top: 16px; left: 16px; }
-  .theme-toggle, .notification-bell, .notification-back-btn, .ai-assistant-btn { width: 38px; height: 38px; }
-  .btn-edit-profile { top: 16px; right: 16px; font-size: 11px; padding: 8px 14px; }
-  .filter-box { padding: 16px; border-radius: var(--radius-md); margin-bottom: 16px; gap: 10px; }
-  .filter-grid { grid-template-columns: 1fr 1fr; gap: 10px; }
-  input, select, textarea { font-size: 14px; padding: 10px 14px; min-height: 44px; }
-  .job-card { padding: 20px; border-radius: var(--radius-md); margin-bottom: 14px; }
+  .header { padding: 54px 16px 16px 16px; border-radius: var(--radius-md); margin-bottom: 16px; }
+  .header h1 { font-size: 24px; }
+  .utility-actions-group { top: 14px; left: 14px; }
+  .theme-toggle, .notification-bell, .notification-back-btn, .ai-assistant-btn { width: 36px; height: 36px; }
+  .btn-edit-profile { top: 14px; right: 14px; font-size: 11px; padding: 6px 12px; }
+  .filter-box { position: relative; top: 0; margin-bottom: 20px; }
+  .job-card { padding: 18px; border-radius: var(--radius-md); margin-bottom: 14px; }
   .job-card h3 { font-size: 16px; padding-right: 0; margin-top: 20px; }
   .mismatch-tag, .score-tag-100, .score-tag-80, .score-tag-60, .score-tag-low { left: 0; right: 0; border-bottom-left-radius: 0; text-align: center; padding: 5px; font-size: 10px; }
   .job-details-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
   .detail-badge { padding: 8px 10px; font-size: 12px; }
   .actions-flex { flex-direction: row; gap: 10px; }
   button, .btn-link-view-site { min-height: 44px; font-size: 13px; padding: 10px 8px; }
-  .container { width: 94% !important; max-width: 400px !important; padding: 24px 20px !important; border-radius: var(--radius-lg) !important; }
 }
 
 .job-card h3,.company-name,.detail-badge,button,input,select,textarea,.btn-link-view-site{
@@ -798,35 +814,47 @@ button:active {
     <button id="editProfileBtn" class="btn-edit-profile" onclick="openFormModal(true)">✏️ Edit Profile</button>
   </div>
 
-  <div id="mainPageContentGroup">
-    <marquee behavior="scroll" direction="left" scrollamount="5" class="premium-marquee">
-    🚀 Daily New Jobs Updated | Create Profile → Apply Jobs → Contact HR
-    </marquee>
+  <marquee behavior="scroll" direction="left" scrollamount="5" class="premium-marquee">
+  🚀 Daily New Jobs Updated | Create Profile → Apply Jobs → Contact HR
+  </marquee>
 
+  <div class="main-layout-grid">
+    
     <div class="filter-box">
-      <input id="searchInput" placeholder="🔍 Search keywords (e.g. Java, Python, HR, Sales)..." oninput="renderJobs()">
+      <div class="sidebar-title">
+        <span>🔍 Filters</span>
+      </div>
+
+      <input id="searchInput" placeholder="Search keywords..." oninput="renderJobs()">
       
-      <div class="filter-grid">
+      <div>
+        <label style="font-size:12px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:6px; text-transform:uppercase;">Category</label>
         <select id="filterCategory" onchange="renderJobs()">
           <option value="" id="optAllCategories">All Categories</option>
         </select>
+      </div>
 
+      <div>
+        <label style="font-size:12px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:6px; text-transform:uppercase;">Location</label>
         <div class="suggestions-wrapper">
-          <input type="text" id="filterLocationSearch" placeholder="📍 All Areas / Search Area..." autocomplete="off" onfocus="handleLocationInputFocus()" oninput="handleLocationInputTyped()">
+          <input type="text" id="filterLocationSearch" placeholder="All Areas / Search..." autocomplete="off" onfocus="handleLocationInputFocus()" oninput="handleLocationInputTyped()">
           <div class="suggestions-box" id="locationSuggestionsBox"></div>
           <input type="hidden" id="filterLocation" value="" onchange="renderJobs()">
         </div>
       </div>
     </div>
 
-    <div class="profile-summary-badge" id="profileBadge">🎯 Showing best matching jobs for your profile.</div>
-  </div>
+    <div id="rightContentArea">
+      <div class="profile-summary-badge" id="profileBadge">🎯 Showing best matching jobs for your profile.</div>
 
-  <div id="dynamicJobsOutput">
-     <div class="section-title" id="lblMainSectionTitle">💼 Available Jobs</div>
-     <div id="jobsContainer">
-       <div style="text-align:center; padding:40px;"><div style="width: 32px; height: 32px; border: 3px solid var(--border); border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div></div>
-     </div>
+      <div id="dynamicJobsOutput">
+         <div class="section-title" id="lblMainSectionTitle">💼 Available Jobs</div>
+         <div id="jobsContainer">
+           <div style="text-align:center; padding:40px;"><div style="width: 32px; height: 32px; border: 3px solid var(--border); border-top: 3px solid var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto;"></div></div>
+         </div>
+      </div>
+    </div>
+
   </div>
 
   <div class="container" id="formContainer">
@@ -864,7 +892,7 @@ button:active {
 
         <div>
           <div class="suggestions-wrapper">
-            <input type="text" id="qualificationSearchInput" placeholder="Highest Qualification (Type to add custom)..." autocomplete="off" onfocus="handleQualificationInputFocus()" oninput="handleQualificationInputTyped()" required>
+            <input type="text" id="qualificationSearchInput" placeholder="Highest Qualification..." autocomplete="off" onfocus="handleQualificationInputFocus()" oninput="handleQualificationInputTyped()" required>
             <div class="suggestions-box" id="qualificationSuggestionsBox"></div>
           </div>
           <input type="hidden" id="qualification" required>
@@ -894,7 +922,7 @@ button:active {
         <div>
           <label style="font-size:12px; font-weight:700; color:var(--text-muted); display:block; margin-bottom:6px; text-transform: uppercase; letter-spacing: 0.5px;">Select your skills here (Max 4 Only):</label>
           <div class="suggestions-wrapper">
-            <input type="text" id="skillsSearchInput" placeholder="Type or click suggestions from list..." autocomplete="off" onfocus="handleSkillsInputFocus()">
+            <input type="text" id="skillsSearchInput" placeholder="Type or click suggestions..." autocomplete="off" onfocus="handleSkillsInputFocus()">
             <div class="suggestions-box" id="suggestionsBox"></div>
           </div>
           <span class="hint-text" id="skillsCountHint">💡 Selected Skills: 0 / 4</span>
@@ -903,7 +931,7 @@ button:active {
 
         <div>
           <div class="suggestions-wrapper">
-            <input type="text" id="candidateAreaSearchInput" placeholder="Your Area in Hyderabad (Type to add custom)..." autocomplete="off" onfocus="handleCandidateAreaInputFocus()" oninput="handleCandidateAreaInputTyped()" required>
+            <input type="text" id="candidateAreaSearchInput" placeholder="Your Area in Hyderabad..." autocomplete="off" onfocus="handleCandidateAreaInputFocus()" oninput="handleCandidateAreaInputTyped()" required>
             <div class="suggestions-box" id="candidateAreaSuggestionsBox"></div>
           </div>
           <input type="hidden" id="candidateArea" required>
@@ -1038,9 +1066,7 @@ window.triggerMagicalAiAssistant = function() {
   document.getElementById('popupMessage').innerText = "Magically analyzing your qualification, skills, and manual location parameters...";
   popup.style.display = "flex";
 
-  setTimeout(() => {
-    premiumBar.style.width = "100%";
-  }, 50);
+  setTimeout(() => { premiumBar.style.width = "100%"; }, 50);
 
   setTimeout(() => {
     loaderWrapper.style.display = "none";
@@ -1402,9 +1428,7 @@ function triggerMagicFlyingToast() {
   void toast.offsetWidth;
   toast.classList.add('fly-effect');
   
-  setTimeout(() => {
-    toast.classList.remove('fly-effect');
-  }, 2600);
+  setTimeout(() => { toast.classList.remove('fly-effect'); }, 2600);
 }
 
 window.filterNewJobsOnly = function() {
@@ -1413,12 +1437,10 @@ window.filterNewJobsOnly = function() {
   const bellContainer = document.getElementById('bellContainer');
   const badge = document.getElementById('newJobsBadge');
   const backBtn = document.getElementById('notificationBackBtn');
-  const mainContent = document.getElementById('mainPageContentGroup');
 
   if (filterNewJobsActive) {
     bellContainer.style.display = 'none';
     backBtn.style.display = 'flex';
-    mainContent.style.display = 'none';
     
     badge.style.transform = 'scale(0)';
     setTimeout(() => { badge.style.display = 'none'; badge.style.transform = 'scale(1)'; }, 200);
@@ -1432,7 +1454,6 @@ window.filterNewJobsOnly = function() {
   } else {
     bellContainer.style.display = 'inline-block';
     backBtn.style.display = 'none';
-    mainContent.style.display = 'block';
   }
   
   document.getElementById('lblMainSectionTitle').innerText = filterNewJobsActive ? "🔥 NEW JOBS" : "💼 Available Jobs";
@@ -1513,9 +1534,7 @@ window.closeFormModalBack = function() {
   editBtn.style.display = "block";
   editBtn.classList.add('blink-active');
   
-  setTimeout(() => {
-    editBtn.classList.remove('blink-active');
-  }, 4000);
+  setTimeout(() => { editBtn.classList.remove('blink-active'); }, 4000);
 }
 
 window.markNewJobAsRead = function(companyName) {
@@ -1577,22 +1596,13 @@ window.renderJobs = function() {
    let liveNewTagHTML = isLiveNewJob ? `<span class="new-job-badge-tag">NEW</span>` : '';
 
    let genderWarningHTML = '';
-   let isGenderMismatch = false;
-   if (registeredCandidate) {
-     let jobGenderOpt = (j.genderOption || '').toLowerCase();
-     let jobTitleLower = (j.title || '').toLowerCase();
-     let jobDescLower = (j.description || '').toLowerCase();
-     
-     if (registeredCandidate.gender === 'Male') {
-       if (jobGenderOpt.includes('female only') || jobTitleLower.includes('female only') || jobTitleLower.includes('girls only') || jobTitleLower.includes('women only') || jobDescLower.includes('female only')) {
-         isGenderMismatch = true;
-         genderWarningHTML = `<div class="ai-gender-warning">⚠️ <b>AI Guardrail:</b> Reserved exclusively for Female candidates. Not eligible for Male profiles.</div>`;
-       }
-     } else if (registeredCandidate.gender === 'Female') {
-       if (jobGenderOpt.includes('male only') || jobTitleLower.includes('male only') || jobTitleLower.includes('boys only') || jobTitleLower.includes('men only') || jobDescLower.includes('male only')) {
-         isGenderMismatch = true;
-         genderWarningHTML = `<div class="ai-gender-warning">⚠️ <b>AI Guardrail:</b> Reserved exclusively for Male candidates. Not eligible for Female profiles.</div>`;
-       }
+   let isGenderMismatch = item.isGenderMismatch || false;
+
+   if (isGenderMismatch) {
+     if (registeredCandidate && registeredCandidate.gender === 'Male') {
+       genderWarningHTML = `<div class="ai-gender-warning">⚠️ <b>AI Guardrail:</b> Reserved exclusively for Female candidates. Not eligible for Male profiles.</div>`;
+     } else if (registeredCandidate && registeredCandidate.gender === 'Female') {
+       genderWarningHTML = `<div class="ai-gender-warning">⚠️ <b>AI Guardrail:</b> Reserved exclusively for Male candidates. Not eligible for Female profiles.</div>`;
      }
    }
 
@@ -1605,24 +1615,18 @@ window.renderJobs = function() {
    if (isGenderMismatch || item.isMismatch) {
      let mismatchText = isGenderMismatch ? "🚫 Not Eligible (Gender Restricted)" : `🚫 ${item.mismatchReason || 'Not Eligible'}`;
      dynamicActionButtonHTML = `
-       <button class="btn-primary" disabled style="background:#64748b; opacity:0.8;">
-         ${mismatchText}
-       </button>
+       <button class="btn-primary" disabled style="background:#64748b; opacity:0.8;">${mismatchText}</button>
        <button class="btn-whatsapp" disabled>💬 WhatsApp HR</button>
      `;
    } else if(alreadyApplied) {
      dynamicActionButtonHTML = `
-       <button class="btn-primary" disabled style="background:#64748b; opacity:0.8;">
-         ✓ Applied
-       </button>
+       <button class="btn-primary" disabled style="background:#64748b; opacity:0.8;">✓ Applied</button>
        ${rawWebsite ? `<a href="${escWebsite}" target="_blank" class="btn-link-view-site">🌐 Visit Site</a>` : 
          `<button class="btn-whatsapp" onclick="event.stopPropagation(); sendWhatsappResume('${escTitle}','${escCompany}','${escWhatsApp}')">💬 WhatsApp HR</button>`}
      `;
    } else {
      dynamicActionButtonHTML = `
-       <button class="btn-primary" onclick="event.stopPropagation(); handleJobApplyAction('${escTitle}','${escCompany}','${escWebsite}')">
-         ⚡ Apply
-       </button>
+       <button class="btn-primary" onclick="event.stopPropagation(); handleJobApplyAction('${escTitle}','${escCompany}','${escWebsite}')">⚡ Apply</button>
        ${rawWebsite ? `<a class="btn-link-view-site disabled">🌐 Visit Site</a>` : 
          `<button class="btn-whatsapp" disabled>💬 WhatsApp HR</button>`}
      `;
@@ -1644,9 +1648,7 @@ window.renderJobs = function() {
      </div>
      ${skillsHTML}
      ${expiryHTML}
-     <div class="actions-flex">
-       ${dynamicActionButtonHTML}
-     </div>
+     <div class="actions-flex">${dynamicActionButtonHTML}</div>
    </div>`;
  }
 
@@ -1658,19 +1660,24 @@ window.renderJobs = function() {
    if (newJobsList.length === 0) {
      finalHTMLOutput = `<p style='text-align:center; color:var(--text-muted); padding:40px; font-weight:500;'>No new jobs added recently.</p>`;
    } else {
-     finalHTMLOutput += `<div class="section-title" style="color:var(--primary); font-size:22px; margin-top:10px;">🔥 NEW JOBS (${newJobsList.length})</div>`;
+     finalHTMLOutput += `<div class="section-title" style="color:var(--primary); font-size:20px; margin-top:0;">🔥 NEW JOBS (${newJobsList.length})</div>`;
 
      let categoryGroups = {};
      newJobsList.forEach(j => {
        let cat = j.category || 'General';
        if (!categoryGroups[cat]) categoryGroups[cat] = [];
-       
-       let isMismatch = false;
-       let mismatchReason = '';
-       let matchPercentage = 100;
-       let distanceString = j.location || "Hyderabad";
 
-       categoryGroups[cat].push({data: j, isMismatch, mismatchReason, matchPercentage, distanceString});
+       let jobOpt = `${j.genderOption || ''} ${j.title || ''} ${j.description || ''}`.toLowerCase();
+       let isFemaleOnly = jobOpt.includes('female only') || jobOpt.includes('girls only') || jobOpt.includes('women only');
+       let isMaleOnly = jobOpt.includes('male only') || jobOpt.includes('boys only') || jobOpt.includes('men only');
+
+       let isGenderMismatch = false;
+       if (registeredCandidate) {
+         if (registeredCandidate.gender === 'Male' && isFemaleOnly) isGenderMismatch = true;
+         if (registeredCandidate.gender === 'Female' && isMaleOnly) isGenderMismatch = true;
+       }
+
+       categoryGroups[cat].push({data: j, isMismatch: false, isGenderMismatch, mismatchReason: '', matchPercentage: 100, distanceString: j.location || "Hyderabad"});
      });
 
      Object.keys(categoryGroups).forEach(catName => {
@@ -1682,7 +1689,7 @@ window.renderJobs = function() {
        finalHTMLOutput += visibleJobs.map(item => buildJobCardHtml(item)).join('');
 
        if(jobsInCat.length > visibleLimit) {
-         finalHTMLOutput += `<button class="btn-load-more" onclick="loadMoreCategoryJobs('${catName.replace(/'/g,"\\'")}')">👇 Click to Load More (${jobsInCat.length - visibleLimit} Jobs Left)</button>`;
+         finalHTMLOutput += `<button class="btn-load-more" onclick="loadMoreCategoryJobs('${catName.replace(/'/g,"\\'")}')">👇 Load More (${jobsInCat.length - visibleLimit} Jobs)</button>`;
        }
      });
    }
@@ -1692,7 +1699,6 @@ window.renderJobs = function() {
    let recommendedFallbackArray = [];
 
    sortedSourceJobs.forEach(j => {
-     // Advanced Keyword Matching (Title, Company, Skills, Category, Location)
      let searchableContent = `${j.title || ''} ${j.company || ''} ${j.skillsRequired || ''} ${j.category || ''} ${j.location || ''}`.toLowerCase();
      let matchesSearch = !search || searchableContent.includes(search);
      
@@ -1700,11 +1706,15 @@ window.renderJobs = function() {
      let matchesLoc = !locFilter || (j.location && j.location.toLowerCase().includes(locFilter));
 
      let isMismatch = false;
+     let isGenderMismatch = false;
      let mismatchReason = '';
      let matchPercentage = 100;
      let distanceString = j.location || "Hyderabad";
 
-     // Magical Near By Location Sorting feature check
+     let jobOpt = `${j.genderOption || ''} ${j.title || ''} ${j.description || ''}`.toLowerCase();
+     let isFemaleOnly = jobOpt.includes('female only') || jobOpt.includes('girls only') || jobOpt.includes('women only');
+     let isMaleOnly = jobOpt.includes('male only') || jobOpt.includes('boys only') || jobOpt.includes('men only');
+
      if(registeredCandidate && registeredCandidate.area && j.location) {
         if(j.location.toLowerCase().includes(registeredCandidate.area.toLowerCase())) {
            distanceString = `📍 Near You (${j.location})`;
@@ -1713,6 +1723,12 @@ window.renderJobs = function() {
      }
 
      if(registeredCandidate) {
+        if (registeredCandidate.gender === 'Male' && isFemaleOnly) {
+           isGenderMismatch = true;
+        } else if (registeredCandidate.gender === 'Female' && isMaleOnly) {
+           isGenderMismatch = true;
+        }
+
         if(registeredCandidate.qualification === 'SSC' && (j.minQualification && j.minQualification.toLowerCase().includes('degree') || (j.title && j.title.toLowerCase().includes('degree')))) {
            isMismatch = true;
            mismatchReason = "SSC candidates restricted from Degree jobs";
@@ -1726,11 +1742,11 @@ window.renderJobs = function() {
         if(!isMismatch && j.experienceRequired === "Experience Only" && registeredCandidate.experience === "Fresher") { isMismatch = true; mismatchReason = "Experience Required"; }
         if(!isMismatch && j.experienceRequired === "Freshers Only" && registeredCandidate.experience === "Experienced") { isMismatch = true; mismatchReason = "Freshers Only"; }
 
-        if(!isMismatch) {
+        if(!isMismatch && !isGenderMismatch) {
            let candidateSkillList = candidateSkills.map(s => s.toLowerCase());
            let jobSkillsString = (j.skillsRequired || '').toLowerCase();
-           
            let matchedCount = candidateSkillList.filter(skill => jobSkillsString.includes(skill)).length;
+           
            if(matchedCount >= 3) matchPercentage = 100;
            else if(matchedCount === 2) matchPercentage = 85;
            else if(matchedCount === 1) matchPercentage = 70;
@@ -1738,16 +1754,15 @@ window.renderJobs = function() {
         }
      }
 
-     let itemObj = {data: j, isMismatch, mismatchReason, matchPercentage, distanceString};
+     let itemObj = {data: j, isMismatch, isGenderMismatch, mismatchReason, matchPercentage, distanceString};
 
      if(matchesSearch && matchesCat && matchesLoc) { 
         directMatchesArray.push(itemObj); 
-     } else if(!isMismatch && (matchesCat && matchesLoc)) { 
+     } else if(!isMismatch && !isGenderMismatch && (matchesCat && matchesLoc)) { 
         recommendedFallbackArray.push(itemObj); 
      }
    });
 
-   // Sort by match percentage (Magical Match Sorting)
    directMatchesArray.sort((a, b) => b.matchPercentage - a.matchPercentage);
 
    if(directMatchesArray.length > 0) {
@@ -1759,7 +1774,7 @@ window.renderJobs = function() {
          finalHTMLOutput += `<div class="recommended-title">⭐ Recommended Jobs For You</div>`;
          finalHTMLOutput += recommendedFallbackArray.slice(0, 10).map(item => buildJobCardHtml(item)).join('');
       } else {
-         let fallbackSubset = sortedSourceJobs.slice(0, 6).map(j => ({data: j, isMismatch: false, mismatchReason: '', matchPercentage: 80, distanceString: j.location || "Hyderabad"}));
+         let fallbackSubset = sortedSourceJobs.slice(0, 6).map(j => ({data: j, isMismatch: false, isGenderMismatch: false, mismatchReason: '', matchPercentage: 80, distanceString: j.location || "Hyderabad"}));
          finalHTMLOutput += `<div class="recommended-title">⭐ Suggested Jobs Based On Your Profile</div>`;
          finalHTMLOutput += fallbackSubset.map(item => buildJobCardHtml(item)).join('');
       }
@@ -1776,11 +1791,29 @@ window.renderJobs = function() {
 }
 
 window.handleJobApplyAction = function(title, company, websiteUrl) {
-  if(!registeredCandidate) openFormModal(false);
-  else {
-    markNewJobAsRead(company);
-    executeCloudJobSubmission(title, company, websiteUrl);
+  if(!registeredCandidate) {
+    openFormModal(false);
+    return;
   }
+  
+  const currentJob = allJobs.find(j => j.company === company && j.title === title);
+  if (currentJob) {
+    let jobOpt = `${currentJob.genderOption || ''} ${currentJob.title || ''} ${currentJob.description || ''}`.toLowerCase();
+    let isFemaleOnly = jobOpt.includes('female only') || jobOpt.includes('girls only') || jobOpt.includes('women only');
+    let isMaleOnly = jobOpt.includes('male only') || jobOpt.includes('boys only') || jobOpt.includes('men only');
+
+    if (registeredCandidate.gender === 'Male' && isFemaleOnly) {
+      alert("⚠️ This job is restricted to female candidates only.");
+      return;
+    }
+    if (registeredCandidate.gender === 'Female' && isMaleOnly) {
+      alert("⚠️ This job is restricted to male candidates only.");
+      return;
+    }
+  }
+
+  markNewJobAsRead(company);
+  executeCloudJobSubmission(title, company, websiteUrl);
 }
 
 window.executeCloudJobSubmission = async function(title, company, websiteUrl) {
@@ -1805,13 +1838,10 @@ window.executeCloudJobSubmission = async function(title, company, websiteUrl) {
  document.getElementById('popupMessage').innerText = "Please wait, submitting your details...";
  popup.style.display = "flex";
 
- setTimeout(() => {
-   premiumBar.style.width = "100%";
- }, 50);
+ setTimeout(() => { premiumBar.style.width = "100%"; }, 50);
 
  try {
    await new Promise(resolve => setTimeout(resolve, 1500));
-   
    await fetch(API_URL, {
      method: "POST",
      headers: {"Content-Type": "text/plain;charset=utf-8"},
@@ -1823,7 +1853,6 @@ window.executeCloudJobSubmission = async function(title, company, websiteUrl) {
    document.getElementById('popupTitle').innerText = "Applied Successfully!";
    document.getElementById('popupMessage').innerText = "Your details have been submitted successfully.";
    popupBtn.style.display = "block";
-   
    renderJobs();
  } catch(e) {
    loaderWrapper.style.display = "none";

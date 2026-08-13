@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Walk-in Drive & Prime Jobs Registration</title>
+<title>Walk-in Drive & Free Jobs Registration</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
@@ -33,7 +33,7 @@ body {
   background: var(--bg-gradient);
   font-family: 'Poppins', sans-serif;
   color: var(--text-main);
-  padding: 16px;
+  padding: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,7 +44,7 @@ body {
   width: 100%;
   max-width: 600px;
   background: var(--card-bg);
-  padding: 30px;
+  padding: 20px;
   border-radius: var(--radius);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.03);
 }
@@ -57,36 +57,28 @@ h2 {
   text-align: center;
   margin: 0 0 6px;
   color: var(--primary);
-  font-size: 24px;
+  font-size: 22px;
   font-weight: 700;
 }
 
 .subtitle {
   text-align: center;
   color: var(--text-muted);
-  font-size: 13px;
-  margin-bottom: 20px;
-}
-
-.info-banner {
-  background: #f1f5f9;
-  border-left: 4px solid var(--primary);
-  padding: 14px 16px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
-.info-banner h4 {
-  margin: 0 0 4px;
-  color: var(--text-main);
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.info-banner p {
-  margin: 0;
   font-size: 12px;
-  color: var(--text-muted);
+  margin-bottom: 15px;
+}
+
+/* Marquee Styling */
+.free-job-marquee {
+  background: #dcfce7;
+  color: #166534;
+  padding: 8px;
+  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 20px;
+  border: 1px dashed #22c55e;
+  overflow: hidden;
 }
 
 .form-grid {
@@ -132,7 +124,7 @@ input:focus, select:focus, textarea:focus {
 
 .file-upload-box {
   border: 2px dashed var(--border-color);
-  padding: 18px;
+  padding: 16px;
   text-align: center;
   border-radius: 8px;
   background: #f8fafc;
@@ -150,7 +142,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 .file-info {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
   margin-top: 6px;
 }
@@ -187,7 +179,7 @@ button:disabled {
 
 .parsing-indicator {
   display: none;
-  font-size: 13px;
+  font-size: 12px;
   color: var(--primary);
   text-align: center;
   margin-top: 6px;
@@ -209,11 +201,11 @@ button:disabled {
 
 .popup-content {
   background: white;
-  padding: 28px;
+  padding: 24px;
   border-radius: 16px;
   text-align: center;
   width: 100%;
-  max-width: 400px;
+  max-width: 380px;
   box-shadow: 0 15px 30px rgba(0,0,0,0.15);
 }
 
@@ -250,24 +242,26 @@ button:disabled {
 
 <div class="container">
   <h2>Walk-in Drive Registration</h2>
-  <div class="subtitle">Upload your resume to auto-fill details instantly.</div>
+  <div class="subtitle">Upload your resume to auto-fill details instantly[cite: 1].</div>
   
-  <div class="info-banner">
-    <h4>Boost Your Recruitment Priority</h4>
-    <p>Complete your registration, view prime job listings, and share with fellow job seekers to speed up your hiring process.</p>
+  <!-- Marquee for Free Jobs Notice -->
+  <div class="free-job-marquee">
+    <marquee behavior="scroll" direction="left" scrollamount="5">
+      ⚠️ 100% Free Jobs Registration! No amount or fee is required for the job recruitment process. Beware of fraudsters!
+    </marquee>
   </div>
 
   <form id="candidateForm">
     
     <!-- Resume Upload Box -->
-    <div class="full-width" style="margin-bottom: 16px;">
+    <div class="full-width" style="margin-bottom: 14px;">
       <label>Upload Resume (PDF, max 5 MB) *</label>
       <label class="file-upload-box" for="resume">
         <span id="uploadLabel">Browse or drop your PDF resume here</span>
-        <input id="resume" type="file" accept=".pdf,application/pdf">
+        <input id="resume" type="file" accept=".pdf,application/pdf" required>
       </label>
       <div id="parsingIndicator" class="parsing-indicator">Reading resume and filling details...</div>
-      <div class="file-info">Supports PDF up to 5MB. Name, email, mobile, DOB & gender will auto-populate.</div>
+      <div class="file-info">Supports PDF up to 5MB. Name, email, mobile, DOB & gender will auto-populate[cite: 1].</div>
     </div>
 
     <div class="form-grid two-col">
@@ -283,19 +277,19 @@ button:disabled {
 
     <div class="form-grid two-col" style="margin-top: 14px;">
       <div>
-        <label>Email Address</label>
-        <input id="email" type="email" placeholder="john@example.com">
+        <label>Email Address *</label>
+        <input id="email" type="email" required placeholder="john@example.com">
       </div>
       <div>
-        <label>Date of Birth</label>
-        <input id="dob" type="date">
+        <label>Date of Birth *</label>
+        <input id="dob" type="date" required>
       </div>
     </div>
 
     <div class="form-grid two-col" style="margin-top: 14px;">
       <div>
-        <label>Gender</label>
-        <select id="gender">
+        <label>Gender *</label>
+        <select id="gender" required>
           <option value="">Select Gender</option>
           <option>Male</option>
           <option>Female</option>
@@ -303,26 +297,26 @@ button:disabled {
         </select>
       </div>
       <div>
-        <label>Qualification</label>
-        <input id="qualification" placeholder="e.g. B.Tech / MBA">
+        <label>Qualification *</label>
+        <input id="qualification" required placeholder="e.g. B.Tech / MBA">
       </div>
     </div>
 
     <div class="form-grid two-col" style="margin-top: 14px;">
       <div>
-        <label>Specialization</label>
-        <input id="specialization" placeholder="e.g. Computer Science">
+        <label>Specialization *</label>
+        <input id="specialization" required placeholder="e.g. Computer Science">
       </div>
       <div>
-        <label>Experience</label>
-        <input id="experience" placeholder="e.g. Fresher / 2 Years">
+        <label>Experience *</label>
+        <input id="experience" required placeholder="e.g. Fresher / 2 Years">
       </div>
     </div>
 
     <div class="form-grid" style="margin-top: 14px;">
       <div>
-        <label>Address</label>
-        <textarea id="address" rows="3" placeholder="Enter your full address"></textarea>
+        <label>Address *</label>
+        <textarea id="address" rows="3" required placeholder="Enter your full address"></textarea>
       </div>
     </div>
 
@@ -445,7 +439,7 @@ resumeInput.addEventListener("change", async (e) => {
 
     parsingIndicator.style.display = "none";
     msg.style.color = "#16a34a";
-    msg.textContent = "Resume parsed and auto-filled successfully!";
+    msg.textContent = "Resume parsed and auto-filled successfully![cite: 1]";
     setTimeout(() => { msg.textContent = ""; }, 4000);
 
   } catch (err) {
@@ -501,13 +495,13 @@ form.addEventListener("submit", async (e) => {
     const { error: insertError } = await supabaseClient.from("candidates").insert([{
       full_name: document.getElementById("full_name").value.trim(),
       mobile: mobileVal,
-      email: emailVal || null,
-      dob: document.getElementById("dob").value || null,
-      gender: document.getElementById("gender").value || null,
-      qualification: document.getElementById("qualification").value.trim() || null,
-      specialization: document.getElementById("specialization").value.trim() || null,
-      experience: document.getElementById("experience").value.trim() || null,
-      address: document.getElementById("address").value.trim() || null,
+      email: emailVal,
+      dob: document.getElementById("dob").value,
+      gender: document.getElementById("gender").value,
+      qualification: document.getElementById("qualification").value.trim(),
+      specialization: document.getElementById("specialization").value.trim(),
+      experience: document.getElementById("experience").value.trim(),
+      address: document.getElementById("address").value.trim(),
       resume_url: resumeUrl
     }]);
 
@@ -533,7 +527,7 @@ function closePopup() {
 }
 
 function shareToWhatsApp() {
-  const text = encodeURIComponent("Check out this Walk-in Drive registration and explore prime jobs: " + window.location.href);
+  const text = encodeURIComponent("Check out this 100% Free Walk-in Drive registration: " + window.location.href);
   window.open("https://api.whatsapp.com/send?text=" + text, "_blank");
 }
 </script>

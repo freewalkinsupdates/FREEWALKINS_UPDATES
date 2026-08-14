@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Walk-in Drive & Free Jobs Registration</title>
+<title>Walk-in Drive & Prime Jobs Registration</title>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
 <script>
@@ -33,7 +33,7 @@ body {
   background: var(--bg-gradient);
   font-family: 'Poppins', sans-serif;
   color: var(--text-main);
-  padding: 12px;
+  padding: 16px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -44,7 +44,7 @@ body {
   width: 100%;
   max-width: 600px;
   background: var(--card-bg);
-  padding: 20px;
+  padding: 30px;
   border-radius: var(--radius);
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.03);
 }
@@ -57,28 +57,36 @@ h2 {
   text-align: center;
   margin: 0 0 6px;
   color: var(--primary);
-  font-size: 22px;
+  font-size: 24px;
   font-weight: 700;
 }
 
 .subtitle {
   text-align: center;
   color: var(--text-muted);
-  font-size: 12px;
-  margin-bottom: 15px;
+  font-size: 13px;
+  margin-bottom: 20px;
 }
 
-/* Marquee Styling */
-.free-job-marquee {
-  background: #dcfce7;
-  color: #166534;
-  padding: 8px;
-  border-radius: 6px;
-  font-size: 12px;
-  font-weight: 600;
+.info-banner {
+  background: #f1f5f9;
+  border-left: 4px solid var(--primary);
+  padding: 14px 16px;
+  border-radius: 8px;
   margin-bottom: 20px;
-  border: 1px dashed #22c55e;
-  overflow: hidden;
+}
+
+.info-banner h4 {
+  margin: 0 0 4px;
+  color: var(--text-main);
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.info-banner p {
+  margin: 0;
+  font-size: 12px;
+  color: var(--text-muted);
 }
 
 .form-grid {
@@ -124,7 +132,7 @@ input:focus, select:focus, textarea:focus {
 
 .file-upload-box {
   border: 2px dashed var(--border-color);
-  padding: 16px;
+  padding: 18px;
   text-align: center;
   border-radius: 8px;
   background: #f8fafc;
@@ -142,7 +150,7 @@ input:focus, select:focus, textarea:focus {
 }
 
 .file-info {
-  font-size: 11px;
+  font-size: 12px;
   color: var(--text-muted);
   margin-top: 6px;
 }
@@ -179,7 +187,7 @@ button:disabled {
 
 .parsing-indicator {
   display: none;
-  font-size: 12px;
+  font-size: 13px;
   color: var(--primary);
   text-align: center;
   margin-top: 6px;
@@ -201,11 +209,11 @@ button:disabled {
 
 .popup-content {
   background: white;
-  padding: 24px;
+  padding: 28px;
   border-radius: 16px;
   text-align: center;
   width: 100%;
-  max-width: 380px;
+  max-width: 400px;
   box-shadow: 0 15px 30px rgba(0,0,0,0.15);
 }
 
@@ -242,26 +250,24 @@ button:disabled {
 
 <div class="container">
   <h2>Walk-in Drive Registration</h2>
-  <div class="subtitle">Upload your resume to auto-fill details instantly[cite: 1].</div>
+  <div class="subtitle">Upload your resume or document to register.[cite: 1]</div>
   
-  <!-- Marquee for Free Jobs Notice -->
-  <div class="free-job-marquee">
-    <marquee behavior="scroll" direction="left" scrollamount="5">
-      ⚠️ 100% Free Jobs Registration! No amount or fee is required for the job recruitment process. Beware of fraudsters!
-    </marquee>
+  <div class="info-banner">
+    <h4>Boost Your Recruitment Priority</h4>
+    <p>Complete your registration, view prime job listings, and share with fellow job seekers to speed up your hiring process.[cite: 1]</p>
   </div>
 
   <form id="candidateForm">
     
-    <!-- Resume Upload Box -->
-    <div class="full-width" style="margin-bottom: 14px;">
-      <label>Upload Resume (PDF, max 5 MB) *</label>
+    <!-- Document Upload Box (Updated to accept PDF, Word, Images) -->
+    <div class="full-width" style="margin-bottom: 16px;">
+      <label>Upload Document/Resume (PDF, DOC, DOCX, Images, max 5 MB) *</label>
       <label class="file-upload-box" for="resume">
-        <span id="uploadLabel">Browse or drop your PDF resume here</span>
-        <input id="resume" type="file" accept=".pdf,application/pdf" required>
+        <span id="uploadLabel">Browse or drop your document here</span>
+        <input id="resume" type="file" accept=".pdf,application/pdf,.doc,.docx,image/*">
       </label>
       <div id="parsingIndicator" class="parsing-indicator">Reading resume and filling details...</div>
-      <div class="file-info">Supports PDF up to 5MB. Name, email, mobile, DOB & gender will auto-populate[cite: 1].</div>
+      <div class="file-info">Supports PDF, Word, and Images up to 5MB.[cite: 1]</div>
     </div>
 
     <div class="form-grid two-col">
@@ -277,19 +283,19 @@ button:disabled {
 
     <div class="form-grid two-col" style="margin-top: 14px;">
       <div>
-        <label>Email Address *</label>
-        <input id="email" type="email" required placeholder="john@example.com">
+        <label>Email Address</label>
+        <input id="email" type="email" placeholder="john@example.com">
       </div>
       <div>
-        <label>Date of Birth *</label>
-        <input id="dob" type="date" required>
+        <label>Date of Birth</label>
+        <input id="dob" type="date">
       </div>
     </div>
 
     <div class="form-grid two-col" style="margin-top: 14px;">
       <div>
-        <label>Gender *</label>
-        <select id="gender" required>
+        <label>Gender</label>
+        <select id="gender">
           <option value="">Select Gender</option>
           <option>Male</option>
           <option>Female</option>
@@ -297,26 +303,26 @@ button:disabled {
         </select>
       </div>
       <div>
-        <label>Qualification *</label>
-        <input id="qualification" required placeholder="e.g. B.Tech / MBA">
+        <label>Qualification</label>
+        <input id="qualification" placeholder="e.g. B.Tech / MBA">
       </div>
     </div>
 
     <div class="form-grid two-col" style="margin-top: 14px;">
       <div>
-        <label>Specialization *</label>
-        <input id="specialization" required placeholder="e.g. Computer Science">
+        <label>Specialization</label>
+        <input id="specialization" placeholder="e.g. Computer Science">
       </div>
       <div>
-        <label>Experience *</label>
-        <input id="experience" required placeholder="e.g. Fresher / 2 Years">
+        <label>Experience</label>
+        <input id="experience" placeholder="e.g. Fresher / 2 Years">
       </div>
     </div>
 
     <div class="form-grid" style="margin-top: 14px;">
       <div>
-        <label>Address *</label>
-        <textarea id="address" rows="3" required placeholder="Enter your full address"></textarea>
+        <label>Address</label>
+        <textarea id="address" rows="3" placeholder="Enter your full address"></textarea>
       </div>
     </div>
 
@@ -352,101 +358,118 @@ const uploadLabel = document.getElementById("uploadLabel");
 const parsingIndicator = document.getElementById("parsingIndicator");
 const popupModal = document.getElementById("popupModal");
 
-// Resume Auto-fill Parser
+// File Selection Handler (Updated for Multiple Formats)
 resumeInput.addEventListener("change", async (e) => {
   const file = e.target.files[0];
   if (!file) return;
 
-  if (file.type !== "application/pdf") {
-    alert("Please upload a valid PDF resume.");
+  const allowedTypes = [
+    "application/pdf", 
+    "application/msword", 
+    "application/vnd.openxmlformats-officedocument.wordprocessingml.document", 
+    "image/jpeg", 
+    "image/png"
+  ];
+
+  if (!allowedTypes.includes(file.type)) {
+    alert("దయచేసి సరైన PDF, Word లేదా Image ఫైల్‌ను మాత్రమే అప్‌లోడ్ చేయండి.");
     resumeInput.value = "";
     return;
   }
   if (file.size > 5 * 1024 * 1024) {
-    alert("Resume size must be 5 MB or smaller.");
+    alert("ఫైల్ పరిమాణం 5 MB కన్నా తక్కువ ఉండాలి.");
     resumeInput.value = "";
     return;
   }
 
   uploadLabel.textContent = "Selected: " + file.name;
-  parsingIndicator.style.display = "block";
 
-  try {
-    const arrayBuffer = await file.arrayBuffer();
-    const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
-    const pdfDoc = await loadingTask.promise;
-    
-    let fullText = "";
-    let firstPageText = "";
-    
-    for (let i = 1; i <= pdfDoc.numPages; i++) {
-      const page = await pdfDoc.getPage(i);
-      const textContent = await page.getTextContent();
-      const pageText = textContent.items.map(item => item.str).join(" ");
-      fullText += pageText + " ";
-      if (i === 1) firstPageText = pageText;
-    }
+  // Auto-parse works only if it is a PDF
+  if (file.type === "application/pdf") {
+    parsingIndicator.style.display = "block";
 
-    // 1. Extract Name
-    const cleanedFirstPage = firstPageText.replace(/\s+/g, ' ').trim();
-    const words = cleanedFirstPage.split(' ').filter(w => w.length > 1);
-    if (words.length >= 2 && /^[A-Z]/.test(words[0])) {
-      document.getElementById("full_name").value = words[0] + " " + (words[1] || "");
-    }
+    try {
+      const arrayBuffer = await file.arrayBuffer();
+      const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
+      const pdfDoc = await loadingTask.promise;
+      
+      let fullText = "";
+      let firstPageText = "";
+      
+      for (let i = 1; i <= pdfDoc.numPages; i++) {
+        const page = await pdfDoc.getPage(i);
+        const textContent = await page.getTextContent();
+        const pageText = textContent.items.map(item => item.str).join(" ");
+        fullText += pageText + " ";
+        if (i === 1) firstPageText = pageText;
+      }
 
-    // 2. Extract Email
-    const emailMatch = fullText.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
-    if (emailMatch) {
-      document.getElementById("email").value = emailMatch[0];
-    }
+      // 1. Extract Name
+      const cleanedFirstPage = firstPageText.replace(/\s+/g, ' ').trim();
+      const words = cleanedFirstPage.split(' ').filter(w => w.length > 1);
+      if (words.length >= 2 && /^[A-Z]/.test(words[0])) {
+        document.getElementById("full_name").value = words[0] + " " + (words[1] || "");
+      }
 
-    // 3. Extract Mobile Number
-    const phoneMatch = fullText.match(/(\+\d{1,3}[- ]?)?\b\d{10}\b/);
-    if (phoneMatch) {
-      document.getElementById("mobile").value = phoneMatch[0];
-    }
+      // 2. Extract Email
+      const emailMatch = fullText.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+      if (emailMatch) {
+        document.getElementById("email").value = emailMatch[0];
+      }
 
-    // 4. Extract Gender
-    if (/\b(male|males)\b/i.test(fullText) && !/\bfemale\b/i.test(fullText)) {
-      document.getElementById("gender").value = "Male";
-    } else if (/\bfemale\b/i.test(fullText)) {
-      document.getElementById("gender").value = "Female";
-    }
+      // 3. Extract Mobile Number
+      const phoneMatch = fullText.match(/(\+\d{1,3}[- ]?)?\b\d{10}\b/);
+      if (phoneMatch) {
+        document.getElementById("mobile").value = phoneMatch[0];
+      }
 
-    // 5. Extract DOB
-    const dobMatch = fullText.match(/(?:DOB|Date of Birth|Birth)[:\s]*(\d{2}[-/]\d{2}[-/]\d{4})/i) || 
-                     fullText.match(/\b(\d{2}[-/]\d{2}[-/]\d{4})\b/);
-    if (dobMatch && dobMatch[1]) {
-      const parts = dobMatch[1].split(/[-/]/);
-      if (parts.length === 3) {
-        if (parts[2].length === 4) {
-          document.getElementById("dob").value = `${parts[2]}-${parts[1]}-${parts[0]}`;
-        } else if (parts[0].length === 4) {
-          document.getElementById("dob").value = `${parts[0]}-${parts[1]}-${parts[2]}`;
+      // 4. Extract Gender
+      if (/\b(male|males)\b/i.test(fullText) && !/\bfemale\b/i.test(fullText)) {
+        document.getElementById("gender").value = "Male";
+      } else if (/\bfemale\b/i.test(fullText)) {
+        document.getElementById("gender").value = "Female";
+      }
+
+      // 5. Extract DOB
+      const dobMatch = fullText.match(/(?:DOB|Date of Birth|Birth)[:\s]*(\d{2}[-/]\d{2}[-/]\d{4})/i) || 
+                       fullText.match(/\b(\d{2}[-/]\d{2}[-/]\d{4})\b/);
+      if (dobMatch && dobMatch[1]) {
+        const parts = dobMatch[1].split(/[-/]/);
+        if (parts.length === 3) {
+          if (parts[2].length === 4) {
+            document.getElementById("dob").value = `${parts[2]}-${parts[1]}-${parts[0]}`;
+          } else if (parts[0].length === 4) {
+            document.getElementById("dob").value = `${parts[0]}-${parts[1]}-${parts[2]}`;
+          }
         }
       }
-    }
 
-    // 6. Extract Experience
-    if (/fresher/i.test(fullText)) {
-      document.getElementById("experience").value = "Fresher";
-    } else {
-      const expMatch = fullText.match(/(\d+)\+?\s*years?\s*(of)?\s*experience/i);
-      if (expMatch) {
-        document.getElementById("experience").value = expMatch[1] + " Years";
+      // 6. Extract Experience
+      if (/fresher/i.test(fullText)) {
+        document.getElementById("experience").value = "Fresher";
+      } else {
+        const expMatch = fullText.match(/(\d+)\+?\s*years?\s*(of)?\s*experience/i);
+        if (expMatch) {
+          document.getElementById("experience").value = expMatch[1] + " Years";
+        }
       }
+
+      parsingIndicator.style.display = "none";
+      msg.style.color = "#16a34a";
+      msg.textContent = "Resume parsed and auto-filled successfully![cite: 1]";
+      setTimeout(() => { msg.textContent = ""; }, 4000);
+
+    } catch (err) {
+      console.error("PDF Parsing error:", err);
+      parsingIndicator.style.display = "none";
+      msg.style.color = "#d97706";
+      msg.textContent = "Could not parse fully, please check details.";
     }
-
+  } else {
     parsingIndicator.style.display = "none";
-    msg.style.color = "#16a34a";
-    msg.textContent = "Resume parsed and auto-filled successfully![cite: 1]";
+    msg.style.color = "#2563eb";
+    msg.textContent = "Document selected. Please fill details manually if required.";
     setTimeout(() => { msg.textContent = ""; }, 4000);
-
-  } catch (err) {
-    console.error("PDF Parsing error:", err);
-    parsingIndicator.style.display = "none";
-    msg.style.color = "#d97706";
-    msg.textContent = "Could not parse fully, please check details.";
   }
 });
 
@@ -473,7 +496,7 @@ form.addEventListener("submit", async (e) => {
       return;
     }
 
-    msg.textContent = "Uploading resume securely...";
+    msg.textContent = "Uploading document securely...";
     const file = resumeInput.files[0]; 
     let resumeUrl = null;
 
@@ -483,7 +506,7 @@ form.addEventListener("submit", async (e) => {
       
       const { error: uploadError } = await supabaseClient.storage
         .from("resumes")
-        .upload(path, file, { contentType: "application/pdf", upsert: false });
+        .upload(path, file, { upsert: false });
         
       if (uploadError) throw uploadError;
       
@@ -495,13 +518,13 @@ form.addEventListener("submit", async (e) => {
     const { error: insertError } = await supabaseClient.from("candidates").insert([{
       full_name: document.getElementById("full_name").value.trim(),
       mobile: mobileVal,
-      email: emailVal,
-      dob: document.getElementById("dob").value,
-      gender: document.getElementById("gender").value,
-      qualification: document.getElementById("qualification").value.trim(),
-      specialization: document.getElementById("specialization").value.trim(),
-      experience: document.getElementById("experience").value.trim(),
-      address: document.getElementById("address").value.trim(),
+      email: emailVal || null,
+      dob: document.getElementById("dob").value || null,
+      gender: document.getElementById("gender").value || null,
+      qualification: document.getElementById("qualification").value.trim() || null,
+      specialization: document.getElementById("specialization").value.trim() || null,
+      experience: document.getElementById("experience").value.trim() || null,
+      address: document.getElementById("address").value.trim() || null,
       resume_url: resumeUrl
     }]);
 
@@ -509,7 +532,7 @@ form.addEventListener("submit", async (e) => {
     
     popupModal.style.display = "flex";
     form.reset();
-    uploadLabel.textContent = "Browse or drop your PDF resume here";
+    uploadLabel.textContent = "Browse or drop your document here";
     msg.textContent = "";
 
   } catch (error) {
@@ -527,7 +550,7 @@ function closePopup() {
 }
 
 function shareToWhatsApp() {
-  const text = encodeURIComponent("Check out this 100% Free Walk-in Drive registration: " + window.location.href);
+  const text = encodeURIComponent("Check out this Walk-in Drive registration and explore prime jobs: " + window.location.href);
   window.open("https://api.whatsapp.com/send?text=" + text, "_blank");
 }
 </script>

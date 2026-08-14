@@ -9,44 +9,60 @@
 <script>
   pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 </script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.2/mammoth.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/tesseract.js@5/dist/tesseract.min.js"></script>
 
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
 
 :root {
-  --primary: #2563eb;
-  --primary-hover: #1d4ed8;
-  --whatsapp: #25d366;
-  --whatsapp-hover: #20ba5a;
-  --bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
-  --card-bg: #ffffff;
-  --text-main: #0f172a;
-  --text-muted: #475569;
-  --border-color: #cbd5e1;
-  --radius: 16px;
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --accent-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
+  --card-bg: rgba(255, 255, 255, 0.95);
+  --text-main: #1e293b;
+  --text-muted: #64748b;
+  --border-color: #e2e8f0;
+  --radius: 20px;
 }
 
 * { box-sizing: border-box; }
 
 body {
   margin: 0;
-  background: var(--bg-gradient);
-  font-family: 'Poppins', sans-serif;
+  background: linear-gradient(135deg, #f0fdf4 0%, #eff6ff 50%, #fae8ff 100%);
+  background-size: 400% 400%;
+  animation: gradientBG 15s ease infinite;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   color: var(--text-main);
-  padding: 16px;
+  padding: 12px;
   display: flex;
   justify-content: center;
   align-items: center;
   min-height: 100vh;
 }
 
+@keyframes gradientBG {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
 .container {
   width: 100%;
-  max-width: 600px;
+  max-width: 650px;
   background: var(--card-bg);
-  padding: 30px;
+  backdrop-filter: blur(20px);
+  padding: 24px;
   border-radius: var(--radius);
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05), 0 0 0 1px rgba(0, 0, 0, 0.03);
+  box-shadow: 0 20px 40px rgba(99, 102, 241, 0.15), 0 0 0 1px rgba(255, 255, 255, 0.8) inset;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  animation: floatIn 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes floatIn {
+  from { opacity: 0; transform: translateY(20px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
 }
 
 @media(min-width: 640px) {
@@ -56,9 +72,12 @@ body {
 h2 {
   text-align: center;
   margin: 0 0 6px;
-  color: var(--primary);
-  font-size: 24px;
-  font-weight: 700;
+  background: var(--accent-gradient);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.5px;
 }
 
 .subtitle {
@@ -66,33 +85,25 @@ h2 {
   color: var(--text-muted);
   font-size: 13px;
   margin-bottom: 20px;
+  font-weight: 500;
 }
 
-.info-banner {
-  background: #f1f5f9;
-  border-left: 4px solid var(--primary);
-  padding: 14px 16px;
-  border-radius: 8px;
-  margin-bottom: 20px;
-}
-
-.info-banner h4 {
-  margin: 0 0 4px;
-  color: var(--text-main);
-  font-size: 14px;
-  font-weight: 600;
-}
-
-.info-banner p {
-  margin: 0;
-  font-size: 12px;
-  color: var(--text-muted);
+.marquee-banner {
+  background: linear-gradient(135deg, #fffbeb 0%, #fef3c7 100%);
+  border: 1px solid #fde68a;
+  padding: 12px 14px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  color: #b45309;
+  font-size: 13px;
+  font-weight: 700;
+  box-shadow: 0 4px 12px rgba(245, 158, 11, 0.1);
 }
 
 .form-grid {
   display: grid;
   grid-template-columns: 1fr;
-  gap: 14px;
+  gap: 16px;
 }
 
 @media (min-width: 640px) {
@@ -108,41 +119,47 @@ h2 {
 label {
   display: block;
   margin-bottom: 6px;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 13px;
   color: var(--text-main);
 }
 
 input, select, textarea {
   width: 100%;
-  padding: 12px 14px;
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  padding: 12px 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
   font-size: 14px;
-  font-family: 'Poppins', sans-serif;
-  background-color: #fff;
-  transition: all 0.2s ease;
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background-color: #f8fafc;
+  color: var(--text-main);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 input:focus, select:focus, textarea:focus {
   outline: none;
-  border-color: var(--primary);
-  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+  border-color: #6366f1;
+  background-color: #fff;
+  box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.15);
+  transform: translateY(-1px);
 }
 
 .file-upload-box {
-  border: 2px dashed var(--border-color);
-  padding: 18px;
+  border: 2px dashed #cbd5e1;
+  padding: 22px;
   text-align: center;
-  border-radius: 8px;
-  background: #f8fafc;
+  border-radius: 14px;
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
   cursor: pointer;
   display: block;
-  transition: border-color 0.2s;
+  transition: all 0.3s ease;
 }
 
 .file-upload-box:hover {
-  border-color: var(--primary);
+  border-color: #6366f1;
+  background: #eef2ff;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(99, 102, 241, 0.08);
 }
 
 .file-upload-box input {
@@ -150,124 +167,166 @@ input:focus, select:focus, textarea:focus {
 }
 
 .file-info {
-  font-size: 12px;
+  font-size: 11px;
   color: var(--text-muted);
   margin-top: 6px;
+  font-weight: 500;
 }
 
 button.submit-btn {
   width: 100%;
-  margin-top: 16px;
-  padding: 14px;
+  margin-top: 20px;
+  padding: 15px;
   border: 0;
-  border-radius: 8px;
-  background: var(--primary);
+  border-radius: 14px;
+  background: var(--accent-gradient);
   color: white;
-  font-size: 15px;
-  font-weight: 600;
+  font-size: 16px;
+  font-weight: 700;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 25px rgba(99, 102, 241, 0.35);
+  letter-spacing: 0.3px;
 }
 
 button.submit-btn:hover {
-  background: var(--primary-hover);
+  opacity: 0.95;
+  transform: translateY(-2px);
+  box-shadow: 0 12px 30px rgba(99, 102, 241, 0.45);
 }
 
 button:disabled {
   opacity: 0.6;
   cursor: not-allowed;
+  transform: none !important;
 }
 
 #msg {
   margin-top: 14px;
   text-align: center;
-  font-weight: 600;
+  font-weight: 700;
   font-size: 13px;
 }
 
 .parsing-indicator {
   display: none;
   font-size: 13px;
-  color: var(--primary);
+  color: #6366f1;
   text-align: center;
-  margin-top: 6px;
-  font-weight: 500;
+  margin-top: 8px;
+  font-weight: 600;
 }
 
-/* Success Popup Modal */
+/* Custom Popup Modal */
 #popupModal {
   display: none;
   position: fixed;
   top: 0; left: 0; width: 100%; height: 100%;
-  background: rgba(15, 23, 42, 0.6);
-  backdrop-filter: blur(4px);
+  background: rgba(15, 23, 42, 0.65);
+  backdrop-filter: blur(8px);
   justify-content: center;
   align-items: center;
   z-index: 1000;
   padding: 16px;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
 }
 
 .popup-content {
   background: white;
-  padding: 28px;
-  border-radius: 16px;
+  padding: 32px 24px;
+  border-radius: 24px;
   text-align: center;
   width: 100%;
   max-width: 400px;
-  box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+  box-shadow: 0 25px 50px rgba(0,0,0,0.25);
+  animation: scaleUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+@keyframes scaleUp {
+  from { transform: scale(0.8); opacity: 0; }
+  to { transform: scale(1); opacity: 1; }
 }
 
 .popup-content h3 {
-  color: #16a34a;
   margin-top: 0;
-  margin-bottom: 6px;
-  font-size: 20px;
+  margin-bottom: 10px;
+  font-size: 22px;
+  font-weight: 800;
 }
 
 .popup-btns {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  margin-top: 20px;
+  gap: 12px;
+  margin-top: 24px;
 }
 
 .popup-btns button {
   width: 100%;
-  padding: 12px;
+  padding: 14px;
   border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  font-family: 'Poppins', sans-serif;
+  border-radius: 12px;
+  font-weight: 700;
+  font-family: 'Plus Jakarta Sans', sans-serif;
   cursor: pointer;
+  transition: all 0.2s ease;
 }
 
-.whatsapp-btn { background: var(--whatsapp); color: white; }
-.whatsapp-btn:hover { background: var(--whatsapp-hover); }
+.whatsapp-btn { background: #25d366; color: white; box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3); }
+.whatsapp-btn:hover { background: #20ba5a; transform: translateY(-1px); }
 .close-btn { background: #f1f5f9; color: var(--text-muted); }
+.close-btn:hover { background: #e2e8f0; }
 </style>
 </head>
 <body>
 
 <div class="container">
   <h2>Walk-in Drive Registration</h2>
-  <div class="subtitle">Upload your resume or document to register.[cite: 1]</div>
+  <div class="subtitle">Upload your document to auto-fill details.</div>
   
-  <div class="info-banner">
-    <h4>Boost Your Recruitment Priority</h4>
-    <p>Complete your registration, view prime job listings, and share with fellow job seekers to speed up your hiring process.[cite: 1]</p>
+  <div class="marquee-banner">
+    <marquee behavior="scroll" direction="left" scrollamount="6">
+      ⚠️ 100% Free Jobs Registration! No amount or fee is required for the job recruitment process. Beware of fraudsters!
+    </marquee>
   </div>
 
   <form id="candidateForm">
     
-    <!-- Document Upload Box (Updated to accept PDF, Word, Images) -->
+    <!-- Document Upload Box -->
     <div class="full-width" style="margin-bottom: 16px;">
       <label>Upload Document/Resume (PDF, DOC, DOCX, Images, max 5 MB) *</label>
       <label class="file-upload-box" for="resume">
         <span id="uploadLabel">Browse or drop your document here</span>
         <input id="resume" type="file" accept=".pdf,application/pdf,.doc,.docx,image/*">
       </label>
-      <div id="parsingIndicator" class="parsing-indicator">Reading resume and filling details...</div>
-      <div class="file-info">Supports PDF, Word, and Images up to 5MB.[cite: 1]</div>
+      <div id="parsingIndicator" class="parsing-indicator">Reading document and auto-filling details...</div>
+      <div class="file-info">Supports PDF, Word, and Images up to 5MB. Auto-fills data seamlessly.</div>
+    </div>
+
+    <!-- Selected Job Dropdown -->
+    <div class="form-grid" style="margin-bottom: 14px;">
+      <div>
+        <label>Selected Job *</label>
+        <select id="selected_job" required>
+          <option value="">Select Non-IT Job Role</option>
+          <option>Customer Support / BPO Executive</option>
+          <option>Data Entry Operator</option>
+          <option>Sales & Marketing Executive</option>
+          <option>Accountant / Finance Assistant</option>
+          <option>HR Recruiter / Executive</option>
+          <option>Logistics & Operations Coordinator</option>
+          <option>Digital Marketing Associate</option>
+          <option>Back Office Executive</option>
+          <option>Business Development Associate</option>
+          <option>Receptionist / Front Office Executive</option>
+        </select>
+      </div>
     </div>
 
     <div class="form-grid two-col">
@@ -304,14 +363,14 @@ button:disabled {
       </div>
       <div>
         <label>Qualification</label>
-        <input id="qualification" placeholder="e.g. B.Tech / MBA">
+        <input id="qualification" placeholder="e.g. B.Tech / MBA / Degree">
       </div>
     </div>
 
     <div class="form-grid two-col" style="margin-top: 14px;">
       <div>
         <label>Specialization</label>
-        <input id="specialization" placeholder="e.g. Computer Science">
+        <input id="specialization" placeholder="e.g. Commerce / Arts / Science">
       </div>
       <div>
         <label>Experience</label>
@@ -331,13 +390,14 @@ button:disabled {
   </form>
 </div>
 
-<!-- Success & WhatsApp Share Popup Modal -->
+<!-- Custom Popup Modal -->
 <div id="popupModal">
   <div class="popup-content">
-    <h3>Registration Successful!</h3>
-    <p style="font-size:13px; color:var(--text-muted); margin-bottom: 16px;">Your details have been registered successfully. Share this drive with your friends on WhatsApp!</p>
+    <div id="popupIcon" style="font-size: 40px; margin-bottom: 10px;">🎉</div>
+    <h3 id="popupTitle" style="color: #16a34a;">Registration Successful!</h3>
+    <p id="popupText" style="font-size:13px; color:var(--text-muted); margin-bottom: 10px;">Your details have been registered successfully. Share this drive with your friends on WhatsApp!</p>
     
-    <div class="popup-btns">
+    <div class="popup-btns" id="popupBtnsContainer">
       <button class="whatsapp-btn" onclick="shareToWhatsApp()">Share to WhatsApp</button>
       <button class="close-btn" onclick="closePopup()">Done</button>
     </div>
@@ -357,8 +417,86 @@ const resumeInput = document.getElementById("resume");
 const uploadLabel = document.getElementById("uploadLabel");
 const parsingIndicator = document.getElementById("parsingIndicator");
 const popupModal = document.getElementById("popupModal");
+const popupTitle = document.getElementById("popupTitle");
+const popupText = document.getElementById("popupText");
+const popupIcon = document.getElementById("popupIcon");
+const popupBtnsContainer = document.getElementById("popupBtnsContainer");
 
-// File Selection Handler (Updated for Multiple Formats)
+// Custom Popup Trigger Helper
+function showPopup(type, title, text) {
+  if (type === 'error') {
+    popupIcon.textContent = "⚠️";
+    popupTitle.style.color = "#dc2626";
+    popupTitle.textContent = title;
+    popupText.textContent = text;
+    popupBtnsContainer.innerHTML = `<button class="close-btn" onclick="closePopup()" style="background:#dc2626; color:white;">Try Again</button>`;
+  } else {
+    popupIcon.textContent = "🎉";
+    popupTitle.style.color = "#16a34a";
+    popupTitle.textContent = title;
+    popupText.textContent = text;
+    popupBtnsContainer.innerHTML = `
+      <button class="whatsapp-btn" onclick="shareToWhatsApp()">Share to WhatsApp</button>
+      <button class="close-btn" onclick="closePopup()">Done</button>
+    `;
+  }
+  popupModal.style.display = "flex";
+}
+
+// Extract details helper function used across all formats
+function extractAndFillDetails(fullText, firstPageText = "") {
+  const sourceText = firstPageText ? firstPageText : fullText;
+  const cleanedFirstPage = sourceText.replace(/\s+/g, ' ').trim();
+  const words = cleanedFirstPage.split(' ').filter(w => w.length > 1);
+  if (words.length >= 2 && /^[A-Z]/.test(words[0])) {
+    document.getElementById("full_name").value = words[0] + " " + (words[1] || "");
+  }
+
+  // Email
+  const emailMatch = fullText.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
+  if (emailMatch) {
+    document.getElementById("email").value = emailMatch[0];
+  }
+
+  // Mobile Number
+  const phoneMatch = fullText.match(/(\+\d{1,3}[- ]?)?\b\d{10}\b/);
+  if (phoneMatch) {
+    document.getElementById("mobile").value = phoneMatch[0];
+  }
+
+  // Gender
+  if (/\b(male|males)\b/i.test(fullText) && !/\bfemale\b/i.test(fullText)) {
+    document.getElementById("gender").value = "Male";
+  } else if (/\bfemale\b/i.test(fullText)) {
+    document.getElementById("gender").value = "Female";
+  }
+
+  // DOB
+  const dobMatch = fullText.match(/(?:DOB|Date of Birth|Birth)[:\s]*(\d{2}[-/]\d{2}[-/]\d{4})/i) || 
+                   fullText.match(/\b(\d{2}[-/]\d{2}[-/]\d{4})\b/);
+  if (dobMatch && dobMatch[1]) {
+    const parts = dobMatch[1].split(/[-/]/);
+    if (parts.length === 3) {
+      if (parts[2].length === 4) {
+        document.getElementById("dob").value = `${parts[2]}-${parts[1]}-${parts[0]}`;
+      } else if (parts[0].length === 4) {
+        document.getElementById("dob").value = `${parts[0]}-${parts[1]}-${parts[2]}`;
+      }
+    }
+  }
+
+  // Experience
+  if (/fresher/i.test(fullText)) {
+    document.getElementById("experience").value = "Fresher";
+  } else {
+    const expMatch = fullText.match(/(\d+)\+?\s*years?\s*(of)?\s*experience/i);
+    if (expMatch) {
+      document.getElementById("experience").value = expMatch[1] + " Years";
+    }
+  }
+}
+
+// File Selection & Parsing Handler
 resumeInput.addEventListener("change", async (e) => {
   const file = e.target.files[0];
   if (!file) return;
@@ -372,29 +510,31 @@ resumeInput.addEventListener("change", async (e) => {
   ];
 
   if (!allowedTypes.includes(file.type)) {
-    alert("దయచేసి సరైన PDF, Word లేదా Image ఫైల్‌ను మాత్రమే అప్‌లోడ్ చేయండి.");
+    showPopup('error', 'Invalid File Format', 'దయచేసి సరైన PDF, Word లేదా Image ఫైల్‌ను మాత్రమే అప్‌లోడ్ చేయండి.');
     resumeInput.value = "";
     return;
   }
+
+  // Check if file size exceeds 5 MB
   if (file.size > 5 * 1024 * 1024) {
-    alert("ఫైల్ పరిమాణం 5 MB కన్నా తక్కువ ఉండాలి.");
+    showPopup('error', 'File Too Large!', 'మీరు అప్‌లోడ్ చేసిన ఫైల్ పరిమాణం 5 MB కన్నా ఎక్కువగా ఉంది. దయచేసి 5 MB లోపు ఉన్న ఫైల్‌ను ఎంచుకోండి.');
     resumeInput.value = "";
+    uploadLabel.textContent = "Browse or drop your document here";
     return;
   }
 
   uploadLabel.textContent = "Selected: " + file.name;
+  parsingIndicator.style.display = "block";
 
-  // Auto-parse works only if it is a PDF
-  if (file.type === "application/pdf") {
-    parsingIndicator.style.display = "block";
+  try {
+    let fullText = "";
+    let firstPageText = "";
 
-    try {
+    // 1. PDF Parsing
+    if (file.type === "application/pdf") {
       const arrayBuffer = await file.arrayBuffer();
       const loadingTask = pdfjsLib.getDocument({ data: arrayBuffer });
       const pdfDoc = await loadingTask.promise;
-      
-      let fullText = "";
-      let firstPageText = "";
       
       for (let i = 1; i <= pdfDoc.numPages; i++) {
         const page = await pdfDoc.getPage(i);
@@ -403,73 +543,34 @@ resumeInput.addEventListener("change", async (e) => {
         fullText += pageText + " ";
         if (i === 1) firstPageText = pageText;
       }
-
-      // 1. Extract Name
-      const cleanedFirstPage = firstPageText.replace(/\s+/g, ' ').trim();
-      const words = cleanedFirstPage.split(' ').filter(w => w.length > 1);
-      if (words.length >= 2 && /^[A-Z]/.test(words[0])) {
-        document.getElementById("full_name").value = words[0] + " " + (words[1] || "");
-      }
-
-      // 2. Extract Email
-      const emailMatch = fullText.match(/[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}/);
-      if (emailMatch) {
-        document.getElementById("email").value = emailMatch[0];
-      }
-
-      // 3. Extract Mobile Number
-      const phoneMatch = fullText.match(/(\+\d{1,3}[- ]?)?\b\d{10}\b/);
-      if (phoneMatch) {
-        document.getElementById("mobile").value = phoneMatch[0];
-      }
-
-      // 4. Extract Gender
-      if (/\b(male|males)\b/i.test(fullText) && !/\bfemale\b/i.test(fullText)) {
-        document.getElementById("gender").value = "Male";
-      } else if (/\bfemale\b/i.test(fullText)) {
-        document.getElementById("gender").value = "Female";
-      }
-
-      // 5. Extract DOB
-      const dobMatch = fullText.match(/(?:DOB|Date of Birth|Birth)[:\s]*(\d{2}[-/]\d{2}[-/]\d{4})/i) || 
-                       fullText.match(/\b(\d{2}[-/]\d{2}[-/]\d{4})\b/);
-      if (dobMatch && dobMatch[1]) {
-        const parts = dobMatch[1].split(/[-/]/);
-        if (parts.length === 3) {
-          if (parts[2].length === 4) {
-            document.getElementById("dob").value = `${parts[2]}-${parts[1]}-${parts[0]}`;
-          } else if (parts[0].length === 4) {
-            document.getElementById("dob").value = `${parts[0]}-${parts[1]}-${parts[2]}`;
-          }
-        }
-      }
-
-      // 6. Extract Experience
-      if (/fresher/i.test(fullText)) {
-        document.getElementById("experience").value = "Fresher";
-      } else {
-        const expMatch = fullText.match(/(\d+)\+?\s*years?\s*(of)?\s*experience/i);
-        if (expMatch) {
-          document.getElementById("experience").value = expMatch[1] + " Years";
-        }
-      }
-
-      parsingIndicator.style.display = "none";
-      msg.style.color = "#16a34a";
-      msg.textContent = "Resume parsed and auto-filled successfully![cite: 1]";
-      setTimeout(() => { msg.textContent = ""; }, 4000);
-
-    } catch (err) {
-      console.error("PDF Parsing error:", err);
-      parsingIndicator.style.display = "none";
-      msg.style.color = "#d97706";
-      msg.textContent = "Could not parse fully, please check details.";
     }
-  } else {
+    // 2. Word (.docx) Parsing
+    else if (file.type.includes("wordprocessingml") || file.name.endsWith(".docx")) {
+      const arrayBuffer = await file.arrayBuffer();
+      const result = await mammoth.extractRawText({ arrayBuffer: arrayBuffer });
+      fullText = result.value;
+      firstPageText = fullText;
+    }
+    // 3. Image Parsing (OCR)
+    else if (file.type.startsWith("image/")) {
+      const result = await Tesseract.recognize(file, 'eng');
+      fullText = result.data.text;
+      firstPageText = fullText;
+    }
+
+    // Execute Auto-fill
+    extractAndFillDetails(fullText, firstPageText);
+
     parsingIndicator.style.display = "none";
-    msg.style.color = "#2563eb";
-    msg.textContent = "Document selected. Please fill details manually if required.";
+    msg.style.color = "#16a34a";
+    msg.textContent = "Document parsed and auto-filled successfully!";
     setTimeout(() => { msg.textContent = ""; }, 4000);
+
+  } catch (err) {
+    console.error("Parsing error:", err);
+    parsingIndicator.style.display = "none";
+    msg.style.color = "#d97706";
+    msg.textContent = "Could not parse fully, please check details.";
   }
 });
 
@@ -483,6 +584,7 @@ form.addEventListener("submit", async (e) => {
   try {
     const mobileVal = document.getElementById("mobile").value.trim();
     const emailVal = document.getElementById("email").value.trim();
+    const selectedJobVal = document.getElementById("selected_job").value;
 
     // Check Duplicate Entry
     let query = supabaseClient.from("candidates").select("id").eq("mobile", mobileVal);
@@ -525,12 +627,13 @@ form.addEventListener("submit", async (e) => {
       specialization: document.getElementById("specialization").value.trim() || null,
       experience: document.getElementById("experience").value.trim() || null,
       address: document.getElementById("address").value.trim() || null,
+      selected_job: selectedJobVal,
       resume_url: resumeUrl
     }]);
 
     if (insertError) throw insertError;
     
-    popupModal.style.display = "flex";
+    showPopup('success', 'Registration Successful!', 'Your details have been registered successfully. Share this drive with your friends on WhatsApp!');
     form.reset();
     uploadLabel.textContent = "Browse or drop your document here";
     msg.textContent = "";
@@ -539,7 +642,7 @@ form.addEventListener("submit", async (e) => {
     console.error(error);
     msg.style.color = "#dc2626";
     msg.textContent = "Error: " + error.message;
-    alert("Error: " + error.message);
+    showPopup('error', 'Registration Error', error.message);
   } finally {
     btn.disabled = false;
   }
